@@ -29,6 +29,7 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
+require('./middlewares/routes.mdw')(app);
 
 //render view
 app.get("/", (req, res) => {
