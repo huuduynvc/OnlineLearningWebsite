@@ -1,5 +1,5 @@
 # OnlineLearningWebsite
 Views:
-- Nguyen Huu Duy: home, about
-- Ngoc Minh Duy:
-- Tran Vu Cong:
+- Nguyen Huu Duy: Trang chủ
+- Ngoc Minh Duy: Đăng nhập, đăng xuất
+- Tran Vu Cong: Danh sách khóa học
