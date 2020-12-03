@@ -40,6 +40,12 @@ router.get('/login', async(req,res) =>{
         layout: null });
 });
 
+router.get('/lecture', async(req,res) =>{
+    
+    res.render("lecture",{
+        layout: null });
+});
+
 
 
 module.exports = router;
