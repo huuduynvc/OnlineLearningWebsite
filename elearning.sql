@@ -51,6 +51,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_parent` int(11) NOT NULL,
+  `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -61,7 +62,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Danh mục',0),(2,'Công nghệ thông tin',1),(3,'Lập trình web',2),(4,'Lập trình thiết bị di động',2);
+INSERT INTO `category` VALUES (1,'Danh mục',0,NULL),(2,'Công nghệ thông tin',1,'/it'),(3,'Lập trình web',2,'/it/web'),(4,'Lập trình thiết bị di động',2,'/it/mobile'),(5,'Khóa học',0,'/become'),(6,'Trở thành giảng viên',0,'/courses'),(7,'Về chúng tôi',0,'/about');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-04  7:07:31
+-- Dump completed on 2020-12-04 15:26:56
