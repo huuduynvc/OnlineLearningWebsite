@@ -1,269 +1,323 @@
-CREATE DATABASE DA_WEB;
-GO
-USE DA_WEB;
-GO
-CREATE TABLE [User](
-	UserID smallint identity(1,1) primary key,
-	FullName varchar(20),
-	Birthday datetime,
-	PhoneNumber float,
-	Email varchar(30),
-	Username varchar(30),
-	Password_User varchar(30),
-	Role_User varchar(30),
-	CreateDate datetime,
-	status_User int,
-);
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: localhost    Database: elearning
+-- ------------------------------------------------------
+-- Server version	5.7.28-log
 
-GO
-CREATE TABLE [EnrollInCourse](
-	UserID smallint identity(1,1) primary key,
-	IDCourse smallint,
-	EnrollDate datetime,
-	createtime datetime,
-	status_Enroll int,
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE TABLE [lesson](
-	LessonID smallint identity(1,1) primary key,
-	LessonName varchar(30),
-	Content varchar(30),
-	Video varchar(20),
-	CreateDate datetime,
-	status_Lesson int,
-);
+--
+-- Table structure for table `apply_teacher`
+--
 
-CREATE TABLE [Course](
-	IDCourse smallint identity(1,1) primary key,
-	IDImage smallint ,
-	Tuition float,
-	Offer float,
-	TeacherID smallint,
-	UploadDate datetime,
-	IDTeacherUpload smallint,
-	IDCategory smallint,
-	status_Course int,
-);
+DROP TABLE IF EXISTS `apply_teacher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `apply_teacher` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `apply_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE [Category](
-	IDCategory smallint identity(1,1) primary key,
-	NameCategory varchar(20),
-	IDParent smallint,
-);
+--
+-- Dumping data for table `apply_teacher`
+--
 
-CREATE TABLE [Feedback](
-	IDFeedback smallint identity(1,1) primary key,
-	UserID smallint,
-	CourseID smallint,
-	Comment varchar(50),
-	Rating int,
-	CreateDate datetime,
-	status_feedback int,
-);
+LOCK TABLES `apply_teacher` WRITE;
+/*!40000 ALTER TABLE `apply_teacher` DISABLE KEYS */;
+INSERT INTO `apply_teacher` VALUES (1,'nguyenhuuduy2011@gmail.com','2020-07-28 19:07:52'),(2,'ngocminhduy@gmail.com','2020-07-29 19:07:52');
+/*!40000 ALTER TABLE `apply_teacher` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE [Image](
-IDImage smallint identity(1,1) primary key,
-NameImage varchar(30),
-Link varchar(30),
-);
+--
+-- Table structure for table `category`
+--
 
-CREATE TABLE [Video](
-IDVideo smallint identity(1,1) primary key,
-NameVideo varchar(30),
-Link varchar(30),
-LessonID smallint, 
-);
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_parent` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `category`
+--
 
-CREATE TABLE [Contact](
-ContactID smallint identity(1,1) primary key,
-EmailContact varchar(30),
-);
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'Danh mục',0),(2,'Công nghệ thông tin',1),(3,'Lập trình web',2),(4,'Lập trình thiết bị di động',2);
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
 
----tao khoa ngoai
-alter table Course add constraint FK_Course_Category foreign key(IDCategory)  references Category(IDCategory);
-alter table  EnrollInCourse add constraint FK_EnrollInCourse_Course foreign key(IDCourse)  references Course(IDCourse);
+--
+-- Table structure for table `chapter`
+--
 
--- insert data
---Table User
+DROP TABLE IF EXISTS `chapter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chapter` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_course` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_CHAPTER_COURSE_idx` (`id_course`),
+  CONSTRAINT `FK_CHAPTER_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `chapter`
+--
 
-INSERT INTO [dbo].[User] ([UserID], [FullName], [Birthday],[PhoneNumber], [Email], [Username],[Password_User],[Role_User],[CreateDate],[status_User])
-VALUES 
-  (1, N'Nguyen Duc Cuong', '19900517', '09612833012','duccuong@gmail.com','duccuong','12345','Giang Vien','20190517','1')
-GO
-INSERT INTO [dbo].[User] ([UserID], [FullName], [Birthday],[PhoneNumber], [Email], [Username],[Password_User],[Role_User],[CreateDate],[status_User])
-VALUES 
-  (2, N'Tran Van Manh', '19890110', '0971235671','TVM@gmail.com','TVM','12345','Giang Vien','20200120','1')
-GO
-INSERT INTO [dbo].[User] ([UserID], [FullName], [Birthday],[PhoneNumber], [Email], [Username],[Password_User],[Role_User],[CreateDate],[status_User])
-VALUES 
-  (3, N'Pham Thi Kieu Nu', '19941030', '0986120102','KieuPham@gmail.com','KieuPham','12345','Giang Vien','20200120','1')
-GO
-INSERT INTO [dbo].[User] ([UserID], [FullName], [Birthday],[PhoneNumber], [Email], [Username],[Password_User],[Role_User],[CreateDate],[status_User])
-VALUES 
-  (4, N'Nguyen Thi Trang', '19920720', '0986888109','Trangnguyen@gmail.com','Trang nguyen','12345','Giang Vien','20200120','1')
-GO
- 
- --Table EnrollCourse
- SET IDENTITY_INSERT [dbo].[EnrollInCourse] ON
-GO
- INSERT INTO [dbo].[EnrollInCourse] ([UserID], [IDCourse], [EnrollDate],[createtime],[status_Enroll])
-VALUES 
-  (1, 1, '20200720', '20200510','1')
-GO
- INSERT INTO [dbo].[EnrollInCourse] ([UserID], [IDCourse], [EnrollDate],[createtime],[status_Enroll])
-VALUES 
-  (2, 2, '20200805', '20200510','1')
-GO
- INSERT INTO [dbo].[EnrollInCourse] ([UserID], [IDCourse], [EnrollDate],[createtime],[status_Enroll])
-VALUES 
-  (3, 3, '20201203', '20201102','1')
-GO
- INSERT INTO [dbo].[EnrollInCourse] ([UserID], [IDCourse], [EnrollDate],[createtime],[status_Enroll])
-VALUES 
-  (4, 4, '20201203', '20201201','1')
-GO
- SET IDENTITY_INSERT [dbo].[EnrollInCourse] OFF
-GO
---Table Lesson
- SET IDENTITY_INSERT [dbo].[lesson] ON
-GO
- INSERT INTO [dbo].[lesson] ([LessonID], [LessonName], [Content],[Video],[CreateDate],[status_Lesson])
-VALUES 
-  (1, N'Lap trinh co ban Web', 'Thiet ke mot trang web ban hang', 'laptrinhweb','20201003','1')
-GO
- INSERT INTO [dbo].[lesson] ([LessonID], [LessonName], [Content],[Video],[CreateDate],[status_Lesson])
-VALUES 
-  (2, N'Lap trinh nang cao Web', 'Khai niem va bai tap vi du', 'laptrinhwebNC','20201102','1')
-GO
- INSERT INTO [dbo].[lesson] ([LessonID], [LessonName], [Content],[Video],[CreateDate],[status_Lesson])
-VALUES 
-  (1, N'Ma Hoa du lieu', 'Bai tap ma hoa nhom', 'ma hoa','20190310','1')
-GO
- INSERT INTO [dbo].[lesson] ([LessonID], [LessonName], [Content],[Video],[CreateDate],[status_Lesson])
-VALUES 
-  (1, N'jQuery', 'Bai tap', 'juery','20200511','1')
-GO
- SET IDENTITY_INSERT [dbo].[lesson] OFF
-GO
--- table [Course]
- SET IDENTITY_INSERT [dbo].[Course] ON
-GO
- INSERT INTO [dbo].[Course] ([IDCourse], [IDImage], [Tuition],[Offer],[TeacherID],[UploadDate],[IDTeacherUpload],[IDCategory],[status_Course])
-VALUES 
-  (1,1,'500000' ,'1','1', '20200510','1','1','1')
-GO
- INSERT INTO [dbo].[Course] ([IDCourse], [IDImage], [Tuition],[Offer],[TeacherID],[UploadDate],[IDTeacherUpload],[IDCategory],[status_Course])
-VALUES 
-  (2,2,'600000' ,'2','2', '20200331','2','2','1')
-GO
- INSERT INTO [dbo].[Course] ([IDCourse], [IDImage], [Tuition],[Offer],[TeacherID],[UploadDate],[IDTeacherUpload],[IDCategory],[status_Course])
-VALUES 
-  (3,3,'1000000' ,'3','3', '20200110','3','3','1')
-GO
- INSERT INTO [dbo].[Course] ([IDCourse], [IDImage], [Tuition],[Offer],[TeacherID],[UploadDate],[IDTeacherUpload],[IDCategory],[status_Course])
-VALUES 
-  (4,4,'800000' ,'4','4', '20201101','4','4','1')
-GO
- SET IDENTITY_INSERT [dbo].[Course] OFF
-GO
--- Table [Category]
- SET IDENTITY_INSERT [dbo].[Category] ON
-GO
- INSERT INTO [dbo].[Category] ([IDCategory], [NameCategory], [IDParent])
-VALUES 
-  (1,'Nguyen Thanh Tam', 1)
-GO
- INSERT INTO [dbo].[Category] ([IDCategory], [NameCategory], [IDParent])
-VALUES 
-  (2,'Hoang Phi Long', 2)
-GO
- INSERT INTO [dbo].[Category] ([IDCategory], [NameCategory], [IDParent])
-VALUES 
-  (3,'Do Dinh Son', 3)
-GO
- INSERT INTO [dbo].[Category] ([IDCategory], [NameCategory], [IDParent])
-VALUES 
-  (4,'Nguyen Thi Hien', 4)
-GO
- SET IDENTITY_INSERT [dbo].[Category] OFF
-GO
--- Table [Feedback]
- SET IDENTITY_INSERT [dbo].[Feedback] ON
-GO
- INSERT INTO [dbo].[Feedback] ([IDFeedback], [UserID], [CourseID],[Comment],[CreateDate],[status_feedback])
-VALUES 
-  (1, 1, 1,'Bai Hoc rat hay va bo ich', '20201201','1')
-GO
- INSERT INTO [dbo].[Feedback] ([IDFeedback], [UserID], [CourseID],[Comment],[CreateDate],[status_feedback])
-VALUES 
-  (2, 2, 2,'Khoa hoc nay tuyet voi', '20201103','1')
-GO
- INSERT INTO [dbo].[Feedback] ([IDFeedback], [UserID], [CourseID],[Comment],[CreateDate],[status_feedback])
-VALUES 
-  (3,3,3,'Toi se hoc tren day lau dai, khoa hoc rat bo ich', '20200801','1')
-GO
- INSERT INTO [dbo].[Feedback] ([IDFeedback], [UserID], [CourseID],[Comment],[CreateDate],[status_feedback])
-VALUES 
-  (4,4,4,'bai hoc rat de hieu cam on thay co', '20200610','1')
-GO
- SET IDENTITY_INSERT [dbo].[Feedback] OFF
-GO
---Table Image
- SET IDENTITY_INSERT [dbo].[Image] ON
-GO
-INSERT INTO [dbo].[Image] ([IDImage], [NameImage],[Link])
-VALUES 
-  (1, 'avt1','D\avt1.jpg')
-GO
-INSERT INTO [dbo].[Image] ([IDImage], [NameImage],[Link])
-VALUES 
-  (2, 'avt2','D\avt2.jpg')
-GO
-INSERT INTO [dbo].[Image] ([IDImage], [NameImage],[Link])
-VALUES 
-  (3, 'avt3','D\avt3.jpg')
-GO
-INSERT INTO [dbo].[Image] ([IDImage], [NameImage],[Link])
-VALUES 
-  (4, 'avt4','D\avt4.jpg')
-GO
- SET IDENTITY_INSERT [dbo].[Image] OFF
-GO
--- Table video
- SET IDENTITY_INSERT [dbo].[Video] ON
-GO
-INSERT INTO [dbo].[Video] ([IDVideo], [NameVideo],[Link], [LessonID])
-VALUES 
-  (1, 'video1','D\video1.mp4',1)
-GO
-INSERT INTO [dbo].[Video] ([IDVideo], [NameVideo],[Link], [LessonID])
-VALUES 
-  (2, 'video2','D\video2.mp4',1)
-GO
+LOCK TABLES `chapter` WRITE;
+/*!40000 ALTER TABLE `chapter` DISABLE KEYS */;
+INSERT INTO `chapter` VALUES (1,'Chương 1: Mở đầu',1),(2,'Chương 2: Kiến thức cơ bản',1),(3,'Chương 3: Kiến thức nâng cao',1),(4,'Chương 4: Bài tập áp dụng',1),(5,'Chương 5: Tổng kết',1),(6,'Chương 1: Mở đầu',2),(7,'Chương 2: Kiến thức cơ bản',2),(8,'Chương 3: Kiến thức nâng cao',2),(9,'Chương 4: Bài tập áp dụng',2),(10,'Chương 5: Tổng kết',2),(11,'Chương 1: Mở đầu',3),(12,'Chương 2: Kiến thức cơ bản',3),(13,'Chương 3: Kiến thức nâng cao',3),(14,'Chương 4: Bài tập áp dụng',3),(15,'Chương 5: Tổng kết',3);
+/*!40000 ALTER TABLE `chapter` ENABLE KEYS */;
+UNLOCK TABLES;
 
-INSERT INTO [dbo].[Video] ([IDVideo], [NameVideo],[Link], [LessonID])
-VALUES 
-  (3, 'video3','D\video3.mp4',1)
-GO
+--
+-- Table structure for table `course`
+--
 
-INSERT INTO [dbo].[Video] ([IDVideo], [NameVideo],[Link], [LessonID])
-VALUES 
-  (4, 'video4','D\video4.mp4',1)
-GO
- SET IDENTITY_INSERT [dbo].[Video] OFF
-GO
---Table Contact
- SET IDENTITY_INSERT [dbo].[Contact] ON
-GO
-INSERT INTO [dbo].[Contact] ([ContactID], [EmailContact])
-VALUES 
-  (1, 'Giaovu@gmail.com')
-GO
-INSERT INTO [dbo].[Contact] ([ContactID], [EmailContact])
-VALUES 
-  (2, 'Phongdaotao@gmail.com')
-GO
- SET IDENTITY_INSERT [dbo].[Contact] OFF
-GO
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `course` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `offer` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `status` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_COURSE_CATEGORY_idx` (`id_category`),
+  CONSTRAINT `FK_COURSE_CATEGORY` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',NULL,199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3),(2,'Lập trình Web cơ bản ',NULL,200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3),(3,'Lập trình Java ',NULL,199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4),(4,'Lập trình Kotlin ',NULL,300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4),(5,'Lập trình Javascript ',NULL,299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3),(6,'Lập trình Frontend ',NULL,499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3),(7,'Lập trình Android ',NULL,399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4),(8,'Lập trình iOS ',NULL,399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4),(9,'Thiết kế website WordPress chuẩn SEO ',NULL,299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',NULL,399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3);
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course_teacher`
+--
+
+DROP TABLE IF EXISTS `course_teacher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `course_teacher` (
+  `id` int(11) NOT NULL,
+  `id_teacher` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_CT_COURSE_idx` (`id_course`),
+  KEY `FK_CT_TEACHER_idx` (`id_teacher`),
+  CONSTRAINT `FK_CT_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_CT_TEACHER` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course_teacher`
+--
+
+LOCK TABLES `course_teacher` WRITE;
+/*!40000 ALTER TABLE `course_teacher` DISABLE KEYS */;
+INSERT INTO `course_teacher` VALUES (1,3,1),(2,4,1),(3,4,2),(4,3,3);
+/*!40000 ALTER TABLE `course_teacher` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enroll_course`
+--
+
+DROP TABLE IF EXISTS `enroll_course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `enroll_course` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
+  `enroll_date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ENROLL_USER_idx` (`id_user`),
+  KEY `FK_ENROLL_COURSE_idx` (`id_course`),
+  CONSTRAINT `FK_ENROLL_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ENROLL_USER` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enroll_course`
+--
+
+LOCK TABLES `enroll_course` WRITE;
+/*!40000 ALTER TABLE `enroll_course` DISABLE KEYS */;
+INSERT INTO `enroll_course` VALUES (1,2,1,'2020-07-29 19:07:52',1),(2,2,2,'2020-07-30 19:07:52',1);
+/*!40000 ALTER TABLE `enroll_course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_course` int(11) NOT NULL,
+  `comment` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `rating` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_FEEDBACK_USER_idx` (`id_user`),
+  KEY `FK_FEEDBACK_COURSE_idx` (`id_course`),
+  CONSTRAINT `FK_FEEDBACK_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_FEEDBACK_USER` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,2,1,'Amazing goodjob em',5,'2020-08-02 20:07:52','2020-08-02 20:07:52',1),(2,3,1,'Very good',4,'2020-08-03 20:07:52','2020-08-03 20:07:52',1),(3,4,1,'Tuyệt vời',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1);
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lesson`
+--
+
+DROP TABLE IF EXISTS `lesson`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `lesson` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `video` varchar(255) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `id_chapter` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_LESSON_CHAPTER_idx` (`id_chapter`),
+  CONSTRAINT `FK_LESSON_CHAPTER` FOREIGN KEY (`id_chapter`) REFERENCES `chapter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lesson`
+--
+
+LOCK TABLES `lesson` WRITE;
+/*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
+INSERT INTO `lesson` VALUES (1,'Bài 1: Giới thiệu khóa học','Giới thiệu khóa học',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(2,'Bài 2: Cài đặt phần mềm cần thiết','Cài đặt phần mềm cần thiết',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(3,'Bài 3: Ôn tập kiến thức cơ bản','Ôn tập kiến thức cơ bản',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(4,'Bài 4: Giới thiệu kiến thức mới','Giới thiệu kiến thức mới',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1);
+/*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `teacher`
+--
+
+DROP TABLE IF EXISTS `teacher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `teacher` (
+  `id` int(11) NOT NULL,
+  `info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `FK_TEACHER_USER` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `teacher`
+--
+
+LOCK TABLES `teacher` WRITE;
+/*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
+INSERT INTO `teacher` VALUES (3,'Teacher Trần Vũ Công'),(4,'Teacher Nguyễn Văn Diện');
+/*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `birthday` varchar(11) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` text NOT NULL,
+  `role` int(1) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduynvc@gmail.com','huuduynvc','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-12-04  7:07:31
