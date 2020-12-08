@@ -403,7 +403,11 @@
                       </div>
                       <div class="content">
                         <p class="course-title"><a href="#" title="Artificial Intelligence">{{this.name}}</a></p>
-                        <small class="text-xs fg-grey">20 Videos</small>
+                        <small class="text-xs fg-grey">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}
+                        </small>
                       </div>
                     </div>
                   </div>
@@ -425,16 +429,18 @@
                       </div>
                       <div class="content">
                         <p class="course-title"><a href="#" title="Artificial Intelligence">{{this.name}}</a></p>
-                        <small class="text-xs fg-grey">20 Videos</small>
+                        <small class="text-xs fg-grey">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}
+                        </small>
                       </div>
                     </div>
                   </div>
                 </div>
             {{/each}}
       	  </div>
-			  </div>
-				
-										
+			  </div>								
 			</div>
 			<!-- Carousel controls -->
 			<a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
