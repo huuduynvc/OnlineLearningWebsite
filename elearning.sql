@@ -62,7 +62,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Danh mục',0,NULL),(2,'Công nghệ thông tin',1,'/course/it'),(3,'Lập trình web',2,'/course/it/web'),(4,'Lập trình thiết bị di động',2,'/course/it/mobile'),(5,'Khóa học',0,'/become'),(6,'Trở thành giảng viên',0,'/tutor'),(7,'Về chúng tôi',0,'/about'),(8,'Âm nhạc',1,'/course/music'),(9,'Nhạc cụ',8,'/course/music/'),(10,'Ngoại ngữ',1,'/course/language'),(11,'Tiếng Anh',10,'/course/language/english'),(12,'Tiếng Pháp',10,'/course/language/french'),(13,'Luyện thanh',8,'/course/music/');
+INSERT INTO `category` VALUES (1,'Danh mục',0,NULL),(2,'Công nghệ thông tin',1,NULL),(3,'Lập trình web',2,'/web'),(4,'Lập trình thiết bị di động',2,'/mobile'),(5,'Khóa học',0,'/course'),(6,'Trở thành giảng viên',0,'/tutor'),(7,'Về chúng tôi',0,'/about'),(8,'Âm nhạc',1,''),(9,'Nhạc cụ',8,'/instrument'),(10,'Ngoại ngữ',1,''),(11,'Tiếng Anh',10,'/english'),(12,'Tiếng Pháp',10,'/french'),(13,'Luyện thanh',8,'/vocal');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `course_teacher` (
 
 LOCK TABLES `course_teacher` WRITE;
 /*!40000 ALTER TABLE `course_teacher` DISABLE KEYS */;
-INSERT INTO `course_teacher` VALUES (1,3,9),(2,4,10),(3,4,6),(4,3,6);
+INSERT INTO `course_teacher` VALUES (1,3,9),(2,4,10),(3,4,6),(4,3,6),(5,3,10),(6,3,7);
 /*!40000 ALTER TABLE `course_teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-08  8:21:43
+-- Dump completed on 2020-12-08 10:56:33
