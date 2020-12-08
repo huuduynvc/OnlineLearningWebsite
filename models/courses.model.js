@@ -11,23 +11,9 @@ module.exports = {
         return db.patch('course', entity, condition);
     },
 
-    top5NearEnd: () => db.load(`SELECT sp.*,c.id_NM,n.lastname, count(c.id_SP) as num_of_bid
-  FROM sanpham sp LEFT JOIN chi_tiet_ra_gia c on sp.id=c.id_SP LEFT JOIN nguoidung n on n.id_user = sp.nguoiGiuGia
-  WHERE (TIMEDIFF(timeEnd,NOW()) > 0) 
-  group by sp.id 
-  ORDER BY timeEnd limit 5`),
-
-    top5MostBid: () => db.load(`	SELECT sp.*,c.id_NM,n.lastname, count(c.id_SP) as num_of_bid
-  FROM sanpham sp LEFT JOIN chi_tiet_ra_gia c on sp.id=c.id_SP LEFT JOIN nguoidung n on n.id_user = sp.nguoiGiuGia
-  WHERE (TIMEDIFF(timeEnd,NOW()) > 0)
-  GROUP BY sp.id
-  ORDER BY num_of_bid DESC limit 5
-  `),
-
-    top5Pricest: () => db.load(`	SELECT sp.*,c.id_NM,n.lastname, count(c.id_SP) as num_of_bid
-FROM sanpham sp LEFT JOIN chi_tiet_ra_gia c on sp.id=c.id_SP LEFT JOIN nguoidung n on n.id_user = sp.nguoiGiuGia 
-WHERE (TIMEDIFF(timeEnd,NOW()) > 0)
-GROUP BY sp.id
-ORDER BY gia_HienTai DESC limit 5`),
+    top10Newest: () => db.load(`SELECT c.*, cat.name as catname, avg(f.rating) as rating, count(f.rating) as num_of_rating
+    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback f on c.id = f.id_course
+    group by c.id
+    ORDER BY c.creation_date DESC limit 10`),
 
 };
