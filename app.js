@@ -83,14 +83,27 @@ function addCategories(obj) {
 app.get("/", async(req, res) => {
     const categories = await categoryModel.all();
     const topCat = await categoryModel.top6CatMostEnrollWeek();
-    console.log(topCat);
+    const topCourseNew = await courseModel.top10Newest();
+    var topNew1 = [];
+    var topNew2 = [];
+    for (let i = 0; i < 5; i++) {
+        topNew1.push(topCourseNew[i]);
+    }
+    for (let i = 5; i < 10; i++) {
+        topNew2.push(topCourseNew[i]);
+    }
+
+    console.log(topNew1);
+    console.log(topNew2);
 
     const catObj = getMenu(categories, 0);
     const html = addCategories(catObj);
 
     res.render("home", {
         menu: html,
-        topCat: topCat
+        topCat: topCat,
+        topNew1: topNew1,
+        topNew2: topNew2
     });
 })
 
