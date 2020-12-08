@@ -3,7 +3,8 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
-const categoryModel = require('./models/category.model');
+const categoryModel = require('./models/categories.model');
+const courseModel = require('./models/courses.model');
 //create app
 const app = express();
 
@@ -80,14 +81,16 @@ function addCategories(obj) {
 
 //render view
 app.get("/", async(req, res) => {
-    const nodes = await categoryModel.getListCategory();
+    const categories = await categoryModel.all();
+    const topCat = await categoryModel.top6CatMostEnrollWeek();
+    console.log(topCat);
 
-    const menu = getMenu(nodes, 0);
-
-    const html = addCategories(menu);
+    const catObj = getMenu(categories, 0);
+    const html = addCategories(catObj);
 
     res.render("home", {
-        menu: html
+        menu: html,
+        topCat: topCat
     });
 })
 

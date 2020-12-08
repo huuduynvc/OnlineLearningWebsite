@@ -47,60 +47,20 @@
     <div class="page-section">
       <div class="container">
         <div class="text-center wow fadeInUp">
-          <h2 class="title-section">See Our Programs Include</h2>
+          <h2 class="title-section">Lĩnh vực nổi bậc</h2>
         </div>
 
         <div class="row grid-bone justify-content-center mt-5">
+          {{#each topCat}}
           <div class="col-md-4 py-3 wow fadeInUp">
             <div class="grid-bone-item">
               <div class="circle-shape">
                 <span class="mai-business"></span>
               </div>
-              <h5>Real-word projects from Industry experts</h5>
+              <h5>{{this.name}}</h5>
             </div>
           </div>
-          <div class="col-md-4 py-3 wow fadeInUp">
-            <div class="grid-bone-item">
-              <div class="circle-shape">
-                <span class="mai-home"></span>
-              </div>
-              <h5>Flexible learning program</h5>
-            </div>
-          </div>
-          <div class="col-md-4 py-3 wow fadeInUp">
-            <div class="grid-bone-item">
-              <div class="circle-shape">
-                <span class="mai-briefcase"></span>
-              </div>
-              <h5>Personal career coach and services</h5>
-            </div>
-          </div>
-        </div>
-        <div class="row grid-bone justify-content-center">
-          <div class="col-md-4 py-3 wow fadeInUp">
-            <div class="grid-bone-item">
-              <div class="circle-shape">
-                <span class="mai-person"></span>
-              </div>
-              <h5>1 on 1 Technical mentor</h5>
-            </div>
-          </div>
-          <div class="col-md-4 py-3 wow fadeInUp">
-            <div class="grid-bone-item">
-              <div class="circle-shape">
-                <span class="mai-home"></span>
-              </div>
-              <h5>Real-word projects from Industry experts</h5>
-            </div>
-          </div>
-          <div class="col-md-4 py-3 wow fadeInUp">
-            <div class="grid-bone-item">
-              <div class="circle-shape">
-                <span class="mai-home"></span>
-              </div>
-              <h5>Real-word projects from Industry experts</h5>
-            </div>
-          </div>
+          {{/each}}
         </div>
       </div> <!-- .container -->
     </div> <!-- .page-section -->
@@ -232,16 +192,20 @@
     </div> <!-- .page-section -->
 
     <div class="page-section bg-light">
+      
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-4 pr-lg-4 py-3 wow fadeInUp">
-            <h2 class="title-section">Explore Most Popular Course</h2>
-            <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you</p>
-            <a href="course.html" class="btn btn-outline-primary space-up-24">See More Courses</a>
-          </div>
-          <div class="col-lg-8 mt-5 mt-lg-0">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 course-item-list">
-              <div class="item wow zoomIn">
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học nổi bậc</h2>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel1" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="row row-cols-5">
+						<div class="col">
+							<div class="thumb-wrapper">
+
                 <div class="course-card">
                   <div class="badge badge-danger">Hot</div>
                   <div class="header">
@@ -252,67 +216,547 @@
                     <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-              <div class="item wow zoomIn">
+
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
                 <div class="course-card">
-                  <div class="badge badge-success">New</div>
+                  <div class="badge badge-danger">Hot</div>
                   <div class="header">
-                    <img src="/img/course/programming.jpg" alt="">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
                   </div>
                   <div class="content">
-                    <p class="course-title"><a href="#" title="Programming">Programming</a></p>
-                    <small class="text-xs fg-grey">32 Videos</small>
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-              <div class="item wow zoomIn">
+				
+							</div>
+						</div>		
+						<div class="col">
+							<div class="thumb-wrapper">
+							
                 <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
                   <div class="header">
-                    <img src="/img/course/web-design.jpg" alt="">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
                   </div>
                   <div class="content">
-                    <p class="course-title"><a href="#" title="Web Design">Web Design</a></p>
-                    <small class="text-xs fg-grey">19 Videos</small>
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-              <div class="item wow zoomIn">
+					
+							</div>
+						</div>		
+            <div class="col">
+							<div class="thumb-wrapper">
+	
                 <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
                   <div class="header">
-                    <img src="/img/course/seo.jpg" alt="">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
                   </div>
                   <div class="content">
-                    <p class="course-title"><a href="#" title="Search Engine Optimization">Search Engine Optimization</a></p>
-                    <small class="text-xs fg-grey">12 Videos</small>
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-              <div class="item wow zoomIn">
+					
+							</div>
+						</div>						
+						<div class="col">
+							<div class="thumb-wrapper">
+
                 <div class="course-card">
-                  <div class="badge badge-success">New</div>
+                  <div class="badge badge-danger">Hot</div>
                   <div class="header">
-                    <img src="/img/course/data-analysis.jpg" alt="">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
                   </div>
                   <div class="content">
-                    <p class="course-title"><a href="#" title="Data Analyst">Data Analyst</a></p>
-                    <small class="text-xs fg-grey">14 Videos</small>
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-              <div class="item wow zoomIn">
+			
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row row-cols-5">
+            <div class="col">
+							<div class="thumb-wrapper">
+
                 <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
                   <div class="header">
-                    <img src="/img/course/android.jpg" alt="">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
                   </div>
                   <div class="content">
-                    <p class="course-title"><a href="#" title="Android App Development">Android App Development</a></p>
-                    <small class="text-xs fg-grey">30 Videos</small>
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
                   </div>
                 </div>
-              </div>
-            </div> <!-- .row -->
-          </div>
-        </div> <!-- .row -->
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+	
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>						
+					</div>
+				</div>
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel1" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel1" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+		</div>
+    </div> <!-- .row -->
+          
+      </div> <!-- .container -->
+      <div class="container">
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học mới nhất</h2>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel2" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="row row-cols-5">
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>		
+						<div class="col">
+							<div class="thumb-wrapper">
+							
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>		
+            <div class="col">
+							<div class="thumb-wrapper">
+	
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>						
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+			
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row row-cols-5">
+            <div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+	
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>						
+					</div>
+				</div>
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel2" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+		</div>
+    </div> <!-- .row -->
+          
+      </div> <!-- .container -->
+
+            <div class="container mt-3">
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học xem nhiều</h2>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel3" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="row row-cols-5">
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>		
+						<div class="col">
+							<div class="thumb-wrapper">
+							
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>		
+            <div class="col">
+							<div class="thumb-wrapper">
+	
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>						
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+			
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="row row-cols-5">
+            <div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+	
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+					
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>
+						<div class="col">
+							<div class="thumb-wrapper">
+
+                <div class="course-card">
+                  <div class="badge badge-danger">Hot</div>
+                  <div class="header">
+                    <img src="/img/course/artificial-intelligence.jpg" alt="">
+                  </div>
+                  <div class="content">
+                    <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
+                    <small class="text-xs fg-grey">20 Videos</small>
+                  </div>
+                </div>
+				
+							</div>
+						</div>						
+					</div>
+				</div>
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel3" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+		</div>
+    </div> <!-- .row -->
+          
       </div> <!-- .container -->
     </div> <!-- .page-section -->
 
