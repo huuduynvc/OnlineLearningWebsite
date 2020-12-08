@@ -91,12 +91,14 @@ app.get("/", async(req, res) => {
         topNew1.push({
             id: topCourseNew[i].id,
             name: topCourseNew[i].name,
+            caturl: topCourseNew[i].caturl,
             catname: topCourseNew[i].catname,
             rating: topCourseNew[i].rating,
             num_of_rating: topCourseNew[i].num_of_rating,
             img: topCourseNew[i].image,
-            price: topCourseNew[i].price,
+            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price),
             offer: topCourseNew[i].offer,
+            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100),
             teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
         });
     }
@@ -104,12 +106,14 @@ app.get("/", async(req, res) => {
         topNew2.push({
             id: topCourseNew[i].id,
             name: topCourseNew[i].name,
+            caturl: topCourseNew[i].caturl,
             catname: topCourseNew[i].catname,
             rating: topCourseNew[i].rating,
             num_of_rating: topCourseNew[i].num_of_rating,
             img: topCourseNew[i].image,
-            price: topCourseNew[i].price,
+            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price),
             offer: topCourseNew[i].offer,
+            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100),
             teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
         });
     }
