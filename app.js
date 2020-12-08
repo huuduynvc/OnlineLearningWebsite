@@ -5,6 +5,7 @@ const hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
 const categoryModel = require('./models/categories.model');
 const courseModel = require('./models/courses.model');
+const teacherModel = require('./models/teacher.model');
 //create app
 const app = express();
 
@@ -87,10 +88,30 @@ app.get("/", async(req, res) => {
     var topNew1 = [];
     var topNew2 = [];
     for (let i = 0; i < 5; i++) {
-        topNew1.push(topCourseNew[i]);
+        topNew1.push({
+            id: topCourseNew[i].id,
+            name: topCourseNew[i].name,
+            catname: topCourseNew[i].catname,
+            rating: topCourseNew[i].rating,
+            num_of_rating: topCourseNew[i].num_of_rating,
+            img: topCourseNew[i].image,
+            price: topCourseNew[i].price,
+            offer: topCourseNew[i].offer,
+            teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+        });
     }
     for (let i = 5; i < 10; i++) {
-        topNew2.push(topCourseNew[i]);
+        topNew2.push({
+            id: topCourseNew[i].id,
+            name: topCourseNew[i].name,
+            catname: topCourseNew[i].catname,
+            rating: topCourseNew[i].rating,
+            num_of_rating: topCourseNew[i].num_of_rating,
+            img: topCourseNew[i].image,
+            price: topCourseNew[i].price,
+            offer: topCourseNew[i].offer,
+            teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+        });
     }
 
     console.log(topNew1);
