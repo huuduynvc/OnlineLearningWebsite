@@ -1,0 +1,43 @@
+
+.title-login{
+    height: 100%;
+    background-color: rgba(218, 76, 50, 0.712);
+    border-block-end: 10px solid tomato;
+}
+.title-login div{
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+#title{
+    color: white; 
+    text-align: center; 
+    font-weight: bold; 
+    margin: 20px 0px 10px 0px;
+}
+input.login {
+    width: 200px;
+    margin: 10px auto;
+    display: block;
+    height: 50px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+    background-color:rgba(218, 76, 50, 0.712);
+    border-color: transparent;
+    border-radius: 10px;
+	font-family: 'Raleway', sans-serif;
+	/*-- w3ls --*/
+	transition:all 0.5s ease-in-out;
+	-webkit-transition:all 0.5s ease-in-out;
+	-moz-transition:all 0.5s ease-in-out;
+	-o-transition:all 0.5s ease-in-out;
+	-ms-transition:all 0.5s ease-in-out;
+	cursor:pointer;
+}
+
+.error{
+    color: red;
+}

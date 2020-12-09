@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <title>Rekdu</title>
+<div id='login-sso'>
+<header>
+<div class='container'>
+<div class='row'>
+<div class='col-md-12'>
+<div class='logo float-left'>
+<a href='https://edumall.vn/' title='Edumaill - Đăng nhập'>
+</a>
+</div>
+<div class='new-acc float-right'>
+<a href='/users/sign_up'>Đăng ký tài khoản mới</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<div id='content-sso'>
+<div class='container'>
+<div class='row'>
+<div class='col-md-6'>
+<div class='title-sso'>
+<h1>Nền tảng giáo dục hàng đầu</h1>
+<p>
+<span>Nơi mọi người chia sẻ</span>
+<span>, khám phá và học hỏi bất cứ điều gì</span>
+</p>
+</div>
+
+<div class='google-facebook'>
+<p class='lable text-center text-sm-left'>Đăng ký nhanh với</p>
+<a href='/users/auth/facebook' title='Đăng nhập với Facebook'>
+<i class='fab fa-facebook'></i>
+<span>Facebook</span>
+</a>
+<a href='/users/auth/google_oauth2' title='Đăng nhập với Google'>
+<i class='fab fa-google'></i>
+<span>Gmail</span>
+</a>
+</div>
+<div class='form-sso'>
+<p class='lable text-center text-md-left'>Hoặc đăng nhập bằng</p>
+<script>
+  function validateFrom(){
+    var email = document.getElementById('email');
+    InvalidEmail(email);
+    var password = document.getElementById('password');
+    InvalidPassword(password);
+  }
+  
+  function trimEmail(){
+    let email = document.getElementById('email');
+    email.value = email.value.trim()
+  }
+  
+  function InvalidEmail(textbox) {
+    var regex_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex_phone=/^(0|84|\+84)+(\d{9}|\d{10})$/;
+    var email = textbox.value;
+    textbox.setCustomValidity('');
+    if (textbox.value == '') {
+      textbox.setCustomValidity("Vui lòng nhập thông tin");
+    }
+    else{
+      if (!email.match(regex_email) && !email.match(regex_phone)) {
+        textbox.setCustomValidity('Email hoặc số điện thoại không đúng định dạng');
+      }
+    }
+    return true;
+  }
+  
+  function InvalidPassword(textbox) {
+    if (textbox.value == '') {
+      textbox.setCustomValidity("Vui lòng nhập thông tin");
+    }
+    else if (textbox.value.length < 6) {
+      textbox.setCustomValidity('Mật khẩu cần tối thiểu 6 kí tự');
+    }
+    else {
+      textbox.setCustomValidity('');
+    }
+    return true;
+  }
+</script>
+<form action='/users/sign_in' autocomplete='off' class='tempalate-1' id='form2' method='post'>
+<input class='form-control' id='email' name='user[email]' onchange='trimEmail()' placeholder='Email hoặc số điện thoại' required='true' type='text'>
+<input class='form-control' id='password' name='user[password]' placeholder='Mật khẩu' required='true' type='password'>
+<input form='form2' onclick='validateFrom()' type='submit' value='Đăng Ký'>
+<input type="hidden" name="authenticity_token" id="authenticity_token" value="C9jt52Zr25bWyU6o5ciPD6/sd7VSAreBsjrfpG/7DcgKKHnIvM7oolKiMkQTM/BihPcu3OoCvnifacYHp5wfbA==" />
+<a class='forget-password' href='/users/password/new' style='margin-left: 20px'>Quên mật khẩu?</a>
+</form>
+
+</div>
+</div>
+<div class='col-md-6 d-none d-md-block'>
+<div class='img-right'>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- <p class="notice"></p> -->
+          <p class="alert"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
