@@ -1,43 +1,55 @@
 const express = require('express');
 
+
 const router = express.Router();
 
-router.get('/about', async(req,res) =>{
-    
-    res.render("about",{
+router.get('/about', async(req, res) => {
+
+    res.render("about", {
         title: 'About US',
         breadcrumb: 'About',
-        layout: 'sub' });
+        layout: 'sub'
+    });
 });
 
-router.get('/blog', async(req,res) =>{
-    
-    res.render("blog",{
+router.get('/blog', async(req, res) => {
+
+    res.render("blog", {
         title: 'Lasted News',
         breadcrumb: 'Blog',
-        layout: 'sub' });
+        layout: 'sub'
+    });
 });
 
-router.get('/tutor', async(req,res) =>{
-    
-    res.render("tutor",{
+router.get('/tutor', async(req, res) => {
+
+    res.render("tutor", {
         title: 'Our Expert Tutors',
         breadcrumb: 'Find Tutor',
-        layout: 'sub' });
+        layout: 'sub'
+    });
 });
 
-router.get('/course', async(req,res) =>{
-    
-    res.render("course",{
+router.get('/course', async(req, res) => {
+    res.render("course", {
         title: 'Explore Course',
         breadcrumb: 'Course',
-        layout: 'sub' });
+        layout: 'sub'
+    });
 });
 
-router.get('/login', async(req,res) =>{
-    
-    res.render("sign-up",{
-        layout: null });
+router.get('/login', async(req, res) => {
+
+    res.render("sign-up", {
+        layout: null
+    });
+});
+
+router.get('/lecture', async(req, res) => {
+
+    res.render("lecture", {
+        layout: null
+    });
 });
 
 
