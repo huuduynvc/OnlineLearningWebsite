@@ -6,5 +6,9 @@
         "user": "root",
         "password": "congdt15091999",
         "database": "elearning"
+    },
+
+    "paginate": {
+        "limit": 4
     }
 }
