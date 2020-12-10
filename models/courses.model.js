@@ -11,9 +11,22 @@ module.exports = {
         return db.patch('course', entity, condition);
     },
 
-    top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname, avg(f.rating) as rating, count(f.rating) as num_of_rating
-    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback f on c.id = f.id_course
+    top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+     avg(f.rating)as rating, count(f.rating) as num_of_rating
+    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+     f on c.id = f.id_course
     group by c.id
     ORDER BY c.creation_date DESC limit 10`),
 
+    pageByCourse:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    avg(f.rating)as rating, count(f.rating) as num_of_rating
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+    limit 6 offset ${offset}` ),
+
+    countCourse: async ()=>{
+        const count = await db.load(`select count(*) as total from course`);
+        return count[0].total;
+    },
 };
