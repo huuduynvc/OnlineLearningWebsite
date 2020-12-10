@@ -9,7 +9,6 @@ const teacherModel = require('./models/teacher.model');
 //create app
 const app = express();
 
-
 //use module
 app.use(express.static('public'));
 app.use(express.static('config'));
@@ -118,8 +117,8 @@ app.get("/", async(req, res) => {
         });
     }
 
-    console.log(topNew1);
-    console.log(topNew2);
+    // console.log(topNew1);
+    // console.log(topNew2);
 
     const catObj = getMenu(categories, 0);
     const html = addCategories(catObj);
@@ -132,6 +131,8 @@ app.get("/", async(req, res) => {
     });
 })
 
+// course
+app.use('/course', require('./routes/courses.route'))
 //run server in port
 const PORT = 3000;
 app.listen(PORT, () => {

@@ -78,156 +78,37 @@
         </div>
         <div class="col-lg-8">
           <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3">
+            {{#each listCourse}}
             <div class="item">
               <div class="course-card">
-                <div class="badge badge-danger">Hot</div>
-                <div class="header">
-                  <img src="/img/course/artificial-intelligence.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
-                  <small class="text-xs fg-grey">IT</small>
-                  <span>*</span>
-                  <small class="text-xs fg-grey">Teacher1</small>
-                  <div class="rating">
-                    <span class="number-rating"><b>4</b></span>
-                    <span class="mai-star"></span>
-                    <span class="mai-star"></span>
-                    <span class="mai-star"></span>
-                    <span class="mai-star"></span>
-                    <span class="person-rating" style="color:black;">(200)</span>
-                  </div>
-                </div>
-              </div>
+                      <div class="badge badge-danger">New</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <div class="rating">
+                          <span class="number-rating"><b>{{rating}}</b></span>
+                          <span class="mai-star"></span>
+                          <span class="mai-star"></span>
+                          <span class="mai-star"></span>
+                          <span class="mai-star"></span>
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del class="text-muted">{{this.price}}</del>
+                        </div>
+                      </div>                     
+                    </div>
             </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="badge badge-warning">Popular</div>
-                <div class="header">
-                  <img src="/img/course/programming.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Programming">Programming</a></p>
-                  <small class="text-xs fg-grey">32 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="badge badge-success">New</div>
-                <div class="header">
-                  <img src="/img/course/web-design.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Web Design">Web Design</a></p>
-                  <small class="text-xs fg-grey">19 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="badge badge-warning">Popular</div>
-                <div class="header">
-                  <img src="/img/course/seo.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Search Engine Optimization">Search Engine Optimization</a>
-                  </p>
-                  <small class="text-xs fg-grey">12 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="badge badge-warning">Popular</div>
-                <div class="header">
-                  <img src="/img/course/data-analysis.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Data Analyst">Data Analyst</a></p>
-                  <small class="text-xs fg-grey">14 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/android.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Android App Development">Android App Development</a></p>
-                  <small class="text-xs fg-grey">30 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/artificial-intelligence.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Artificial Intelligence">Artificial Intelligence</a></p>
-                  <small class="text-xs fg-grey">20 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/programming.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Programming">Programming</a></p>
-                  <small class="text-xs fg-grey">32 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/web-design.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Web Design">Web Design</a></p>
-                  <small class="text-xs fg-grey">19 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/seo.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Search Engine Optimization">Search Engine Optimization</a>
-                  </p>
-                  <small class="text-xs fg-grey">12 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="header">
-                  <img src="/img/course/data-analysis.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Data Analyst">Data Analyst</a></p>
-                  <small class="text-xs fg-grey">14 Videos</small>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="course-card">
-                <div class="badge badge-success">New</div>
-                <div class="header">
-                  <img src="/img/course/android.jpg" alt="">
-                </div>
-                <div class="content">
-                  <p class="course-title"><a href="#" title="Android App Development">Android App Development</a></p>
-                  <small class="text-xs fg-grey">30 Videos</small>
-                </div>
-              </div>
-            </div>
+            {{/each}}
 
           </div> <!-- .row -->
 
@@ -236,15 +117,11 @@
               <li class="page-item">
                 <a href="#" class="page-link">Prev</a>
               </li>
+              {{#each this.page_items}}
               <li class="page-item active">
-                <a href="#" class="page-link">1</a>
+                <a href="?page={{value}}" class="page-link">{{value}}</a>
               </li>
-              <li class="page-item">
-                <a href="#" class="page-link">2</a>
-              </li>
-              <li class="page-item">
-                <a href="#" class="page-link">3</a>
-              </li>
+              {{/each}}
               <li class="page-item">
                 <a href="#" class="page-link">Next</a>
               </li>
