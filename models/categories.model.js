@@ -8,4 +8,5 @@ module.exports = {
     WHERE (TIMEDIFF(ec.enroll_date,NOW())<0) and (TIMEDIFF(ec.enroll_date,DATE_SUB(NOW(), INTERVAL 7 DAY)  )>0)  and ec.status = 1 
     GROUP BY cat.id
     ORDER BY num DESC limit 6`),
+
 };
