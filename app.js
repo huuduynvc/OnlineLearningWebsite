@@ -6,6 +6,7 @@ const session = require('express-session');
 const categoryModel = require('./models/categories.model');
 const courseModel = require('./models/courses.model');
 const teacherModel = require('./models/teacher.model');
+const userModel = require('./models/user.model');
 //create app
 const app = express();
 
@@ -117,8 +118,13 @@ app.get("/", async(req, res) => {
         });
     }
 
+
     // console.log(topNew1);
     // console.log(topNew2);
+
+    console.log((await userModel.countUser())[0]);
+    console.log(await userModel.countTeacher()[0]);
+
 
     const catObj = getMenu(categories, 0);
     const html = addCategories(catObj);
@@ -127,7 +133,10 @@ app.get("/", async(req, res) => {
         menu: html,
         topCat: topCat,
         topNew1: topNew1,
-        topNew2: topNew2
+        topNew2: topNew2,
+        countUser: (await userModel.countUser())[0],
+        countTeacher: (await userModel.countTeacher())[0],
+        countHappies: (await userModel.countHappies())[0]
     });
 })
 
