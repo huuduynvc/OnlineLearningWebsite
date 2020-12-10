@@ -52,7 +52,9 @@ CREATE TABLE `category` (
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_parent` int(11) NOT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `name` (`name`),
+  FULLTEXT KEY `name_2` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,7 +105,6 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
   `id` int(11) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `offer` int(11) DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
@@ -113,6 +114,9 @@ CREATE TABLE `course` (
   `id_category` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_COURSE_CATEGORY_idx` (`id_category`),
+  FULLTEXT KEY `name` (`name`,`description`),
+  FULLTEXT KEY `name_2` (`name`),
+  FULLTEXT KEY `description` (`description`),
   CONSTRAINT `FK_COURSE_CATEGORY` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -123,7 +127,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',NULL,199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3),(2,'Lập trình Web cơ bản ',NULL,200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3),(3,'Lập trình Java ',NULL,199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4),(4,'Lập trình Kotlin ',NULL,300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4),(5,'Lập trình Javascript ',NULL,299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3),(6,'Lập trình Frontend ',NULL,499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3),(7,'Lập trình Android ',NULL,399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4),(8,'Lập trình iOS ',NULL,399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4),(9,'Thiết kế website WordPress chuẩn SEO ',NULL,299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',NULL,399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',NULL,450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11),(12,'Tiếng Pháp cơ bản cấp độ 1',NULL,350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',NULL,250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9),(14,'Chinh phục Beatbox trong 30 ngày',NULL,250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13);
+INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +221,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,2,9,'Amazing goodjob em',5,'2020-08-02 20:07:52','2020-08-02 20:07:52',1),(2,3,10,'Very good',4,'2020-08-03 20:07:52','2020-08-03 20:07:52',1),(3,4,6,'Tuyệt vời',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(4,2,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(5,2,7,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(6,2,10,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(7,1,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1);
+INSERT INTO `feedback` VALUES (1,2,9,'Amazing goodjob em',5,'2020-08-02 20:07:52','2020-08-02 20:07:52',1),(2,3,10,'Very good',4,'2020-08-03 20:07:52','2020-08-03 20:07:52',1),(3,4,6,'Tuyệt vời',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(4,2,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(5,2,7,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(6,2,10,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(7,1,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(8,2,5,'Good',3,'2020-08-04 20:07:52','2020-08-04 20:07:52',1);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,4 +325,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-08 10:56:33
+-- Dump completed on 2020-12-10 16:19:58
