@@ -1,30 +1,31 @@
 {
-    "name": "onlinelearningwebsite",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/huuduy-web/OnlineLearningWebsite.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/huuduy-web/OnlineLearningWebsite/issues"
-    },
-    "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
-    "dependencies": {
-        "express": "^4.17.1",
-        "express-async-errors": "^3.1.1",
-        "express-handlebars": "^5.2.0",
-        "express-handlebars-sections": "^1.0.1",
-        "express-session": "^1.17.1",
-        "morgan": "^1.10.0",
-        "mysql": "^2.18.1",
-        "numeral": "^2.0.6"
-    }
+  "name": "onlinelearningwebsite",
+  "version": "1.0.0",
+  "description": "- Nguyen Huu Duy: Trang chủ, Chi tiết khóa học\r - Ngoc Minh Duy: Đăng nhập, đăng xuất\r - Tran Vu Cong: Danh sách khóa học, Tìm kiếm, Sắp xếp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huuduy-web/OnlineLearningWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huuduy-web/OnlineLearningWebsite/issues"
+  },
+  "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-handlebars": "^5.2.0",
+    "express-handlebars-sections": "^1.0.1",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "numeral": "^2.0.6"
+  },
+  "devDependencies": {}
 }
