@@ -47,10 +47,13 @@ router.post('/logout', async function(req, res) {
 })
 
 router.get('/register', async function(req, res) {
-    res.render('vwAccount/register');
+    res.render('vwAccount/register', {
+        layout: false
+    });
 })
 
 router.post('/register', async function(req, res) {
+    console.log(req.body);
     const hash = bcrypt.hashSync(req.body.password, 10);
     const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
     const user = {
@@ -63,7 +66,9 @@ router.post('/register', async function(req, res) {
     }
 
     await userModel.add(user);
-    res.render('vwAccount/register');
+    res.render('vwAccount/register', {
+        layout: false
+    });
 })
 
 router.get('/is-available', async function(req, res) {
