@@ -173,11 +173,7 @@ CREATE TABLE `enroll_course` (
   `id_course` int(11) NOT NULL,
   `enroll_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_ENROLL_USER_idx` (`id_user`),
-  KEY `FK_ENROLL_COURSE_idx` (`id_course`),
-  CONSTRAINT `FK_ENROLL_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_ENROLL_USER` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -208,10 +204,8 @@ CREATE TABLE `feedback` (
   `modification_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_FEEDBACK_USER_idx` (`id_user`),
   KEY `FK_FEEDBACK_COURSE_idx` (`id_course`),
-  CONSTRAINT `FK_FEEDBACK_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_FEEDBACK_USER` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_FEEDBACK_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -267,8 +261,7 @@ DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) NOT NULL,
   `info` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_TEACHER_USER` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -290,7 +283,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `birthday` varchar(11) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -303,7 +296,7 @@ CREATE TABLE `user` (
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,7 +305,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduynvc@gmail.com','huuduynvc','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1);
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduy@gmail.com','huuduy','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(5,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc@gmail.com','huuduynvc','$2a$10$hNQK6QK4tITv8AOgem9id.Kz.xxCZWiLV4HiLpwoV7hJ98R0T3MIu',1,NULL,NULL,1),(6,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc2@gmail.com','admin','$2a$10$4lBvxzIh/fr9EM2kZVjDzOR2rSq9UH1OeisRVuAo47zAhUk5DZDwe',1,NULL,NULL,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -325,4 +318,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-10 16:19:58
+-- Dump completed on 2020-12-17  8:15:22

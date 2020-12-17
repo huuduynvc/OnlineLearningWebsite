@@ -1,16 +1,18 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
-
+const bodyParser = require('body-parser');
 const userModel = require('../models/user.model');
-// const auth = require('../../middlewares/auth.mdw');
-
+const auth = require('../middlewares/auth.mdw');
 const router = express.Router();
 
+router.use(bodyParser.urlencoded({ extended: true }));
+
+
 router.get('/login', async function(req, res) {
-    if (req.headers.referer) {
-        req.session.retUrl = ref;
-    }
+    // if (req.headers.referer) {
+    //     req.session.retUrl = ref;
+    // }
     res.render('vwAccount/login', {
         layout: false
     });
@@ -37,7 +39,9 @@ router.post('/login', async function(req, res) {
     req.session.authUser = user;
 
     let url = req.session.retUrl || '/';
+    console.log('123');
     res.redirect(url);
+
 })
 
 router.post('/logout', async function(req, res) {
@@ -52,17 +56,29 @@ router.get('/register', async function(req, res) {
     });
 })
 
+// var ID = function() {
+//     // Math.random should be unique because of its seeding algorithm.
+//     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+//     // after the decimal.
+//     return '_' + Math.random().toString(36).substr(2, 9);
+// };
+
 router.post('/register', async function(req, res) {
-    console.log(req.body);
     const hash = bcrypt.hashSync(req.body.password, 10);
     const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
     const user = {
+        // id: ID(),
         username: req.body.username,
         password: hash,
-        dob: dob,
-        name: req.body.name,
+        birthday: dob,
+        fullname: req.body.name,
         email: req.body.email,
-        permission: 0
+        creation_date: new Date(datetime),
+        modification_date: new Date(datetime),
+        role: 1,
+        status: 1
     }
 
     await userModel.add(user);
