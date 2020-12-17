@@ -79,7 +79,7 @@
             <div class="card-sign mb-3">
               <div class="wrap">
                 <h1 class="text-center fg-primary">Đăng kí</h1>
-                <form class="mt-4" action="" method="post" id="frmRegister">
+                <form class="mt-4" action="" method="POST" id="frmRegister">
                   <div class="form-group">
                     <label for="txtName">Họ và tên</label>
                     <input type="text" class="form-control" id="txtName" name="name">
@@ -218,13 +218,13 @@
       return;
     }
 
-    $.getJSON(`/account/is-available?user=${username}`, function (data) {
+    {{!-- $.getJSON(`/account/is-available?user=${username}`, function (data) {
       if (data === true) {
         $('#frmRegister').off('submit').submit();
       } else {
         alert('Invalid data.');
       }
-    })
+    }) --}}
   }); --}}
 
   $('#txtDOB').datetimepicker({
