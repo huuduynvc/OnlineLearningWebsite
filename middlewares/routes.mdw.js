@@ -29,7 +29,7 @@ module.exports = function(app) {
         htmlBuilder = '';
         for (var i = 0; i < obj.length; i++) {
             if (obj[i].sub != null)
-                htmlBuilder += '<li class="nav-item dropdown">' +
+                htmlBuilder += '<li class="nav-item active dropdown">' +
                 `<a class="nav-link dropdown-toggle" href="${obj[i].url}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       ${obj[i].name}
     </a>`;

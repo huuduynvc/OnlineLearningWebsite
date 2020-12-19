@@ -64,7 +64,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Danh mục',0,NULL),(2,'Công nghệ thông tin',1,NULL),(3,'Lập trình web',2,'/web'),(4,'Lập trình thiết bị di động',2,'/mobile'),(5,'Khóa học',0,'/course'),(6,'Trở thành giảng viên',0,'/tutor'),(7,'Về chúng tôi',0,'/about'),(8,'Âm nhạc',1,''),(9,'Nhạc cụ',8,'/instrument'),(10,'Ngoại ngữ',1,''),(11,'Tiếng Anh',10,'/english'),(12,'Tiếng Pháp',10,'/french'),(13,'Luyện thanh',8,'/vocal');
+INSERT INTO `category` VALUES (2,'Công nghệ thông tin',0,NULL),(3,'Lập trình web',2,'/web'),(4,'Lập trình thiết bị di động',2,'/mobile'),(8,'Âm nhạc',0,''),(9,'Nhạc cụ',8,'/instrument'),(10,'Ngoại ngữ',0,''),(11,'Tiếng Anh',10,'/english'),(12,'Tiếng Pháp',10,'/french'),(13,'Luyện thanh',8,'/vocal');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,6 +112,8 @@ CREATE TABLE `course` (
   `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   `status` int(11) NOT NULL,
   `id_category` int(11) NOT NULL,
+  `view` int(11) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_COURSE_CATEGORY_idx` (`id_category`),
   FULLTEXT KEY `name` (`name`,`description`),
@@ -127,7 +129,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13);
+INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3,NULL,NULL),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3,NULL,NULL),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4,NULL,NULL),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4,NULL,NULL),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3,NULL,NULL),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3,NULL,NULL),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4,NULL,NULL),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4,NULL,NULL),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3,NULL,NULL),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3,NULL,NULL),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11,NULL,NULL),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12,NULL,NULL),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9,NULL,NULL),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13,NULL,NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +158,7 @@ CREATE TABLE `course_teacher` (
 
 LOCK TABLES `course_teacher` WRITE;
 /*!40000 ALTER TABLE `course_teacher` DISABLE KEYS */;
-INSERT INTO `course_teacher` VALUES (1,3,9),(2,4,10),(3,4,6),(4,3,6),(5,3,10),(6,3,7);
+INSERT INTO `course_teacher` VALUES (1,3,9),(2,4,10),(3,4,6),(4,3,6),(5,3,10),(6,3,7),(7,3,1);
 /*!40000 ALTER TABLE `course_teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,9 +296,10 @@ CREATE TABLE `user` (
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,7 +308,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduy@gmail.com','huuduy','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1),(5,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc@gmail.com','huuduynvc','$2a$10$hNQK6QK4tITv8AOgem9id.Kz.xxCZWiLV4HiLpwoV7hJ98R0T3MIu',1,NULL,NULL,1),(6,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc2@gmail.com','admin','$2a$10$4lBvxzIh/fr9EM2kZVjDzOR2rSq9UH1OeisRVuAo47zAhUk5DZDwe',1,NULL,NULL,1);
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduy@gmail.com','huuduy','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(5,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc@gmail.com','huuduynvc','$2a$10$hNQK6QK4tITv8AOgem9id.Kz.xxCZWiLV4HiLpwoV7hJ98R0T3MIu',1,NULL,NULL,1,NULL),(6,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc2@gmail.com','admin','$2a$10$4lBvxzIh/fr9EM2kZVjDzOR2rSq9UH1OeisRVuAo47zAhUk5DZDwe',1,NULL,NULL,1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -318,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-17  8:15:22
+-- Dump completed on 2020-12-19  9:21:56
