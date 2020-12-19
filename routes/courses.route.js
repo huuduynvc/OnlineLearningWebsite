@@ -3,6 +3,7 @@ const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
 const coursesModel = require('../models/courses.model');
+const categoryModel = require('../models/categories.model');
 const router = express.Router();
 
 router.get('/:index', async(req, res) => {
@@ -87,16 +88,18 @@ router.get('/:category/:id', async(req, res) => {
         chapter_lesson
     }
 
-    //console.log(course_detail);
+    console.log(course_detail);
     const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     //console.log(top5course);
     const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
     //console.log(teacher);
     const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
     //console.log(feedback);
-    const rating = await feedbackModel.getRatingByCourseId(course_detail.id)[0];
+    const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
+    //console.log(rating.num_of_rating);
+    const num_of_member = (await coursesModel.countMemberByCourseID(course_detail.id))[0];
 
-    const num_of_member = await coursesModel.countMemberByCourseID(course_detail.id)[0];
+    const topCat = await categoryModel.all();
 
     res.render('vwCourse/course-detail', {
         course_detail,
@@ -105,6 +108,7 @@ router.get('/:category/:id', async(req, res) => {
         feedback,
         rating,
         num_of_member,
+        topCat,
         layout: false
     });
 });
