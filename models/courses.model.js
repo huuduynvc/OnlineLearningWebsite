@@ -24,6 +24,45 @@ module.exports = {
     f on c.id = f.id_course
    group by c.id
     limit 6 offset ${offset}`),
+    
+    orderByPriceAsc:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+   order by c.price - c.price*c.offer/100 asc
+    limit 6 offset ${offset}` ), 
+
+    orderByPriceDesc:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+   order by c.price - c.price*c.offer/100 desc
+    limit 6 offset ${offset}` ), 
+    orderByRateAsc:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+   order by rating asc
+    limit 6 offset ${offset}` ), 
+
+    orderByRateDesc:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+   order by rating desc
+    limit 6 offset ${offset}` ), 
+
+    orderByNewCourse:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+   group by c.id
+   order by c.creation_date desc
+    limit 6 offset ${offset}` ), 
 
     countCourse: async() => {
         const count = await db.load(`select count(*) as total from course`);

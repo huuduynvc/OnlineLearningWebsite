@@ -1,11 +1,14 @@
 //require module
 const express = require('express');
+const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const hbs_sections = require('express-handlebars-sections');
 const session = require('express-session');
 //create app
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //use module
 app.use(express.static('public'));
 app.use(express.static('config'));
