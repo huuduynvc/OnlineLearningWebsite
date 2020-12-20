@@ -79,7 +79,7 @@
             <div class="card-sign mb-3">
               <div class="wrap">
                 <h1 class="text-center fg-primary">Đăng kí</h1>
-                <form class="mt-4" action="" method="POST" id="frmRegister">
+                <form class="mt-4" onsubmit="return validated()" action="" method="POST" id="frmRegister">
                   <div class="form-group">
                     <label for="txtName">Họ và tên</label>
                     <input type="text" class="form-control" id="txtName" name="name">
@@ -104,11 +104,6 @@
                   <div class="form-group">
                     <label for="txtPhone">Số điện thoại</label>
                     <input type="text" class="form-control" id="txtPhone" name="phone">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="txtDOB">Sinh nhật</label>
-                    <input type="text" class="form-control" id="txtDOB" name="dob">
                   </div>
 
                   <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
@@ -209,6 +204,34 @@
 </script>
 
 <script>
+      var validated = function(){
+			var error = validated_name();
+      console.log(error);
+      if(error === 1){
+        console.log('123');
+        error = validated_username();
+        if(error === 1){
+          error = validated_email();
+          if(error === 1){
+            error = validated_Phone();
+          }       
+        }
+      }
+        
+      
+			if(error === true){
+			}
+			else{
+				Swal.fire({
+				position: 'top',
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Something went wrong!',
+				})
+			}
+			return error;
+		};
+
   $('#frmRegister').on('submit', function (e) {
     e.preventDefault();
 
@@ -233,11 +256,12 @@
     timepicker: false,
     mask: true,
   });
-		var validated_name = function(){
+
+    		var validated_name = function(){
 			var name = document.getElementById("txtName").value;
 			//var noticeName = document.getElementById("noticeName");
 			if(name === null || name === ''){
-				alert("Xin vui lòng điền Họ và tên của bạn.");
+				alert("Xin vui lòng điền họ và tên của bạn.");
 				return false;
 			}
 			else{
@@ -245,7 +269,7 @@
 				return true;
 			}
 		}
-    	var validated_username = function(){
+    var validated_username = function(){
 			var name = document.getElementById("txtUsername").value;
 			//var noticeName = document.getElementById("noticeName");
 			if(name === null || name === ''){
@@ -253,7 +277,29 @@
 				return false;
 			}
 			else{
-				noticeName.innerHTML = "required";
+				return true;
+			}
+		}
+
+    var validated_password = function(){
+			var pass = document.getElementById("txtPassword").value;
+			if(pass === null || name === ''){
+				alert("Xin vui lòng điền mật khẩu của bạn.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+
+    var validated_confirm= function(){
+      var pass = document.getElementById("txtPassword").value;
+			var confirm = document.getElementById("txtConfirm").value;
+			if(confirm === null || confirm === '' || confirm !== pass){
+				alert("Xác nhận mật khẩu sai.");
+				return false;
+			}
+			else{
 				return true;
 			}
 		}
@@ -263,11 +309,12 @@
 			//var noticeEmail = document.getElementById("noticeEmail");
 			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
 			if(reg_mail.test(email) === false){		
-				noticeEmail.innerHTML = "";
+				//noticeEmail.innerHTML = "";
+        alert("Email không hợp lệ.");
 				return false;
 			}
 			else{
-				noticeEmail.innerHTML = "required";
+				//noticeEmail.innerHTML = "required";
 				return true;
 			}
 		}
@@ -275,30 +322,13 @@ var validated_Phone = function(){
 			var name = document.getElementById("txtPhone").value;
 			//var noticeName = document.getElementById("noticeName");
 			if(name === null || name === ''||name.length != 10 ){
-				alert("Xin vui lòng điền số điện thoại của bạn.");
+				alert("Số điện thoại không hợp lệ.");
 				return false;
 			}
 			else{
-				noticeName.innerHTML = "required";
 				return true;
 			}
 		}
-    var validated = function(){
-			var error = validated_name(); 
-			error = validated_email();
-			error = validated_calc();
-			if(error === true){
-			}
-			else{
-				Swal.fire({
-				position: 'top',
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Something went wrong!',
-				})
-			}
-			return error;
-		};
   
 </script>
 </body>
