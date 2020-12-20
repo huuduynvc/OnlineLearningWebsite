@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //use module
 app.use(express.static('public'));
 app.use(express.static('config'));
+app.use(express.static('resources'));
 
 //set nescessary
 app.set("views", "./views");
