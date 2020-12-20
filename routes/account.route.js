@@ -56,20 +56,12 @@ router.get('/register', async function(req, res) {
     });
 })
 
-// var ID = function() {
-//     // Math.random should be unique because of its seeding algorithm.
-//     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-//     // after the decimal.
-//     return '_' + Math.random().toString(36).substr(2, 9);
-// };
-
 router.post('/register', async function(req, res) {
     const hash = bcrypt.hashSync(req.body.password, 10);
-    const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    //const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
     var currentdate = new Date();
     var datetime = "" + currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
     const user = {
-        // id: ID(),
         username: req.body.username,
         password: hash,
         //birthday: dob,
@@ -78,12 +70,13 @@ router.post('/register', async function(req, res) {
         creation_date: new Date(datetime),
         modification_date: new Date(datetime),
         role: 1,
-        status: 1
+        status: 1,
+        phone: req.body.phone
     }
 
     await userModel.add(user);
     res.render('vwAccount/register', {
-        layout: false
+        err_message: 'Đăng kí thành công!!'
     });
 })
 
