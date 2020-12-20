@@ -24,7 +24,7 @@ module.exports = {
     f on c.id = f.id_course
    group by c.id
     limit 6 offset ${offset}`),
-    
+
     orderByPriceAsc:(offset)=> db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
@@ -68,7 +68,9 @@ module.exports = {
         const count = await db.load(`select count(*) as total from course`);
         return count[0].total;
     },
-
+    
+    getListCategory: () => db.load(`select * from category where id_parent = 1;`),
+    
     getChapterByCourseId: id => db.load(`select * from chapter where id_course = ${id}`),
     getLessonByChapterId: id => db.load(`select * from lesson where id_chapter = ${id}`),
     top5CourseOtherMostBuy: (id_course, id_category) => db.load(`SELECT *,count(ec.id_course) as members 
