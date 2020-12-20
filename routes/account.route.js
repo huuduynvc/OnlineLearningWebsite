@@ -72,7 +72,7 @@ router.post('/register', async function(req, res) {
         // id: ID(),
         username: req.body.username,
         password: hash,
-        birthday: dob,
+        //birthday: dob,
         fullname: req.body.name,
         email: req.body.email,
         creation_date: new Date(datetime),
