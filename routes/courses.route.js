@@ -212,11 +212,11 @@ router.get('/:category/:id', async(req, res) => {
         chapter_lesson
     }
 
-    console.log(course_detail);
+    //console.log(course_detail);
     const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     //console.log(top5course);
     const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
-    //console.log(teacher);
+    console.log(teacher);
     const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
     //console.log(feedback);
     const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
