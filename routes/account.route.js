@@ -23,7 +23,7 @@ router.post('/login', async function(req, res) {
     if (user === null) {
         return res.render('vwAccount/login', {
             layout: false,
-            err_message: 'Invalid username or password.'
+            err_message: 'Sai tên người dùng hoặc mật khẩu.'
         });
     }
 
@@ -31,7 +31,7 @@ router.post('/login', async function(req, res) {
     if (ret === false) {
         return res.render('vwAccount/login', {
             layout: false,
-            err_message: 'Invalid username or password.'
+            err_message: 'Sai tên người dùng hoặc mật khẩu.'
         });
     }
 
