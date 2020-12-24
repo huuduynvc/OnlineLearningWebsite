@@ -2,8 +2,11 @@ $(document).ready(function(){
     // $('#sort').on('change', function(){
         
     // }),
+    var key = "";
     var sort = "";
     var page ="1";
+
+
    
     $('input').click(function(){
        
@@ -11,7 +14,26 @@ $(document).ready(function(){
         $.ajax({
             method: 'post',
             url: '/course',
-            data: {check: sort, page: page},
+            data: {key: key, check: sort, page: page},
+            dataType: 'json'
+        })
+        .done(function(data){
+            $('.col-lg-8 .row').html(data.test);
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+        // this.checked = this.check;
+        // this.check = !this.check;      
+
+    });
+    $('.btnsearch').click(function(){
+       
+         key = $('.search').val();       
+        $.ajax({
+            method: 'post',
+            url: '/course',
+            data: {key: key, check: sort, page: page},
             dataType: 'json'
         })
         .done(function(data){
@@ -39,7 +61,7 @@ $(document).ready(function(){
         $.ajax({
             method: 'post',
             url: '/course',
-            data: {check: sort, page: page},
+            data: {key: key, check: sort, page: page},
             dataType: 'json'
         })
         .done(function(data){
