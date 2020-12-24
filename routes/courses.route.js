@@ -30,7 +30,7 @@ router.get('/', async (req, res)=>{
        }
        page_items.push(item);
    }
-   let listCourse = await courseModel.pageByCourse(offset);
+   let listCourse = await courseModel.pageByCourse(offset, "");
    console.log( listCourse);
    let arrayCourse = [];
    for(let course of listCourse)
@@ -80,28 +80,35 @@ router.get('/', async (req, res)=>{
 
 router.post('/', async (req, res)=>{
    let check = req.body.check;
-   
+   let key = req.body.key;
 
    let page =parseInt(req.body.page);
    //let page = 1;
    let offset = (page-1)*6;
-   let listCourse = await courseModel.pageByCourse(offset);
-
+   //let listCourse = await courseModel.fullTextSearch(offset, key);
+   let listCourse =await courseModel.pageByCourse(offset, key);
    let total = await courseModel.countCourse();
    let nPages = Math.ceil(total/6);
    let page_items = [];
    let listCategory = await courseModel.getListCategory();
    let arrayCategory = [];
    if(check == "priceincrease")
-       listCourse = await courseModel.orderByPriceAsc(offset);
+       listCourse = await courseModel.orderByPriceAsc(offset, key);
    if(check == "pricedecrease")
-       listCourse = await courseModel.orderByPriceDesc(offset);
+       listCourse = await courseModel.orderByPriceDesc(offset, key);
    if(check == "rateincrease")
-       listCourse = await courseModel.orderByRateAsc(offset);
+       listCourse = await courseModel.orderByRateAsc(offset, key);
    if(check == "ratedecrease")
-       listCourse = await courseModel.orderByRateDesc(offset);
+       listCourse = await courseModel.orderByRateDesc(offset, key);
    if(check == "newcourse")
-       listCourse = await courseModel.orderByNewCourse(offset);
+       listCourse = await courseModel.orderByNewCourse(offset, key);
+   if(check == "learnestcourse")
+       listCourse = await courseModel.orderByNewCourse(offset, key);
+   if(check == undefined && key =="")
+       listCourse = await courseModel.pageByCourse(offset, key);
+   if(key !="")
+       listCourse = await courseModel.fullTextSearch(offset, key);
+
 
    //test
    let checkkk = true;
