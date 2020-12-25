@@ -77,9 +77,17 @@
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="card-sign mb-3">
+        {{#if err_message}}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{err_message}}
+        </div>
+        {{/if}}
               <div class="wrap">
                 <h1 class="text-center fg-primary">Đăng kí</h1>
-                <form class="mt-4" onsubmit="return validated()" action="" method="POST" id="frmRegister">
+                <form class="mt-4" action="" method="POST" id="frmRegister">
                   <div class="form-group">
                     <label for="txtName">Họ và tên</label>
                     <input type="text" class="form-control" id="txtName" name="name">
@@ -206,49 +214,39 @@
 <script>
       var validated = function(){
 			var error = validated_name();
-      console.log(error);
-      if(error === 1){
-        console.log('123');
+      if(error){
         error = validated_username();
-        if(error === 1){
-          error = validated_email();
-          if(error === 1){
-            error = validated_Phone();
+        if(error){
+          error = validated_password();
+          if(error){
+            error = validated_confirm();
+            if(error){
+              error = validated_email();
+              if(error){
+                error = validated_Phone();
+              }
+            }
           }       
         }
       }
-        
-      
-			if(error === true){
-			}
-			else{
-				Swal.fire({
-				position: 'top',
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Something went wrong!',
-				})
-			}
 			return error;
 		};
 
   $('#frmRegister').on('submit', function (e) {
-    e.preventDefault();
+    
 
-    const username = $('#txtUsername').val();
+    if(validated()){
+      e.preventDefault();
+      const username = $('#txtUsername').val();
 
-    {{!-- if (username.length === 0) {
-      alert('Họ tên null');
-      return;
-    } --}}
-
-    $.getJSON(`/account/is-available?user=${username}`, function (data) {
-      if (data === true) {
-        $('#frmRegister').off('submit').submit();
-      } else {
-        alert('Tên tài khoản đã tồn tại.');
-      }
-    })
+      $.getJSON(`/account/is-available?user=${username}`, function (data) {
+        if (data === true) {
+          $('#frmRegister').off('submit').submit();
+        } else {         
+          alert('Tên tài khoản đã tồn tại.');
+        }
+      })
+    }
   });
 
   $('#txtDOB').datetimepicker({
@@ -265,7 +263,6 @@
 				return false;
 			}
 			else{
-				noticeName.innerHTML = "required";
 				return true;
 			}
 		}
@@ -283,7 +280,7 @@
 
     var validated_password = function(){
 			var pass = document.getElementById("txtPassword").value;
-			if(pass === null || name === ''){
+			if(pass === null || pass === ''){
 				alert("Xin vui lòng điền mật khẩu của bạn.");
 				return false;
 			}
@@ -306,22 +303,18 @@
 
 		var validated_email = function(){
 			var email = document.getElementById("txtEmail").value;
-			//var noticeEmail = document.getElementById("noticeEmail");
 			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
-			if(reg_mail.test(email) === false){		
-				//noticeEmail.innerHTML = "";
+			if(email === '' || email === null ||reg_mail.test(email) === false){		
         alert("Email không hợp lệ.");
 				return false;
 			}
 			else{
-				//noticeEmail.innerHTML = "required";
 				return true;
 			}
 		}
 var validated_Phone = function(){
-			var name = document.getElementById("txtPhone").value;
-			//var noticeName = document.getElementById("noticeName");
-			if(name === null || name === ''||name.length != 10 ){
+			var phone = document.getElementById("txtPhone").value;
+			if(phone === null || phone === '' || phone.length !== 10 ){
 				alert("Số điện thoại không hợp lệ.");
 				return false;
 			}

@@ -6,14 +6,74 @@ const coursesModel = require('../models/courses.model');
 const categoryModel = require('../models/categories.model');
 const router = express.Router();
 
-router.get('/', async (req, res)=>{
-    let page =parseInt(req.query.page) || 1;
-    let offset = (page-1)*6;
-   let total = await courseModel.countCourse();
-   let nPages = Math.ceil(total/6);
-   let page_items = [];
+router.get('/', async(req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    let offset = (page - 1) * 6;
+    let total = await courseModel.countCourse();
+    let nPages = Math.ceil(total / 6);
+    let page_items = [];
     let listCategory = await courseModel.getListCategory();
     let arrayCategory = [];
+<<<<<<< HEAD
+    //test
+    let checkkk = true;
+    for (let cate of listCategory) {
+        arrayCategory.push({
+            id: cate.id,
+            name: cate.name,
+            id_parent: cate.id_parent,
+            url: cate.url
+        });
+    }
+    for (i = 2; i <= nPages; i++) {
+        let item = {
+            value: i
+        }
+        page_items.push(item);
+    }
+    let listCourse = await courseModel.pageByCourse(offset, "");
+    console.log(listCourse);
+    let arrayCourse = [];
+    for (let course of listCourse) {
+        arrayCourse.push({
+            id: course.id,
+            name: course.name,
+            caturl: course.caturl,
+            catname: course.catname,
+            rating: course.rating,
+            num_of_rating: course.num_of_rating,
+            img: course.image,
+            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price),
+            offer: course.offer,
+            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price - course.price * course.offer / 100),
+            teacher: await teacherModel.getTeacherByCourseId(course.id)
+        });
+    }
+
+    // let arrayCourse = listCourse.map( async (x)=>{
+    //     let teacher = await teacherModel.getTeacherByCourseId(x.id);
+    //     return await {id: x.id,
+    //             name: x.name,
+    //             caturl: x.caturl,
+    //             catname: x.catname,
+    //             rating: x.rating,
+    //             num_of_rating: x.num_of_rating,
+    //             img: x.image,
+    //             price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(x.price),
+    //             offer: x.offer,
+    //             current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(x.price - x.price * x.offer / 100),
+    //             teacher:  teacher
+    //         }
+    // });
+
+    res.render('course', {
+        listCourse: arrayCourse,
+        page_items,
+        can_go_prev: page > 1,
+        can_go_next: page < nPages,
+        prev_page: page - 1,
+        next_page: page + 1,
+=======
    //test
    let checkkk = true;
    for( let cate of listCategory)
@@ -30,7 +90,7 @@ router.get('/', async (req, res)=>{
        }
        page_items.push(item);
    }
-   let listCourse = await courseModel.pageByCourse(offset);
+   let listCourse = await courseModel.pageByCourse(offset, "");
    console.log( listCourse);
    let arrayCourse = [];
    for(let course of listCourse)
@@ -73,35 +133,123 @@ router.get('/', async (req, res)=>{
        can_go_next: page<nPages,
        prev_page: page-1,
        next_page: page+1,
+>>>>>>> 63608868e710a88558a612129af1ff9986051c7c
         listCategory: arrayCategory,
-       check: checkkk,
-   });
+        check: checkkk,
+    });
 });
 
+<<<<<<< HEAD
+router.post('/', async(req, res) => {
+    let check = req.body.check;
+    let key = req.body.key;
+
+    let page = parseInt(req.body.page);
+    //let page = 1;
+    let offset = (page - 1) * 6;
+    //let listCourse = await courseModel.fullTextSearch(offset, key);
+    let listCourse = await courseModel.pageByCourse(offset, key);
+    let total = await courseModel.countCourse();
+    let nPages = Math.ceil(total / 6);
+    let page_items = [];
+    let listCategory = await courseModel.getListCategory();
+    let arrayCategory = [];
+    if (check == "priceincrease")
+        listCourse = await courseModel.orderByPriceAsc(offset, key);
+    if (check == "pricedecrease")
+        listCourse = await courseModel.orderByPriceDesc(offset, key);
+    if (check == "rateincrease")
+        listCourse = await courseModel.orderByRateAsc(offset, key);
+    if (check == "ratedecrease")
+        listCourse = await courseModel.orderByRateDesc(offset, key);
+    if (check == "newcourse")
+        listCourse = await courseModel.orderByNewCourse(offset, key);
+    if (check == "learnestcourse")
+        listCourse = await courseModel.orderByNewCourse(offset, key);
+    if (check == undefined && key == "")
+        listCourse = await courseModel.pageByCourse(offset, key);
+    if (key != "")
+        listCourse = await courseModel.fullTextSearch(offset, key);
+
+
+    //test
+    let checkkk = true;
+    for (let cate of listCategory) {
+        arrayCategory.push({
+            id: cate.id,
+            name: cate.name,
+            id_parent: cate.id_parent,
+            url: cate.url
+        });
+    }
+    for (i = 1; i <= nPages; i++) {
+        let item = {
+            value: i
+        }
+        page_items.push(item);
+    }
+
+    console.log(listCourse);
+    let arrayCourse = [];
+    for (let course of listCourse) {
+        arrayCourse.push({
+            id: course.id,
+            name: course.name,
+            caturl: course.caturl,
+            catname: course.catname,
+            rating: course.rating,
+            num_of_rating: course.num_of_rating,
+            img: course.image,
+            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price),
+            offer: course.offer,
+            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price - course.price * course.offer / 100),
+            teacher: await teacherModel.getTeacherByCourseId(course.id)
+        });
+    }
+    var html = "";
+    for (let item of arrayCourse) {
+
+        let t = "";
+        for (let teach of item.teacher) {
+            t += `${teach.fullname},`;
+        }
+        let s = "";
+        for (let i = 0; i < item.rating; i++) {
+            s += `<span class="mai-star"></span> `;
+        }
+        html += ` <div class="item">
+=======
 router.post('/', async (req, res)=>{
    let check = req.body.check;
-   
+   let key = req.body.key;
 
    let page =parseInt(req.body.page);
    //let page = 1;
    let offset = (page-1)*6;
-   let listCourse = await courseModel.pageByCourse(offset);
-
+   //let listCourse = await courseModel.fullTextSearch(offset, key);
+   let listCourse =await courseModel.pageByCourse(offset, key);
    let total = await courseModel.countCourse();
    let nPages = Math.ceil(total/6);
    let page_items = [];
    let listCategory = await courseModel.getListCategory();
    let arrayCategory = [];
    if(check == "priceincrease")
-       listCourse = await courseModel.orderByPriceAsc(offset);
+       listCourse = await courseModel.orderByPriceAsc(offset, key);
    if(check == "pricedecrease")
-       listCourse = await courseModel.orderByPriceDesc(offset);
+       listCourse = await courseModel.orderByPriceDesc(offset, key);
    if(check == "rateincrease")
-       listCourse = await courseModel.orderByRateAsc(offset);
+       listCourse = await courseModel.orderByRateAsc(offset, key);
    if(check == "ratedecrease")
-       listCourse = await courseModel.orderByRateDesc(offset);
+       listCourse = await courseModel.orderByRateDesc(offset, key);
    if(check == "newcourse")
-       listCourse = await courseModel.orderByNewCourse(offset);
+       listCourse = await courseModel.orderByNewCourse(offset, key);
+   if(check == "learnestcourse")
+       listCourse = await courseModel.orderByNewCourse(offset, key);
+   if(check == undefined && key =="")
+       listCourse = await courseModel.pageByCourse(offset, key);
+   if(key !="")
+       listCourse = await courseModel.fullTextSearch(offset, key);
+
 
    //test
    let checkkk = true;
@@ -153,6 +301,7 @@ router.post('/', async (req, res)=>{
            s+=`<span class="mai-star"></span> `;
        }
     html += ` <div class="item">
+>>>>>>> 63608868e710a88558a612129af1ff9986051c7c
     <div class="course-card">
             <div class="badge badge-danger">New</div>
             <div class="header">
@@ -162,13 +311,13 @@ router.post('/', async (req, res)=>{
               <p class="course-title"><a href="${item.caturl}/${item.id}" title="Artificial Intelligence">${item.name}</a></p>
               <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${item.catname}</small>
               </br>
-              <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">`+
-               t+
-                 `</small>
+              <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">` +
+            t +
+            `</small>
               <div class="rating">
-                <span class="number-rating"><b>${item.rating}</b></span>`+
-                   s +
-                `<span class="person-rating" style="color:black;">(${item.num_of_rating})</span>
+                <span class="number-rating"><b>${item.rating}</b></span>` +
+            s +
+            `<span class="person-rating" style="color:black;">(${item.num_of_rating})</span>
               </div>
               <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <span class="text-danger font-weight-bold">${item.current_price}</span> <del class="text-muted">${item.price}</del>
@@ -176,7 +325,7 @@ router.post('/', async (req, res)=>{
             </div>                     
           </div>
   </div>`;
-   }
+    }
     res.send({
         test: html,
     })
