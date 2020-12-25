@@ -1,10 +1,18 @@
+{{#section 'css'}}
+
+{{/section}}
+
+{{#section 'js'}}
+<script src="/js/courses.js"></script>
+{{/section}}
+
 <main>
   <div class="page-section bg-light">
     <div class="container">
-      <form action="#" class="search-form mb-5">
+      <form class="search-form mb-5">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Nhập tên khóa học hoặc lĩnh vực">
-          <button type="submit" class="btn">Tìm kiếm</button>
+          <input type="text" class="form-control search" placeholder="Nhập tên khóa học hoặc lĩnh vực">
+          <button type="submit" class="btn btnsearch">Tìm kiếm</button>
         </div>
       </form>
       <div class="row">
@@ -65,7 +73,7 @@
               </li>
               <li>
                 <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" id="course2" name="sort" value="coursedecrease">
+                  <input type="radio" class="custom-control-input" id="course2" name="sort" value="learnestcourse">
                   <label class="custom-control-label" for="course2">Học nhiều nhất</label>
                 </div>
               </li>
