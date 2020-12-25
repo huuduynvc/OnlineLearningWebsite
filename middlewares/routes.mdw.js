@@ -2,6 +2,7 @@ const categoryModel = require('../models/categories.model');
 const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const userModel = require('../models/user.model');
+const numeral = require('numeral');
 
 module.exports = function(app) {
     function getMenu(data, id_find) {
@@ -48,6 +49,21 @@ module.exports = function(app) {
         return htmlBuilder;
     }
 
+    function createRating(i, rating) {
+        html = `<div id="rater${i}"></div>
+        <script>
+          var rating${i} = raterJs({
+            element:document.querySelector("#rater${i}"),
+            readOnly: true,
+            max:5,
+            starSize: 15, 
+        });
+        if(${rating} != null)
+            rating${i}.setRating(${rating});
+        </script>`
+        return html;
+    }
+
 
     //render view
     app.get("/", async(req, res) => {
@@ -62,12 +78,13 @@ module.exports = function(app) {
                 name: topCourseNew[i].name,
                 caturl: topCourseNew[i].caturl,
                 catname: topCourseNew[i].catname,
-                rating: topCourseNew[i].rating,
+                rating: numeral(topCourseNew[i].rating).format('0,0'),
+                rating_star: createRating(i, topCourseNew[i].rating),
                 num_of_rating: topCourseNew[i].num_of_rating,
                 img: topCourseNew[i].image,
-                price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price),
+                price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100),
+                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
             });
         }
@@ -77,12 +94,13 @@ module.exports = function(app) {
                 name: topCourseNew[i].name,
                 caturl: topCourseNew[i].caturl,
                 catname: topCourseNew[i].catname,
-                rating: topCourseNew[i].rating,
+                rating: numeral(topCourseNew[i].rating).format('0.0'),
+                rating_star: createRating(i, topCourseNew[i].rating),
                 num_of_rating: topCourseNew[i].num_of_rating,
                 img: topCourseNew[i].image,
-                price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price),
+                price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100),
+                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
             });
         }
