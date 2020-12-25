@@ -5,6 +5,8 @@ const feedbackModel = require('../models/feedback.model');
 const coursesModel = require('../models/courses.model');
 const categoryModel = require('../models/categories.model');
 const router = express.Router();
+const moment = require('moment');
+const numeral = require('numeral');
 
 router.get('/', async(req, res) => {
     let page = parseInt(req.query.page) || 1;
@@ -42,28 +44,12 @@ router.get('/', async(req, res) => {
             rating: course.rating,
             num_of_rating: course.num_of_rating,
             img: course.image,
-            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price),
+            current_price: numeral(course.price - course.price * course.offer / 100).format('0,0'),
+            price: numeral(course.price).format('0,0'),
             offer: course.offer,
-            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price - course.price * course.offer / 100),
             teacher: await teacherModel.getTeacherByCourseId(course.id)
         });
     }
-
-    // let arrayCourse = listCourse.map( async (x)=>{
-    //     let teacher = await teacherModel.getTeacherByCourseId(x.id);
-    //     return await {id: x.id,
-    //             name: x.name,
-    //             caturl: x.caturl,
-    //             catname: x.catname,
-    //             rating: x.rating,
-    //             num_of_rating: x.num_of_rating,
-    //             img: x.image,
-    //             price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(x.price),
-    //             offer: x.offer,
-    //             current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(x.price - x.price * x.offer / 100),
-    //             teacher:  teacher
-    //         }
-    // });
 
     res.render('course', {
         listCourse: arrayCourse,
@@ -137,9 +123,9 @@ router.post('/', async(req, res) => {
             rating: course.rating,
             num_of_rating: course.num_of_rating,
             img: course.image,
-            price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price),
+            current_price: numeral(course.price - course.price * course.offer / 100).format('0,0'),
+            price: numeral(course.price).format('0,0'),
             offer: course.offer,
-            current_price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price - course.price * course.offer / 100),
             teacher: await teacherModel.getTeacherByCourseId(course.id)
         });
     }
@@ -184,6 +170,21 @@ router.post('/', async(req, res) => {
     })
 });
 
+function createRating(i, rating) {
+    html = `<div id="rater${i}"></div>
+    <script>
+      var rating${i} = raterJs({
+        element:document.querySelector("#rater${i}"),
+        readOnly: true,
+        max:5,
+        starSize: 15, 
+    });
+    if(${rating} != null)
+        rating${i}.setRating(${rating});
+    </script>`
+    return html;
+}
+
 router.get('/:category/:id', async(req, res) => {
 
     const course = await coursesModel.single(req.params.id);
@@ -214,18 +215,29 @@ router.get('/:category/:id', async(req, res) => {
         chapter_lesson
     }
 
-    //console.log(course_detail);
+    course_detail.modification_date = moment(course_detail.modification_date).format('hh:mm:ss DD/MM/YYYY');
+    course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
+    course_detail.price = numeral(course_detail.price).format('0,0');
+
+
     const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
-    //console.log(top5course);
+    for (let i = 0; i < top5course.length; i++) {
+        top5course[i].modification_date = moment(top5course[i].modification_date).format('DD/MM/YYYY');
+        top5course[i].num_of_member = (await coursesModel.countMemberByCourseID(top5course[i].id))[0];
+        top5course[i].rating = (await feedbackModel.getRatingByCourseId(top5course[i].id))[0];
+    }
+    console.log(top5course);
     const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
-    console.log(teacher);
+    //console.log(teacher);
     const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
-    //console.log(feedback);
+    console.log(feedback);
+    for (let i = 0; i < feedback.length; i++) {
+        feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
+        feedback[i].rating_star = createRating(i, feedback[i].rating);
+    }
     const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
     //console.log(rating.num_of_rating);
     const num_of_member = (await coursesModel.countMemberByCourseID(course_detail.id))[0];
-
-    const topCat = await categoryModel.all();
 
     res.render('vwCourse/course-detail', {
         course_detail,
@@ -234,9 +246,29 @@ router.get('/:category/:id', async(req, res) => {
         feedback,
         rating,
         num_of_member,
-        topCat,
-        layout: false
+        menu: req.session.menu,
+        layout: 'sub.handlebars'
     });
+});
+
+router.post('/:category/:id', async(req, res) => {
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    console.log('123');
+    const feedback = {
+        rating: req.body.rating,
+        comment: req.body.msg,
+        id_course: req.params.id,
+        //test
+        id_user: 1,
+        creation_date: new Date(datetime),
+        modification_date: new Date(datetime),
+        status: 1,
+    }
+    console.log(await feedbackModel.add(feedback));
+
+    res.redirect('/:category/:id');
+
 });
 
 module.exports = router;

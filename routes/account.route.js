@@ -60,7 +60,7 @@ router.post('/register', async function(req, res) {
     const hash = bcrypt.hashSync(req.body.password, 10);
     //const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
     var currentdate = new Date();
-    var datetime = "" + currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
     const user = {
         username: req.body.username,
         password: hash,
