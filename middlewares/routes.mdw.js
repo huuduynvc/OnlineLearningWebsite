@@ -82,9 +82,9 @@ module.exports = function(app) {
                 rating_star: createRating(i, topCourseNew[i].rating),
                 num_of_rating: topCourseNew[i].num_of_rating,
                 img: topCourseNew[i].image,
+                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
             });
         }
@@ -98,15 +98,16 @@ module.exports = function(app) {
                 rating_star: createRating(i, topCourseNew[i].rating),
                 num_of_rating: topCourseNew[i].num_of_rating,
                 img: topCourseNew[i].image,
+                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
             });
         }
 
         const catObj = getMenu(categories, 0);
         const html = addCategories(catObj);
+        req.session.menu = html;
 
         res.render("home", {
             menu: html,
