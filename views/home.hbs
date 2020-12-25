@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<link href="/css/rating.css" rel="stylesheet" type="text/css" />
+
 {{/section}}
 
 {{#section 'js'}}
@@ -227,12 +227,15 @@
                           {{this.fullname}}, 
                           {{/each}}                         
                         </small>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
                         <div class="rating">
-                          <span class="number-rating"><b>{{rating}}</b></span>
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
+                          {{{this.rating_star}}}
+                        
                           <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                         </div>
                         <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del class="text-muted">{{this.price}}</del>
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>                     
                     </div>
@@ -262,16 +265,13 @@
                           {{this.fullname}}, 
                           {{/each}}                         
                         </small>
-                        <div class="rating">
+                        <div class="rating-row">
                           <span class="number-rating"><b>{{rating}}</b></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
+                          {{{this.rating_star}}}
                           <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                         </div>
                         <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del class="text-muted">{{this.price}}</del>
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>                     
                     </div>
@@ -360,18 +360,6 @@
           <div class="row justify-content-center text-center wow fadeInUp">
             <div class="col-lg-8">
               <h2>Become a Tutor?</h2>
-<div class="rating"> 
-  <input type="radio" name="rating" value="5" id="5">
-  <label for="5">☆</label> 
-  <input type="radio" name="rating" value="4" id="4">
-  <label for="4">☆</label> 
-  <input type="radio" name="rating" value="3" id="3">
-  <label for="3">☆</label> 
-  <input type="radio" name="rating" value="2" id="2">
-  <label for="2">☆</label> 
-  <input type="radio" name="rating" value="1" id="1">
-  <label for="1">☆</label>
-</div>
               <p>Join thousands of expert tutors. Earn money sharing your expert knowledge from the comfort of your home.</p>
               <a href="#" class="btn btn-success space-up-24">Join Now!</a>
             </div>
