@@ -71,114 +71,121 @@
     </nav> <!-- .navbar -->
   </header>
 
-  <main>
-    <div class="page-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-5">
-            <div class="card-sign mb-3">
-              <div class="wrap">
-                <h1 class="text-center fg-primary">Đăng kí</h1>
-                <form class="mt-4" onsubmit="return validated()" action="" method="POST" id="frmRegister">
-                  <div class="form-group">
-                    <label for="txtName">Họ và tên</label>
-                    <input type="text" class="form-control" id="txtName" name="name">
-                  </div>
-                  <div class="form-group">
-                    <label for="txtUsername">Tên tài khoản</label>
-                    <input type="text" class="form-control" id="txtUsername" name="username">
-                  </div>
-                  <div class="form-group">
-                    <label for="txtPassword">Mật khẩu</label>
-                    <input type="password" class="form-control" id="txtPassword" name="password">
-                  </div>
-                  <div class="form-group">
-                    <label for="txtConfirm">Xác nhận mật knhẩu</label>
-                    <input type="password" class="form-control" id="txtConfirm" name="confirm">
-                  </div>
-                  <div class="form-group">
-                    <label for="txtEmail">Địa chỉ email</label>
-                    <input type="text" class="form-control" id="txtEmail" name="email">
-                  </div>
+{{#section 'js'}}
+    <script src="/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript">
+            $('#txtDOB').datepicker({
+                format: 'd/m/yyyy',
+                autoclose: true
+            });
+        </script>   
+    <script>
+    document.getElementById('subscribeForm').addEventListener('submit', submitForm);
 
-                  <div class="form-group">
-                    <label for="txtPhone">Số điện thoại</label>
-                    <input type="text" class="form-control" id="txtPhone" name="phone">
-                  </div>
+    function submitForm(e){
+      e.preventDefault();
+      
+      const name = $("input[name=name]").val();
+      const email = $("input[name=email]").val();
+      const username = $("input[name=username]").val();
+      const dob = $("input[name=dob]").val();
+      const password = $("input[name=password]").val();
 
-                  <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
-                </form>
-              </div>
+      const captcha = document.querySelector('#g-recaptcha-response').value;
+
+      fetch('/account/register', {
+        method:'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-type':'application/json'
+        },
+        body:JSON.stringify({name:name, email: email, username:username, password:password, dob:dob, captcha: captcha})
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        alert(data.msg);
+        
+      });
+    }
+  </script>
+{{/section}}
+        <div class="login-form section text-center">
+            <div class="container">
+                <h4 class="rad-txt">
+                    <a href="/account/login"><span class="abtxt1">Đăng nhập</span></a>
+                    
+                    <a href="/account/register" >
+                        <span class="abtext">Đăng kí</span>
+                    </a>
+                </h4>
+                <!-- form signup -->
+                <div id="signupbox" style="margin-top:50px" class="mainbox loginbox">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Đăng kí</div>           
+                        </div>
+                            <div class="panel-body">
+                                <form id="subscribeForm" class="form-horizontal">
+                                    {{#if data.showError}}
+                                    <div id="signupalert" class="alert alert-danger">
+                                        <p>Error: {{data.errorMsg}}</p>
+                                        <span></span>
+                                    </div>
+                                    {{/if}}
+                                  <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Email</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Địa chỉ Email" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Tên Tài khoản</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input type="text" class="form-control" name="username" placeholder="Tên tài khoản của bạn" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Họ tên</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input type="text" class="form-control" name="name" placeholder="Tên của bạn" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Mật khẩu</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtDOB" class="col-md-3 col-sm-3 col-xs-3 control-label">Ngày sinh</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input id="txtDOB" type="text" class="form-control" name="dob" placeholder="ngày sinh" required=""><i class="icon-calendar"></i></input>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <div class="col-md-3"></div>
+                                    <div class="g-recaptcha col-md-9" data-sitekey="6LdgDVYUAAAAAExWfTTdL9aAcqPXaXLp0f-KlFLR"></div>
+                                </div>
+                                <div class="signup-btn form-group">
+                                    <button id="btn-signup" type="Submit" class="btn btn-info">
+                                        <i class="icon-hand-right"></i> &nbsp; Đăng kí</button>
+                                </div>
+                                  <!-- <input type="submit" value="Submit" class="btn btn-primary"> -->
+                                  <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
+                                    <div class="f-btn">
+                                        <button id="btn-fbsignup" type="button" class="btn btn-primary">
+                                            <i class="icon-facebook"></i> Đăng kí bằng Facebook</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <p class="text-center">Bạn đã có tài khoản? Đăng nhập <a href="#">tại đây</a>.</p>
-
-            <div class="text-center space-up-48">
-              <small class="text-weight-bold fg-secondary">Đăng nhập với</small>
-              <div class="sosmed-button mt-2">
-                <a href="#" class="btn p-0 bg-facebook fg-white"><span class="mai-logo-facebook-f"></span></a>
-                <a href="#" class="btn p-0 bg-twitter fg-white"><span class="mai-logo-twitter"></span></a>
-                <a href="#" class="btn p-0 bg-google-plus fg-white"><span class="mai-logo-google"></span></a>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="page-footer">
-    <div class="container">
-
-      <div class="row justify-content-center mb-4">
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h3>Rekdu</h3>
-          <p>The Best online course platform, and collaborate with thousands leading universities and companies</p>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3 pl-lg-5">
-          <h5>Company</h5>
-          <ul class="footer-menu">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Career</a></li>
-            <li><a href="#">Resources</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Popular Course</h5>
-          <ul class="footer-menu">
-            <li><a href="#">Data Analyst</a></li>
-            <li><a href="#">Search Engine Optimization</a></li>
-            <li><a href="#">Programming</a></li>
-            <li><a href="#">Artificial Intelligence</a></li>
-            <li><a href="#">Android Development</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Newsletter</h5>
-          <form action="#">
-            <input type="text" class="form-control" placeholder="Enter your email">
-            <button type="submit" class="btn btn-primary btn-sm mt-2">Submit</button>
-          </form>
-
-          <div class="sosmed-button mt-3">
-            <a href="#"><span class="mai-logo-facebook-f"></span></a>
-            <a href="#"><span class="mai-logo-twitter"></span></a>
-            <a href="#"><span class="mai-logo-youtube"></span></a>
-            <a href="#"><span class="mai-logo-linkedin"></span></a>
-          </div>
-        </div>
-      </div>
-      <hr>
-      <div class="row mt-4">
-        <div class="col-md-6">
-          <p id="copyright">Copyright &copy; 2020. This template designed by <a href="https://macodeid.com">MACode ID</a></p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
+        
 <script src="/js/jquery-3.5.1.min.js"></script>
 
 <script src="/js/bootstrap.bundle.min.js"></script>
@@ -202,134 +209,4 @@
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
 </script>
-
-<script>
-      var validated = function(){
-			var error = validated_name();
-      console.log(error);
-      if(error === 1){
-        console.log('123');
-        error = validated_username();
-        if(error === 1){
-          error = validated_email();
-          if(error === 1){
-            error = validated_Phone();
-          }       
-        }
-      }
-        
-      
-			if(error === true){
-			}
-			else{
-				Swal.fire({
-				position: 'top',
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Something went wrong!',
-				})
-			}
-			return error;
-		};
-
-  $('#frmRegister').on('submit', function (e) {
-    e.preventDefault();
-
-    const username = $('#txtUsername').val();
-
-    {{!-- if (username.length === 0) {
-      alert('Họ tên null');
-      return;
-    } --}}
-
-    $.getJSON(`/account/is-available?user=${username}`, function (data) {
-      if (data === true) {
-        $('#frmRegister').off('submit').submit();
-      } else {
-        alert('Tên tài khoản đã tồn tại.');
-      }
-    })
-  });
-
-  $('#txtDOB').datetimepicker({
-    format: 'd/m/Y',
-    timepicker: false,
-    mask: true,
-  });
-
-    		var validated_name = function(){
-			var name = document.getElementById("txtName").value;
-			//var noticeName = document.getElementById("noticeName");
-			if(name === null || name === ''){
-				alert("Xin vui lòng điền họ và tên của bạn.");
-				return false;
-			}
-			else{
-				noticeName.innerHTML = "required";
-				return true;
-			}
-		}
-    var validated_username = function(){
-			var name = document.getElementById("txtUsername").value;
-			//var noticeName = document.getElementById("noticeName");
-			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên tài khoản của bạn.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-
-    var validated_password = function(){
-			var pass = document.getElementById("txtPassword").value;
-			if(pass === null || name === ''){
-				alert("Xin vui lòng điền mật khẩu của bạn.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-
-    var validated_confirm= function(){
-      var pass = document.getElementById("txtPassword").value;
-			var confirm = document.getElementById("txtConfirm").value;
-			if(confirm === null || confirm === '' || confirm !== pass){
-				alert("Xác nhận mật khẩu sai.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-
-		var validated_email = function(){
-			var email = document.getElementById("txtEmail").value;
-			//var noticeEmail = document.getElementById("noticeEmail");
-			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
-			if(reg_mail.test(email) === false){		
-				//noticeEmail.innerHTML = "";
-        alert("Email không hợp lệ.");
-				return false;
-			}
-			else{
-				//noticeEmail.innerHTML = "required";
-				return true;
-			}
-		}
-var validated_Phone = function(){
-			var name = document.getElementById("txtPhone").value;
-			//var noticeName = document.getElementById("noticeName");
-			if(name === null || name === ''||name.length != 10 ){
-				alert("Số điện thoại không hợp lệ.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-  
-</script>
-</body>
 </html>
