@@ -97,6 +97,12 @@ module.exports = {
 
     getChapterByCourseId: id => db.load(`select * from chapter where id_course = ${id}`),
     getLessonByChapterId: id => db.load(`select * from lesson where id_chapter = ${id}`),
+    async getLessonById(id) {
+        const rows = await db.load(`select * from lesson where id = '${id}'`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
     top5CourseOtherMostBuy: (id_course, id_category) => db.load(`SELECT *,count(ec.id_course) as members 
     FROM enroll_course as ec LEFT JOIN course as c ON ec.id_course = c.id
     WHERE ec.id_course != ${id_course} AND c.id_category = ${id_category}
