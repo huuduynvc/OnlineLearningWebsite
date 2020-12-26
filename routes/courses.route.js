@@ -180,7 +180,7 @@ function createRating(i, rating, name) {
         starSize: 15, 
     });
     if(${rating} != null)
-        rating$${name}${i}.setRating(${rating});
+        rating${name}${i}.setRating(${rating});
     </script>`
     return html;
 }
@@ -220,6 +220,7 @@ router.get('/:category/:id', async(req, res) => {
     course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
     course_detail.price = numeral(course_detail.price).format('0,0');
 
+    console.log(course_detail);
 
     const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     for (let i = 0; i < top5course.length; i++) {
@@ -227,11 +228,11 @@ router.get('/:category/:id', async(req, res) => {
         top5course[i].num_of_member = (await coursesModel.countMemberByCourseID(top5course[i].id))[0];
         top5course[i].rating = (await feedbackModel.getRatingByCourseId(top5course[i].id))[0];
     }
-    console.log(top5course);
+    //console.log(top5course);
     const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
     //console.log(teacher);
     const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
-    console.log(feedback);
+    //console.log(feedback);
     for (let i = 0; i < feedback.length; i++) {
         feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
         feedback[i].rating_star = createRating(i, feedback[i].rating, 'feedback');
@@ -248,6 +249,7 @@ router.get('/:category/:id', async(req, res) => {
         rating,
         num_of_member,
         menu: res.locals.menu,
+        category_url: req.params.category,
         layout: 'sub.handlebars'
     });
 });
@@ -273,6 +275,47 @@ router.post('/:category/:id', authRole, async(req, res) => {
     } else {
         res.render('/account/login');
     }
+
+});
+
+router.get('/:category/:id/:id_lesson', async(req, res) => {
+    await courseModel.update(req.params.id);
+    const course = await coursesModel.single(req.params.id);
+    const chapter = await coursesModel.getChapterByCourseId(req.params.id);
+    const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
+    var chapter_lesson = [];
+    for (let i = 0; i < chapter.length; i++) {
+        const les = await coursesModel.getLessonByChapterId(chapter[i].id);
+        var lesson = [];
+        for (let j = 0; j < les.length; j++) {
+            lesson.push({
+                ...les[j]
+            });
+        }
+
+        //console.log(lesson);
+
+        chapter_lesson.push({
+            ...chapter[i],
+            lesson
+        });
+    }
+
+    // console.log(chapter_lesson);
+    // console.log(chapter_lesson[0].lesson);
+
+    var course_detail = {
+        ...course[0],
+        chapter_lesson
+    }
+
+    res.render('vwCourse/lesson', {
+        course_detail,
+        lesson_detail,
+        category_url: req.params.category,
+        menu: res.locals.menu,
+        layout: 'sub.handlebars'
+    });
 
 });
 
