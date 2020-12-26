@@ -3,7 +3,7 @@ const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
 const coursesModel = require('../models/courses.model');
-const categoryModel = require('../models/categories.model');
+const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
 const numeral = require('numeral');
@@ -170,23 +170,24 @@ router.post('/', async(req, res) => {
     })
 });
 
-function createRating(i, rating) {
-    html = `<div id="rater${i}"></div>
+function createRating(i, rating, name) {
+    html = `<div id="rater${name}${i}"></div>
     <script>
-      var rating${i} = raterJs({
-        element:document.querySelector("#rater${i}"),
+      var rating${name}${i} = raterJs({
+        element:document.querySelector("#rater${name}${i}"),
         readOnly: true,
         max:5,
         starSize: 15, 
     });
     if(${rating} != null)
-        rating${i}.setRating(${rating});
+        rating$${name}${i}.setRating(${rating});
     </script>`
     return html;
 }
 
 router.get('/:category/:id', async(req, res) => {
 
+    await courseModel.update(req.params.id);
     const course = await coursesModel.single(req.params.id);
     const chapter = await coursesModel.getChapterByCourseId(req.params.id);
     var chapter_lesson = [];
@@ -233,7 +234,7 @@ router.get('/:category/:id', async(req, res) => {
     console.log(feedback);
     for (let i = 0; i < feedback.length; i++) {
         feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
-        feedback[i].rating_star = createRating(i, feedback[i].rating);
+        feedback[i].rating_star = createRating(i, feedback[i].rating, 'feedback');
     }
     const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
     //console.log(rating.num_of_rating);
@@ -246,28 +247,32 @@ router.get('/:category/:id', async(req, res) => {
         feedback,
         rating,
         num_of_member,
-        menu: req.session.menu,
+        menu: res.locals.menu,
         layout: 'sub.handlebars'
     });
 });
 
-router.post('/:category/:id', async(req, res) => {
-    var currentdate = new Date();
-    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-    console.log('123');
-    const feedback = {
-        rating: req.body.rating,
-        comment: req.body.msg,
-        id_course: req.params.id,
-        //test
-        id_user: 1,
-        creation_date: new Date(datetime),
-        modification_date: new Date(datetime),
-        status: 1,
-    }
-    console.log(await feedbackModel.add(feedback));
+router.post('/:category/:id', authRole, async(req, res) => {
+    if (req.session.isAuth) {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        const feedback = {
+            rating: req.body.rating,
+            comment: req.body.msg,
+            id_course: req.params.id,
+            id_user: req.session.authUser.id,
+            creation_date: new Date(datetime),
+            modification_date: new Date(datetime),
+            status: 1,
+        }
 
-    res.redirect('/:category/:id');
+        await feedbackModel.add(feedback);
+
+        let url = req.session.retUrl || '/';
+        res.redirect(url);
+    } else {
+        res.render('/account/login');
+    }
 
 });
 
