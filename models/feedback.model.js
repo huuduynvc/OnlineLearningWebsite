@@ -1,6 +1,7 @@
 const db = require('../utils/db');
 
 module.exports = {
+    add: entity => db.add('feedback', entity),
     getFeedbackByCourseId: course_id => db.load(`SELECT  u.fullname, u.avatar, f.*
     FROM feedback as f LEFT JOIN user as u on f.id_user = u.id
     WHERE id_course = ${course_id}`),

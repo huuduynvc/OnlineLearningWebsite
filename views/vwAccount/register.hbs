@@ -71,6 +71,7 @@
     </nav> <!-- .navbar -->
   </header>
 
+<<<<<<< HEAD
 {{#section 'js'}}
     <script src="/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript">
@@ -183,6 +184,65 @@
                         </div>
                     </div>
                 </div>
+=======
+  <main>
+    <div class="page-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+            <div class="card-sign mb-3">
+        {{#if err_message}}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {{err_message}}
+        </div>
+        {{/if}}
+              <div class="wrap">
+                <h1 class="text-center fg-primary">Đăng kí</h1>
+                <form class="mt-4" action="" method="POST" id="frmRegister">
+                  <div class="form-group">
+                    <label for="txtName">Họ và tên</label>
+                    <input type="text" class="form-control" id="txtName" name="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="txtUsername">Tên tài khoản</label>
+                    <input type="text" class="form-control" id="txtUsername" name="username">
+                  </div>
+                  <div class="form-group">
+                    <label for="txtPassword">Mật khẩu</label>
+                    <input type="password" class="form-control" id="txtPassword" name="password">
+                  </div>
+                  <div class="form-group">
+                    <label for="txtConfirm">Xác nhận mật knhẩu</label>
+                    <input type="password" class="form-control" id="txtConfirm" name="confirm">
+                  </div>
+                  <div class="form-group">
+                    <label for="txtEmail">Địa chỉ email</label>
+                    <input type="text" class="form-control" id="txtEmail" name="email">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="txtPhone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="txtPhone" name="phone">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                </form>
+              </div>
+            </div>
+
+            <p class="text-center">Bạn đã có tài khoản? Đăng nhập <a href="#">tại đây</a>.</p>
+
+            <div class="text-center space-up-48">
+              <small class="text-weight-bold fg-secondary">Đăng nhập với</small>
+              <div class="sosmed-button mt-2">
+                <a href="#" class="btn p-0 bg-facebook fg-white"><span class="mai-logo-facebook-f"></span></a>
+                <a href="#" class="btn p-0 bg-twitter fg-white"><span class="mai-logo-twitter"></span></a>
+                <a href="#" class="btn p-0 bg-google-plus fg-white"><span class="mai-logo-google"></span></a>
+              </div>
+>>>>>>> c352e5dfe069bfd12a7870d3b59c339e0e3a8556
             </div>
         </div>
         
@@ -209,4 +269,122 @@
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
 </script>
+<<<<<<< HEAD
+=======
+
+<script>
+      var validated = function(){
+			var error = validated_name();
+      if(error){
+        error = validated_username();
+        if(error){
+          error = validated_password();
+          if(error){
+            error = validated_confirm();
+            if(error){
+              error = validated_email();
+              if(error){
+                error = validated_Phone();
+              }
+            }
+          }       
+        }
+      }
+			return error;
+		};
+
+  $('#frmRegister').on('submit', function (e) {
+    
+
+    if(validated()){
+      e.preventDefault();
+      const username = $('#txtUsername').val();
+
+      $.getJSON(`/account/is-available?user=${username}`, function (data) {
+        if (data === true) {
+          $('#frmRegister').off('submit').submit();
+        } else {         
+          alert('Tên tài khoản đã tồn tại.');
+        }
+      })
+    }
+  });
+
+  $('#txtDOB').datetimepicker({
+    format: 'd/m/Y',
+    timepicker: false,
+    mask: true,
+  });
+
+    		var validated_name = function(){
+			var name = document.getElementById("txtName").value;
+			//var noticeName = document.getElementById("noticeName");
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền họ và tên của bạn.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+    var validated_username = function(){
+			var name = document.getElementById("txtUsername").value;
+			//var noticeName = document.getElementById("noticeName");
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên tài khoản của bạn.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+
+    var validated_password = function(){
+			var pass = document.getElementById("txtPassword").value;
+			if(pass === null || pass === ''){
+				alert("Xin vui lòng điền mật khẩu của bạn.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+
+    var validated_confirm= function(){
+      var pass = document.getElementById("txtPassword").value;
+			var confirm = document.getElementById("txtConfirm").value;
+			if(confirm === null || confirm === '' || confirm !== pass){
+				alert("Xác nhận mật khẩu sai.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+
+		var validated_email = function(){
+			var email = document.getElementById("txtEmail").value;
+			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
+			if(email === '' || email === null ||reg_mail.test(email) === false){		
+        alert("Email không hợp lệ.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+var validated_Phone = function(){
+			var phone = document.getElementById("txtPhone").value;
+			if(phone === null || phone === '' || phone.length !== 10 ){
+				alert("Số điện thoại không hợp lệ.");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+  
+</script>
+</body>
+>>>>>>> c352e5dfe069bfd12a7870d3b59c339e0e3a8556
 </html>

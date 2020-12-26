@@ -1,3 +1,10 @@
+{{#section 'css'}}
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{/section}}
 <main>
     <div class="page-section py-5">
       <div class="container">
@@ -23,24 +30,239 @@
       </div> <!-- .container -->
     </div> <!-- .page-section -->
 
-    <div class="page-section" id="about">
+    <div class="page-section bg-light">
       <div class="container">
-        <div class="row justify-content-center align-items-center">
-          <div class="col-lg-6 py-3 wow zoomIn">
-            <div class="video-container video-about">
-              <div class="wrap">
-                <img src="/img/bg_image_2.jpg" alt="">
-              </div>
-              <a class="video-play-button" data-fancybox href="https://www.youtube.com/watch?v=A0OIc3UMX7c"><span class="mai-play"></span></a>
-            </div>
-          </div>
-          <div class="col-lg-6 py-3 wow fadeInUp">
-            <div class="subhead">About Us</div>
-            <h2 class="title-section">We're The Best Online Course Platform</h2>
-            <p>Best online course with thousands expert tutor. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore</p>
-            <a href="about.html" class="btn btn-primary space-up-24">Learn More</a>
-          </div>
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học nổi bậc</h2>
         </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel1" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+        <div class="carousel-item active">
+					<div class="row row-cols-5">
+            {{#each topHot}}
+                <div class="col">
+                  <div class="thumb-wrapper">
+                    <div class="course-card">
+                      <div class="badge badge-danger">Hot</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="/course/{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
+                        <div class="rating">
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
+                          {{{this.rating_star}}}
+                        
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                        </div>
+                      </div>                     
+                    </div>
+                  </div>
+                </div>
+            {{/each}}
+      	  </div>
+			  </div>							
+			</div>
+		</div>
+    </div> <!-- .row -->
+          
+      </div> <!-- .container -->
+      <div class="container">
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học mới nhất</h2>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel2" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+        <div class="carousel-item active">
+					<div class="row row-cols-5">
+            {{#each topNew1}}
+                <div class="col">
+                  <div class="thumb-wrapper">
+                    <div class="course-card">
+                      <div class="badge badge-success">New</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="/course/{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
+                        <div class="rating">
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
+                          {{{this.rating_star}}}
+                        
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                        </div>
+                      </div>                     
+                    </div>
+                  </div>
+                </div>
+            {{/each}}
+      	  </div>
+			  </div>
+
+        <div class="carousel-item">
+					<div class="row row-cols-5">
+            {{#each topNew2}}
+                <div class="col">
+                  <div class="thumb-wrapper">
+
+                    <div class="course-card">
+                      <div class="badge badge-success">New</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="/course/{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <div class="rating-row">
+                          <span class="number-rating"><b>{{rating}}</b></span>
+                          {{{this.rating_star}}}
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                        </div>
+                      </div>                     
+                    </div>
+                  </div>
+                </div>
+            {{/each}}
+      	  </div>
+			  </div>								
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel2" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+		</div>
+    </div> <!-- .row -->
+          
+      </div> <!-- .container -->
+      <div class="container">
+        <div class="text-center wow fadeInUp">
+          <h2 class="title-section">Khóa học xem nhiều nhất</h2>
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div id="myCarousel3" class="carousel slide" data-ride="carousel" data-interval="0">
+			<!-- Wrapper for carousel items -->
+			<div class="carousel-inner">
+        <div class="carousel-item active">
+					<div class="row row-cols-5">
+            {{#each topView1}}
+                <div class="col">
+                  <div class="thumb-wrapper">
+                    <div class="course-card">
+                      <div class="badge badge-danger">Hot</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="/course/{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
+                        <div class="rating">
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
+                          {{{this.rating_star}}}
+                        
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                        </div>
+                      </div>                     
+                    </div>
+                  </div>
+                </div>
+            {{/each}}
+      	  </div>
+			  </div>
+
+        <div class="carousel-item">
+					<div class="row row-cols-5">
+            {{#each topView2}}
+                <div class="col">
+                  <div class="thumb-wrapper">
+
+                    <div class="course-card">
+                      <div class="badge badge-danger">Hot</div>
+                      <div class="header">
+                        <img src="/img/course/{{id}}.jpg" alt="">
+                      </div>
+                      <div class="content text-left">
+                        <p class="course-title"><a href="/course/{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                        </br>
+                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          {{#each this.teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}                         
+                        </small>
+                        <div class="rating-row">
+                          <span class="number-rating"><b>{{rating}}</b></span>
+                          {{{this.rating_star}}}
+                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                        </div>
+                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                          <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                        </div>
+                      </div>                     
+                    </div>
+                  </div>
+                </div>
+            {{/each}}
+      	  </div>
+			  </div>								
+			</div>
+			<!-- Carousel controls -->
+			<a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control-next" href="#myCarousel3" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+		</div>
+    </div> <!-- .row -->
+          
       </div> <!-- .container -->
     </div> <!-- .page-section -->
 
@@ -191,104 +413,6 @@
       </div> <!-- .container -->
     </div> <!-- .page-section -->
 
-    <div class="page-section bg-light">
-      </div> <!-- .container -->
-      <div class="container">
-        <div class="text-center wow fadeInUp">
-          <h2 class="title-section">Khóa học mới nhất</h2>
-        </div>
-        <div class="row justify-content-center mt-4">
-          <div id="myCarousel2" class="carousel slide" data-ride="carousel" data-interval="0">
-			<!-- Wrapper for carousel items -->
-			<div class="carousel-inner">
-        <div class="carousel-item active">
-					<div class="row row-cols-5">
-            {{#each topNew1}}
-                <div class="col">
-                  <div class="thumb-wrapper">
-                    <div class="course-card">
-                      <div class="badge badge-success">Mới</div>
-                      <div class="header">
-                        <img src="/img/course/{{id}}.jpg" alt="">
-                      </div>
-                      <div class="content text-left">
-                        <p class="course-title"><a href="{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
-                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
-                        </br>
-                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          {{#each this.teacher}}
-                          {{this.fullname}}, 
-                          {{/each}}                         
-                        </small>
-                        <div class="rating">
-                          <span class="number-rating"><b>{{rating}}</b></span>
-                          {{!-- <span class="mai-star"></span> --}}
-                          <input type="hidden" class="rating" value="2"/>
-                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
-                        </div>
-                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del class="text-muted">{{this.price}}</del>
-                        </div>
-                      </div>                     
-                    </div>
-                  </div>
-                </div>
-            {{/each}}
-      	  </div>
-			  </div>
-
-        <div class="carousel-item">
-					<div class="row row-cols-5">
-            {{#each topNew2}}
-                <div class="col">
-                  <div class="thumb-wrapper">
-
-                    <div class="course-card">
-                      <div class="badge badge-success">Mới</div>
-                      <div class="header">
-                        <img src="/img/course/{{id}}.jpg" alt="">
-                      </div>
-                      <div class="content text-left">
-                        <p class="course-title"><a href="{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
-                        <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
-                        </br>
-                        <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          {{#each this.teacher}}
-                          {{this.fullname}}, 
-                          {{/each}}                         
-                        </small>
-                        <div class="rating">
-                          <span class="number-rating"><b>{{rating}}</b></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
-                          <span class="mai-star"></span>
-                          <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
-                        </div>
-                        <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                          <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del class="text-muted">{{this.price}}</del>
-                        </div>
-                      </div>                     
-                    </div>
-                  </div>
-                </div>
-            {{/each}}
-      	  </div>
-			  </div>								
-			</div>
-			<!-- Carousel controls -->
-			<a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
-				<i class="fa fa-angle-left"></i>
-			</a>
-			<a class="carousel-control-next" href="#myCarousel2" data-slide="next">
-				<i class="fa fa-angle-right"></i>
-			</a>
-		</div>
-    </div> <!-- .row -->
-          
-      </div> <!-- .container -->
-    </div> <!-- .page-section -->
-
     <div class="page-section">
       <div class="container">
         <div class="owl-carousel testimonial-single wow fadeInUp">
@@ -324,39 +448,14 @@
       </div> <!-- .container -->
     </div> <!-- .page-section -->
 
-    <div class="page-section">
-      <div class="container">
-        <div class="text-center wow fadeInUp">
-          <h2 class="title-section mb-3">Download Our Application</h2>
-          <p>To get easy access and powerful features, download the application on Apps Store.<br>Raise your Success Career with <a href="#" class="text-weight-semibold">Rekdu app</a>.</p>
-          <div class="mt-4">
-            <a href="#" class="d-inline-block">
-              <img src="/img/google_play.svg" alt="">
-            </a>
-            <a href="#" class="d-inline-block">
-              <img src="/img/app_store.svg" alt="">
-            </a>
-          </div>
-        </div>
-
-        <div class="row justify-content-center mt-5 wow zoomIn">
-          <div class="col-lg-8">
-            <div class="img-place">
-              <img src="/img/layout_preview.png" alt="">
-            </div>
-          </div>
-        </div>
-      </div> <!-- .container -->
-    </div> <!-- .page-section -->
-
     <div class="page-banner overlay-primary bg-img" style="background-image: url(/img/bg_image_3.jpg);">
       <div class="hero-section">
         <div class="container">
           <div class="row justify-content-center text-center wow fadeInUp">
             <div class="col-lg-8">
-              <h2>Become a Tutor?</h2>
-              <p>Join thousands of expert tutors. Earn money sharing your expert knowledge from the comfort of your home.</p>
-              <a href="#" class="btn btn-success space-up-24">Join Now!</a>
+              <h2>Trở thành giáo viên?</h2>
+              <p>Tham gia cùng hàng ngàn gia sư, chuyên gia. Kiếm tiền từ việc chia sẻ kiến ​​thức chuyên môn của bạn từ sự thoải mái ngay tại nhà của bạn.</p>
+              <a href="#" class="btn btn-success space-up-24">Tham gia ngay!</a>
             </div>
           </div>
         </div> <!-- .container -->
