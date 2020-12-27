@@ -176,4 +176,6 @@ module.exports = function(app) {
     app.use('/account', require('../routes/account.route'));
     // course
     app.use('/course', require('../routes/courses.route'));
+
+    app.use('/admin', require('../routes/admin.route'));
 }
