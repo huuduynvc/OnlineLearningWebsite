@@ -12,7 +12,7 @@
       <ol class="breadcrumb" style="background-color: #ffffff!important; margin-bottom:0px!important">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
         <li class="breadcrumb-item"><a href="">Khóa học</a></li>
-        <li class="breadcrumb-item"><a href="/course/{{category_url}}/{{course_detail.id}}">{{course_detail.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/course/{{course_detail.id}}">{{course_detail.name}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{lesson_detail.name}}</li>
       </ol>
     </nav>
@@ -53,7 +53,7 @@
 
                   {{#each this.lesson}}
                   <div class="card-body border-bottom">
-                    <a style="color: black;" href="../{{../../course_detail.id}}/{{this.id}}">{{this.name}}</a>
+                    <a style="color: black;" href="../lesson/{{this.id}}">{{this.name}}</a>
                   </div>
                   {{/each}}
                 </div>
