@@ -1,0 +1,27 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm lĩnh vực</h1>
+</div>
+
+<div class="row">
+  <form method="POST">
+    <input type="hidden" id="txtId" name="txtId" value="{{category.id}}">
+    <div class="form-group">
+      <label for="txtName">Tên lĩnh vực</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" aria-describedby="emailHelp" value="{{category.name}}">
+    </div>
+    <div class="form-group">
+      <div><label for="parent">Lĩnh vực cha</label></div>
+      <select name="parent" id="parent">
+        <option value="{{category.id}}" selected="selected">{{parent_name}}</option>
+        {{#each categories}}
+        <option value={{id}}>{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="txtUrl">URL</label>
+      <input type="text" class="form-control" id="txtUrl" name="txtUrl" aria-describedby="emailHelp" value="{{category.url}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Thay đổi</button>
+  </form>  
+</div>
