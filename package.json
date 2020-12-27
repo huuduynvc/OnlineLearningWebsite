@@ -1,38 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "onlinelearningwebsite",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/huuduy-web/OnlineLearningWebsite.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/huuduy-web/OnlineLearningWebsite/issues"
-  },
-  "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-handlebars": "^5.2.0",
-    "express-handlebars-sections": "^1.0.1",
-    "express-session": "^1.17.1",
-    "moment": "^2.29.1",
-    "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
-    "numeral": "^2.0.6",
-    "uid": "^2.0.0"
-  },
-  "devDependencies": {}
-=======
     "name": "onlinelearningwebsite",
     "version": "1.0.0",
     "description": "",
@@ -53,7 +19,6 @@
     "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
     "dependencies": {
         "bcryptjs": "^2.4.3",
-        "bootstrap-star-rating": "^4.0.6",
         "express": "^4.17.1",
         "express-async-errors": "^3.1.1",
         "express-handlebars": "^5.2.0",
@@ -63,9 +28,7 @@
         "morgan": "^1.10.0",
         "mysql": "^2.18.1",
         "numeral": "^2.0.6",
-        "rater-js": "^1.0.1",
         "uid": "^2.0.0"
     },
     "devDependencies": {}
->>>>>>> c352e5dfe069bfd12a7870d3b59c339e0e3a8556
 }

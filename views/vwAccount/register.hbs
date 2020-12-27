@@ -70,121 +70,6 @@
       </div> <!-- .container -->
     </nav> <!-- .navbar -->
   </header>
-
-<<<<<<< HEAD
-{{#section 'js'}}
-    <script src="/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript">
-            $('#txtDOB').datepicker({
-                format: 'd/m/yyyy',
-                autoclose: true
-            });
-        </script>   
-    <script>
-    document.getElementById('subscribeForm').addEventListener('submit', submitForm);
-
-    function submitForm(e){
-      e.preventDefault();
-      
-      const name = $("input[name=name]").val();
-      const email = $("input[name=email]").val();
-      const username = $("input[name=username]").val();
-      const dob = $("input[name=dob]").val();
-      const password = $("input[name=password]").val();
-
-      const captcha = document.querySelector('#g-recaptcha-response').value;
-
-      fetch('/account/register', {
-        method:'POST',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-type':'application/json'
-        },
-        body:JSON.stringify({name:name, email: email, username:username, password:password, dob:dob, captcha: captcha})
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        alert(data.msg);
-        
-      });
-    }
-  </script>
-{{/section}}
-        <div class="login-form section text-center">
-            <div class="container">
-                <h4 class="rad-txt">
-                    <a href="/account/login"><span class="abtxt1">Đăng nhập</span></a>
-                    
-                    <a href="/account/register" >
-                        <span class="abtext">Đăng kí</span>
-                    </a>
-                </h4>
-                <!-- form signup -->
-                <div id="signupbox" style="margin-top:50px" class="mainbox loginbox">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="panel-title">Đăng kí</div>           
-                        </div>
-                            <div class="panel-body">
-                                <form id="subscribeForm" class="form-horizontal">
-                                    {{#if data.showError}}
-                                    <div id="signupalert" class="alert alert-danger">
-                                        <p>Error: {{data.errorMsg}}</p>
-                                        <span></span>
-                                    </div>
-                                    {{/if}}
-                                  <div class="form-group">
-                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Email</label>
-                                    <div class="col-md-9 col-sm-9 col-xs-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Địa chỉ Email" required="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Tên Tài khoản</label>
-                                    <div class="col-md-9 col-sm-9 col-xs-9">
-                                        <input type="text" class="form-control" name="username" placeholder="Tên tài khoản của bạn" required="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Họ tên</label>
-                                    <div class="col-md-9 col-sm-9 col-xs-9">
-                                        <input type="text" class="form-control" name="name" placeholder="Tên của bạn" required="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">Mật khẩu</label>
-                                    <div class="col-md-9 col-sm-9 col-xs-9">
-                                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="txtDOB" class="col-md-3 col-sm-3 col-xs-3 control-label">Ngày sinh</label>
-                                    <div class="col-md-9 col-sm-9 col-xs-9">
-                                        <input id="txtDOB" type="text" class="form-control" name="dob" placeholder="ngày sinh" required=""><i class="icon-calendar"></i></input>
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <div class="col-md-3"></div>
-                                    <div class="g-recaptcha col-md-9" data-sitekey="6LdgDVYUAAAAAExWfTTdL9aAcqPXaXLp0f-KlFLR"></div>
-                                </div>
-                                <div class="signup-btn form-group">
-                                    <button id="btn-signup" type="Submit" class="btn btn-info">
-                                        <i class="icon-hand-right"></i> &nbsp; Đăng kí</button>
-                                </div>
-                                  <!-- <input type="submit" value="Submit" class="btn btn-primary"> -->
-                                  <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
-                                    <div class="f-btn">
-                                        <button id="btn-fbsignup" type="button" class="btn btn-primary">
-                                            <i class="icon-facebook"></i> Đăng kí bằng Facebook</button>
-                                    </div>
-                                </div>
-                                </form>
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-=======
   <main>
     <div class="page-section">
       <div class="container">
@@ -242,7 +127,6 @@
                 <a href="#" class="btn p-0 bg-twitter fg-white"><span class="mai-logo-twitter"></span></a>
                 <a href="#" class="btn p-0 bg-google-plus fg-white"><span class="mai-logo-google"></span></a>
               </div>
->>>>>>> c352e5dfe069bfd12a7870d3b59c339e0e3a8556
             </div>
         </div>
         
@@ -268,9 +152,7 @@
 
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
-</script>
-<<<<<<< HEAD
-=======
+</script>                                                                                 
 
 <script>
       var validated = function(){
@@ -292,14 +174,11 @@
       }
 			return error;
 		};
-
   $('#frmRegister').on('submit', function (e) {
     
-
     if(validated()){
       e.preventDefault();
       const username = $('#txtUsername').val();
-
       $.getJSON(`/account/is-available?user=${username}`, function (data) {
         if (data === true) {
           $('#frmRegister').off('submit').submit();
@@ -309,13 +188,11 @@
       })
     }
   });
-
   $('#txtDOB').datetimepicker({
     format: 'd/m/Y',
     timepicker: false,
     mask: true,
   });
-
     		var validated_name = function(){
 			var name = document.getElementById("txtName").value;
 			//var noticeName = document.getElementById("noticeName");
@@ -338,7 +215,6 @@
 				return true;
 			}
 		}
-
     var validated_password = function(){
 			var pass = document.getElementById("txtPassword").value;
 			if(pass === null || pass === ''){
@@ -349,7 +225,6 @@
 				return true;
 			}
 		}
-
     var validated_confirm= function(){
       var pass = document.getElementById("txtPassword").value;
 			var confirm = document.getElementById("txtConfirm").value;
@@ -361,7 +236,6 @@
 				return true;
 			}
 		}
-
 		var validated_email = function(){
 			var email = document.getElementById("txtEmail").value;
 			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
@@ -386,5 +260,4 @@ var validated_Phone = function(){
   
 </script>
 </body>
->>>>>>> c352e5dfe069bfd12a7870d3b59c339e0e3a8556
 </html>

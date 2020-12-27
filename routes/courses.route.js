@@ -7,6 +7,7 @@ const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
 const numeral = require('numeral');
+const e = require('express');
 
 router.get('/', async(req, res) => {
     let page = parseInt(req.query.page) || 1;
@@ -185,7 +186,7 @@ function createRating(i, rating, name) {
     return html;
 }
 
-router.get('/:category/:id', async(req, res) => {
+router.get('/:id', async(req, res) => {
 
     await courseModel.update(req.params.id);
     const course = await coursesModel.single(req.params.id);
@@ -212,7 +213,7 @@ router.get('/:category/:id', async(req, res) => {
     // console.log(chapter_lesson[0].lesson);
 
     var course_detail = {
-        ...course[0],
+        ...course,
         chapter_lesson
     }
 
@@ -249,12 +250,11 @@ router.get('/:category/:id', async(req, res) => {
         rating,
         num_of_member,
         menu: res.locals.menu,
-        category_url: req.params.category,
         layout: 'sub.handlebars'
     });
 });
 
-router.post('/:category/:id', authRole, async(req, res) => {
+router.post('/:id', authRole, async(req, res) => {
     if (req.session.isAuth) {
         var currentdate = new Date();
         var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
@@ -278,7 +278,7 @@ router.post('/:category/:id', authRole, async(req, res) => {
 
 });
 
-router.get('/:category/:id/:id_lesson', async(req, res) => {
+router.get('/:id/lesson/:id_lesson', async(req, res) => {
     await courseModel.update(req.params.id);
     const course = await coursesModel.single(req.params.id);
     const chapter = await coursesModel.getChapterByCourseId(req.params.id);
@@ -305,17 +305,56 @@ router.get('/:category/:id/:id_lesson', async(req, res) => {
     // console.log(chapter_lesson[0].lesson);
 
     var course_detail = {
-        ...course[0],
+        ...course,
         chapter_lesson
     }
 
     res.render('vwCourse/lesson', {
         course_detail,
         lesson_detail,
-        category_url: req.params.category,
         menu: res.locals.menu,
         layout: 'sub.handlebars'
     });
+
+});
+
+router.get('/:id/buy', async(req, res) => {
+    const course = await coursesModel.single(req.params.id);
+
+    course.modification_date = moment(course.modification_date).format('hh:mm:ss DD/MM/YYYY');
+    course.current_price = numeral(course.price - course.price * course.offer / 100).format('0,0');
+    course.price = numeral(course.price).format('0,0');
+
+    const teacher = await teacherModel.getTeacherByCourseId(course.id);
+
+    console.log(course);
+
+    res.render('vwCourse/buy-course', {
+        course,
+        teacher,
+        menu: res.locals.menu,
+        layout: 'sub.handlebars'
+    });
+
+});
+
+router.post('/:id/buy', authRole, async(req, res) => {
+    if (req.session.isAuth) {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        const enroll = {
+            id_course: req.params.id,
+            id_user: req.session.authUser.id,
+            enroll_date: new Date(datetime),
+            status: 1,
+        }
+
+        await courseModel.enrollCourse(enroll);
+
+        res.redirect(`/course/${req.params.id}`);
+    } else {
+        res.render('/account/login');
+    }
 
 });
 

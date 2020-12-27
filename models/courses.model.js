@@ -2,8 +2,13 @@ const db = require('../utils/db');
 
 module.exports = {
     all: () => db.load('select * from course'),
-    single: id => db.load(`select * from course where id = ${id}`),
-    add: entity => db.add('course', entity),
+    async single(id) {
+        const rows = await db.load(`select * from course where id = ${id}`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
+    enrollCourse: entity => db.add('enroll_course', entity),
     del: id => db.del('course', { id: id }),
     update: id => db.load(`UPDATE course SET view = view + 1 WHERE id = '${id}'`),
     patch: (entity, id) => {
