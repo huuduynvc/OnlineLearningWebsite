@@ -2,7 +2,6 @@ const express = require('express');
 const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
-const coursesModel = require('../models/courses.model');
 const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
@@ -189,11 +188,11 @@ function createRating(i, rating, name) {
 router.get('/:id', async(req, res) => {
 
     await courseModel.update(req.params.id);
-    const course = await coursesModel.single(req.params.id);
-    const chapter = await coursesModel.getChapterByCourseId(req.params.id);
+    const course = await courseModel.single(req.params.id);
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
     var chapter_lesson = [];
     for (let i = 0; i < chapter.length; i++) {
-        const les = await coursesModel.getLessonByChapterId(chapter[i].id);
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
         var lesson = [];
         for (let j = 0; j < les.length; j++) {
             lesson.push({
@@ -223,10 +222,10 @@ router.get('/:id', async(req, res) => {
 
     console.log(course_detail);
 
-    const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
+    const top5course = await courseModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     for (let i = 0; i < top5course.length; i++) {
         top5course[i].modification_date = moment(top5course[i].modification_date).format('DD/MM/YYYY');
-        top5course[i].num_of_member = (await coursesModel.countMemberByCourseID(top5course[i].id))[0];
+        top5course[i].num_of_member = (await courseModel.countMemberByCourseID(top5course[i].id))[0];
         top5course[i].rating = (await feedbackModel.getRatingByCourseId(top5course[i].id))[0];
     }
     //console.log(top5course);
@@ -240,7 +239,7 @@ router.get('/:id', async(req, res) => {
     }
     const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
     //console.log(rating.num_of_rating);
-    const num_of_member = (await coursesModel.countMemberByCourseID(course_detail.id))[0];
+    const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
 
     res.render('vwCourse/course-detail', {
         course_detail,
@@ -280,12 +279,12 @@ router.post('/:id', authRole, async(req, res) => {
 
 router.get('/:id/lesson/:id_lesson', async(req, res) => {
     await courseModel.update(req.params.id);
-    const course = await coursesModel.single(req.params.id);
-    const chapter = await coursesModel.getChapterByCourseId(req.params.id);
+    const course = await courseModel.single(req.params.id);
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
     const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
     var chapter_lesson = [];
     for (let i = 0; i < chapter.length; i++) {
-        const les = await coursesModel.getLessonByChapterId(chapter[i].id);
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
         var lesson = [];
         for (let j = 0; j < les.length; j++) {
             lesson.push({
@@ -319,7 +318,7 @@ router.get('/:id/lesson/:id_lesson', async(req, res) => {
 });
 
 router.get('/:id/buy', async(req, res) => {
-    const course = await coursesModel.single(req.params.id);
+    const course = await courseModel.single(req.params.id);
 
     course.modification_date = moment(course.modification_date).format('hh:mm:ss DD/MM/YYYY');
     course.current_price = numeral(course.price - course.price * course.offer / 100).format('0,0');
