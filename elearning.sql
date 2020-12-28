@@ -48,14 +48,14 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_parent` int(11) NOT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `name` (`name`),
   FULLTEXT KEY `name_2` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (2,'Công nghệ thông tin',0,NULL),(3,'Lập trình web',2,'/web'),(4,'Lập trình thiết bị di động',2,'/mobile'),(8,'Âm nhạc',0,''),(9,'Nhạc cụ',8,'/instrument'),(10,'Ngoại ngữ',0,''),(11,'Tiếng Anh',10,'/english'),(12,'Tiếng Pháp',10,'/french'),(13,'Luyện thanh',8,'/vocal');
+INSERT INTO `category` VALUES (2,'Công nghệ thông tin',0,NULL),(3,'Lập trình web',2,'/web'),(4,'Lập trình thiết bị di động',2,'/mobile'),(8,'Âm nhạc',0,''),(9,'Nhạc cụ',8,'/instrument'),(10,'Ngoại ngữ',0,''),(11,'Tiếng Anh',10,'/english'),(12,'Tiếng Pháp',10,'/french'),(13,'Luyện thanh',8,'/vocal'),(15,'Lập trình window',2,'/window');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,13 +76,11 @@ DROP TABLE IF EXISTS `chapter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chapter` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_course` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_CHAPTER_COURSE_idx` (`id_course`),
-  CONSTRAINT `FK_CHAPTER_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +89,7 @@ CREATE TABLE `chapter` (
 
 LOCK TABLES `chapter` WRITE;
 /*!40000 ALTER TABLE `chapter` DISABLE KEYS */;
-INSERT INTO `chapter` VALUES (1,'Chương 1: Mở đầu',1),(2,'Chương 2: Kiến thức cơ bản',1),(3,'Chương 3: Kiến thức nâng cao',1),(4,'Chương 4: Bài tập áp dụng',1),(5,'Chương 5: Tổng kết',1),(6,'Chương 1: Mở đầu',2),(7,'Chương 2: Kiến thức cơ bản',2),(8,'Chương 3: Kiến thức nâng cao',2),(9,'Chương 4: Bài tập áp dụng',2),(10,'Chương 5: Tổng kết',2),(11,'Chương 1: Mở đầu',3),(12,'Chương 2: Kiến thức cơ bản',3),(13,'Chương 3: Kiến thức nâng cao',3),(14,'Chương 4: Bài tập áp dụng',3),(15,'Chương 5: Tổng kết',3);
+INSERT INTO `chapter` VALUES (1,'Chương 1: Mở đầu',1),(2,'Chương 2: Kiến thức cơ bản',1),(3,'Chương 3: Kiến thức nâng cao',1),(4,'Chương 4: Bài tập áp dụng',1),(5,'Chương 5: Tổng kết',1),(6,'Chương 1: Mở đầu',2),(7,'Chương 2: Kiến thức cơ bản',2),(8,'Chương 3: Kiến thức nâng cao',2),(9,'Chương 4: Bài tập áp dụng',2),(10,'Chương 5: Tổng kết',2),(11,'Chương 1: Mở đầu',3),(12,'Chương 2: Kiến thức cơ bản',3),(13,'Chương 3: Kiến thức nâng cao',3),(14,'Chương 4: Bài tập áp dụng',3),(15,'Chương 5: Tổng kết',3),(17,'Chương 6: Project thực tế',1),(18,'Chương 1: Giới thiệu khóa học',4),(19,'Chương 2: Ôn tâp kiến thức cơ bản',4),(20,'Chương 3: Lý thuyết khóa học',4),(21,'Chương 4: Bài tâp thực hành',4),(22,'Chương 1: Giới thiệu khóa học',30),(23,'Chương 2: Ôn tâp kiến thức cơ bản',30),(24,'Chương 1: Giới thiệu khóa học',31),(25,'Chương 2: Ôn tâp kiến thức cơ bản',31),(26,'Chương 3: Lý thuyết khóa học',31);
 /*!40000 ALTER TABLE `chapter` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +101,7 @@ DROP TABLE IF EXISTS `course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `course` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `price` int(11) DEFAULT NULL,
   `offer` int(11) DEFAULT NULL,
@@ -115,12 +113,10 @@ CREATE TABLE `course` (
   `view` int(11) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_COURSE_CATEGORY_idx` (`id_category`),
   FULLTEXT KEY `name` (`name`,`description`),
   FULLTEXT KEY `name_2` (`name`),
-  FULLTEXT KEY `description` (`description`),
-  CONSTRAINT `FK_COURSE_CATEGORY` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  FULLTEXT KEY `description` (`description`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +125,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3,11,NULL),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3,50,NULL),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4,100,NULL),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4,70,NULL),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3,4,NULL),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3,80,NULL),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4,NULL,NULL),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4,90,NULL),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3,8,NULL),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3,NULL,NULL),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11,NULL,NULL),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12,120,NULL),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9,NULL,NULL),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13,121,NULL);
+INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',199000,0,'2020-07-28 19:07:52','2020-07-28 19:07:52','Khoá học cung cấp cho học viên đầy đủ các kỹ năng lập trình php căn bản thông qua các ví dụ để học viên có thể thực hành theo và ứng dụng vào thực tế. Điểm khác biệt của khóa học là nội dung đầy đủ, thực hành chi tiết, cung cấp đủ thời lượng để bạn có thể hiểu được bản chất của việc lập trình PHP cơ bản Lộ trình học tập: Khóa học cơ bản gồm 2 phần: + Phần một là lý thuyết cơ bản về ngôn ngữ PHP + Phần hai là học thực hành để hiểu bản chất, ứng dụng thực tế',1,3,126,NULL),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3,57,NULL),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4,100,NULL),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4,73,NULL),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3,4,NULL),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3,80,NULL),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4,NULL,NULL),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4,90,NULL),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3,8,NULL),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3,NULL,NULL),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11,NULL,NULL),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12,120,NULL),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9,NULL,NULL),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13,124,NULL),(29,'Lập trình java nâng cao',200000,10,'2020-12-28 08:06:32','2020-12-28 08:06:32','<p><strong>Lập tr&igrave;nh java n&acirc;ng cao</strong></p>',1,4,NULL,NULL),(30,'Lập trình web nâng cao',250000,20,'2020-12-28 16:36:02','2020-12-28 16:36:02','<p>Kh&oacute;a học lập tr&igrave;nh web n&acirc;ng cao</p>',1,3,NULL,NULL),(31,'Lập trình window nâng cao',250000,50,'2020-12-28 16:44:26','2020-12-28 16:44:26','<p>Lập tr&igrave;nh window n&acirc;ng cao</p>',1,15,NULL,NULL);
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,9 +141,7 @@ CREATE TABLE `course_teacher` (
   `id_teacher` int(11) NOT NULL,
   `id_course` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_CT_COURSE_idx` (`id_course`),
   KEY `FK_CT_TEACHER_idx` (`id_teacher`),
-  CONSTRAINT `FK_CT_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_CT_TEACHER` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,13 +164,13 @@ DROP TABLE IF EXISTS `enroll_course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `enroll_course` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_course` int(11) NOT NULL,
   `enroll_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +179,7 @@ CREATE TABLE `enroll_course` (
 
 LOCK TABLES `enroll_course` WRITE;
 /*!40000 ALTER TABLE `enroll_course` DISABLE KEYS */;
-INSERT INTO `enroll_course` VALUES (1,2,1,'2020-12-06 19:07:52',1),(2,2,2,'2020-12-03 19:07:52',1),(3,1,2,'2020-05-03 19:07:52',1),(4,3,2,'2020-12-03 19:07:52',1),(5,1,5,'2020-12-22 19:07:52',1),(6,1,7,'2020-12-22 19:07:52',1),(7,2,7,'2020-12-04 19:07:52',1),(8,3,3,'2020-12-04 19:07:52',1),(9,4,11,'2020-12-04 19:07:52',1),(10,4,12,'2020-12-22 19:07:52',1),(11,4,13,'2020-12-04 19:07:52',1),(12,4,14,'2020-12-22 19:07:52',1);
+INSERT INTO `enroll_course` VALUES (1,2,1,'2020-12-06 19:07:52',1),(2,2,2,'2020-12-03 19:07:52',1),(3,1,2,'2020-05-03 19:07:52',1),(4,3,2,'2020-12-03 19:07:52',1),(5,1,5,'2020-12-22 19:07:52',1),(6,1,7,'2020-12-22 19:07:52',1),(7,2,7,'2020-12-04 19:07:52',1),(8,3,3,'2020-12-04 19:07:52',1),(9,4,11,'2020-12-04 19:07:52',1),(10,4,12,'2020-12-22 19:07:52',1),(11,4,13,'2020-12-04 19:07:52',1),(12,4,14,'2020-12-22 19:07:52',1),(13,31,1,'2020-12-27 10:28:31',1),(14,31,2,'2020-12-27 10:31:28',1);
 /*!40000 ALTER TABLE `enroll_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,10 +199,8 @@ CREATE TABLE `feedback` (
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_FEEDBACK_COURSE_idx` (`id_course`),
-  CONSTRAINT `FK_FEEDBACK_COURSE` FOREIGN KEY (`id_course`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +209,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,2,9,'Amazing goodjob em',5,'2020-08-02 20:07:52','2020-08-02 20:07:52',1),(2,3,10,'Very good',4,'2020-08-03 20:07:52','2020-08-03 20:07:52',1),(3,4,6,'Tuyệt vời',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(4,2,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(5,2,7,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(6,2,10,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(7,1,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(8,2,5,'Good',3,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(9,1,1,'Good',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(10,1,1,'Khóa học rất hay',4,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(12,1,1,'Bài tập hơi ít',3,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(13,1,1,'Tệ',1,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(15,1,1,'Tệ',5,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(16,31,1,'hay',5,'2020-12-26 05:54:00','2020-12-26 05:54:00',1),(17,31,1,'dỡ ẹt',1,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(18,3,3,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(19,3,4,'Hay lắm',4,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(20,2,8,'good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(21,34,12,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(22,34,14,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1);
+INSERT INTO `feedback` VALUES (1,2,9,'Amazing goodjob em',5,'2020-08-02 20:07:52','2020-08-02 20:07:52',1),(2,3,10,'Very good',4,'2020-08-03 20:07:52','2020-08-03 20:07:52',1),(3,4,6,'Tuyệt vời',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(4,2,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(5,2,7,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(6,2,10,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(7,1,6,'Bad',1,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(8,2,5,'Good',3,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(9,1,1,'Good',5,'2020-08-04 20:07:52','2020-08-04 20:07:52',1),(10,1,1,'Khóa học rất hay',4,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(12,1,1,'Bài tập hơi ít',3,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(13,1,1,'Tệ',1,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(15,1,1,'Tệ',5,'2020-12-25 16:07:28','2020-12-25 16:07:28',1),(16,31,1,'hay',5,'2020-12-26 05:54:00','2020-12-26 05:54:00',1),(17,31,1,'dỡ ẹt',1,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(18,3,3,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(19,3,4,'Hay lắm',4,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(20,2,8,'good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(21,34,12,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(22,34,14,'Good',5,'2020-12-26 05:54:44','2020-12-26 05:54:44',1),(23,31,14,'hay lawms',5,'2020-12-26 13:52:54','2020-12-26 13:52:54',1);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +221,7 @@ DROP TABLE IF EXISTS `lesson`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `lesson` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   `video` varchar(255) DEFAULT NULL,
@@ -237,10 +229,8 @@ CREATE TABLE `lesson` (
   `modification_date` datetime DEFAULT NULL,
   `id_chapter` int(11) NOT NULL,
   `status` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_LESSON_CHAPTER_idx` (`id_chapter`),
-  CONSTRAINT `FK_LESSON_CHAPTER` FOREIGN KEY (`id_chapter`) REFERENCES `chapter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +239,7 @@ CREATE TABLE `lesson` (
 
 LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-INSERT INTO `lesson` VALUES (1,'Bài 1: Giới thiệu khóa học','Giới thiệu khóa học',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(2,'Bài 2: Cài đặt phần mềm cần thiết','Cài đặt phần mềm cần thiết',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(3,'Bài 3: Ôn tập kiến thức cơ bản','Ôn tập kiến thức cơ bản',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(4,'Bài 4: Giới thiệu kiến thức mới','Giới thiệu kiến thức mới',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1);
+INSERT INTO `lesson` VALUES (1,'Bài 1: Giới thiệu khóa học','Giới thiệu khóa học',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(2,'Bài 2: Cài đặt phần mềm cần thiết','Cài đặt phần mềm cần thiết',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(3,'Bài 3: Ôn tập kiến thức cơ bản','Ôn tập kiến thức cơ bản',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(4,'Bài 4: Giới thiệu kiến thức mới','Giới thiệu kiến thức mới',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(5,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:04:13','2020-12-28 16:04:13',18,1),(6,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:37:03','2020-12-28 16:37:03',23,1),(8,'Bài 2: Cài đặt phần mềm','<p>C&agrave;i đặt c&aacute;c phần mềm cần thiết để học</p>',NULL,'2020-12-28 16:43:19','2020-12-28 16:43:19',23,1),(9,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:45:25','2020-12-28 16:45:25',24,1);
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +277,6 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `birthday` varchar(11) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `username` varchar(255) NOT NULL,
@@ -299,7 +288,7 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,7 +297,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','20-11-1999','0369439969','nguyenhuuduy@gmail.com','huuduy','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(2,'Ngọc Minh Duy','31-10-1999','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(3,'Trần Vũ Công','06-09-1999','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(4,'Nguyễn Văn Diện','31-03-1999','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(5,'Nguyễn Hữu Duy','2020-12-20',NULL,'nguyenhuuduynvc@gmail.com','huuduynvc','$2a$10$hNQK6QK4tITv8AOgem9id.Kz.xxCZWiLV4HiLpwoV7hJ98R0T3MIu',1,NULL,NULL,1,NULL),(31,'duy',NULL,NULL,'admin1@gmail.com','admin1','$2a$10$6SxHEu1.kFiARbB8r7zuVuMBEygEBsX61nmS3ny3S..VpGCHqFhGO',1,NULL,NULL,1,NULL),(32,'Nguyễn Hữu Duy',NULL,NULL,'admin2@gmail.com','admin2','$2a$10$bifaYlW4MBG0rnK9J77J3OgG8B7Hya93U9gOGu8EFxxkzlyQ9.YAK',1,NULL,NULL,1,NULL),(33,'admin3',NULL,NULL,'admin3@gmail.com','admin3','$2a$10$up/R.xZPF9AD5Gtj1vT1GOHlgwFf2Wnb3trIh4fH4wZ9HZt6X1OdK',1,NULL,NULL,1,NULL),(34,'admin4',NULL,'0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',1,NULL,NULL,1,NULL);
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','0369439969','nguyenhuuduy@gmail.com','huuduy','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(2,'Ngọc Minh Duy','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(3,'Trần Vũ Công','0281516886','maydapdaklak@gmail.com','trancong','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(4,'Nguyễn Văn Diện','0966028215','vandien3103@gmail.com','vandien99','123',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(5,'Nguyễn Hữu Duy',NULL,'nguyenhuuduynvc@gmail.com','huuduynvc','$2a$10$hNQK6QK4tITv8AOgem9id.Kz.xxCZWiLV4HiLpwoV7hJ98R0T3MIu',1,NULL,NULL,1,NULL),(31,'duy',NULL,'admin1@gmail.com','admin1','$2a$10$6SxHEu1.kFiARbB8r7zuVuMBEygEBsX61nmS3ny3S..VpGCHqFhGO',1,NULL,NULL,1,NULL),(32,'Nguyễn Hữu Duy',NULL,'admin2@gmail.com','admin2','$2a$10$bifaYlW4MBG0rnK9J77J3OgG8B7Hya93U9gOGu8EFxxkzlyQ9.YAK',1,NULL,NULL,1,NULL),(33,'admin3',NULL,'admin3@gmail.com','admin3','$2a$10$up/R.xZPF9AD5Gtj1vT1GOHlgwFf2Wnb3trIh4fH4wZ9HZt6X1OdK',1,NULL,NULL,1,NULL),(34,'admin4','0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',1,NULL,NULL,1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -321,4 +310,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-26  7:59:04
+-- Dump completed on 2020-12-28 17:10:14

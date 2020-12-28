@@ -1,24 +1,21 @@
 $(document).ready(function(){
-    // $('#sort').on('change', function(){
-        
-    // }),
+
     var key = "";
     var sort = "";
     var page ="1";
-
-
+    var cate = -1;
    
     $('input').click(function(){
-       
+        cate = $( "#sort option:selected" ).val();
          sort = $(this).val();       
         $.ajax({
             method: 'post',
             url: '/course',
-            data: {key: key, check: sort, page: page},
+            data: { cate: cate, key: key, check: sort, page: page},
             dataType: 'json'
         })
         .done(function(data){
-            $('.col-lg-8 .row').html(data.test);
+            $('.col-lg-8 .row').html(data.html);
         })
         .catch(err =>{
             console.log(err);
@@ -28,16 +25,16 @@ $(document).ready(function(){
 
     });
     $('.btnsearch').click(function(){
-       
+        cate = $( "#sort option:selected" ).val();
          key = $('.search').val();       
         $.ajax({
             method: 'post',
             url: '/course',
-            data: {key: key, check: sort, page: page},
+            data: { cate: cate, key: key, check: sort, page: page},
             dataType: 'json'
         })
         .done(function(data){
-            $('.col-lg-8 .row').html(data.test);
+            $('.col-lg-8 .row').html(data.html);
         })
         .catch(err =>{
             console.log(err);
@@ -47,28 +44,88 @@ $(document).ready(function(){
 
     });
 
-    $('.pagination li a').on('click', function(){
+    $("body").delegate('.pagination li a', 'click', function(){
         $('.active').removeClass('active');
-        $(this).parent().addClass('active')
         sort = $('input[type = "radio"]:checked').val();
-         p = $(this).text();
-         if(p == "Prev")          
+        p = $(this).text();
+        if(p != "Prev" && p != "Next")
+         {
+            $(this).parent().addClass('active')
+         }
+         if(p == "Prev")
+         {        
             p = (parseInt(page)-1) + "";
-         if(p == "Next")          
+            $('.page'+p).addClass('active');
+         }
+         if(p == "Next")    
+         {      
             p = (parseInt(page)+1) + "";
+            $('.page'+p).addClass('active');
+         }
         page = p;
-
+        if(page == "1")
+        $('.prev').addClass('disabled');
+        else
+        $('.prev').removeClass('disabled');
         $.ajax({
             method: 'post',
             url: '/course',
-            data: {key: key, check: sort, page: page},
+            data: { cate: cate, key: key, check: sort, page: page},
             dataType: 'json'
         })
         .done(function(data){
-            $('.col-lg-8 .row').html(data.test);
+            $('.col-lg-8 .row').html(data.html);
+            if(data.disable)
+            $('.next').addClass('disabled');
+            else
+            $('.next').removeClass('disabled');
         })
         .catch(err =>{
             console.log(err);
         });
     });
+    // get value selected
+        $('#sort').on('change', function(){
+        cate = $(this).val();
+        if(cate != -1)
+        {
+        $.ajax({
+            method: 'post',
+            url: '/course',
+            data: { cate: cate, key: key, check: sort, page: page},
+            dataType: 'json'
+        })
+        .done(function(data){
+            $('.col-lg-8 .row').html(data.html);
+            // show pagination
+            let nPage = data.nPages;
+            let html = `
+            <li class="page-item prev disabled">
+              <a style="cursor: pointer;" class="page-link">Prev</a>
+            </li>
+            <li class="page-item page1 active">
+            <a style="cursor: pointer;" class="page-link">1</a>
+          </li>`;
+            for(let i = 0; i<nPage-1;i++)
+            {
+                html+=`<li class="page-item page${i+2}">
+                <a style="cursor: pointer;" class="page-link">${i+2}</a>
+              </li>`
+            }
+            html+=` <li class="page-item next">
+            <a style="cursor: pointer;" class="page-link">Next</a>
+          </li>`;
+            $('.pagination').html(html);
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+    }
+    else
+    {
+        location.reload();
+    }
+    });
+    
 });
+

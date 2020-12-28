@@ -12,7 +12,7 @@
       <form class="search-form mb-5">
         <div class="form-group">
           <input type="text" class="form-control search" placeholder="Nhập tên khóa học hoặc lĩnh vực">
-          <button type="submit" class="btn btnsearch">Tìm kiếm</button>
+          <button type="button" class="btn btnsearch">Tìm kiếm</button>
         </div>
       </form>
       <div class="row">
@@ -20,8 +20,9 @@
           <div class="course-filter">
             <h5>Sắp xếp</h5>
             <select id="sort" class="custom-select">
+              <option value="-1">Mặc định</option>
               {{#each listCategory}}
-              <option value="{{@key}}">{{this.name}}</opion>
+              <option value="{{this.id}}">{{this.name}}</opion>
                 {{/each}}
             </select>
 
@@ -105,13 +106,7 @@
                   </small>
                   <div class="rating">
                     <span class="number-rating"><b>{{rating}}</b></span>
-                    {{#loop this.rating}}
-                    <span class="mai-star"></span>
-                    {{/loop}}
-                    {{!-- <span class="mai-star"></span>
-                    <span class="mai-star"></span>
-                    <span class="mai-star"></span>
-                    <span class="mai-star"></span> --}}
+                    {{{this.rating_star}}}
                     <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                   </div>
                   <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
@@ -128,18 +123,18 @@
           <nav aria-label="Pagination">
             <ul class="pagination justify-content-end mt-5">
 
-              <li class="page-item">
+              <li class="page-item prev disabled">
                 <a style="cursor: pointer;" class="page-link">Prev</a>
               </li>
-              <li class="page-item active">
+              <li class="page-item page1 active">
                 <a style="cursor: pointer;" class="page-link">1</a>
               </li>
               {{#each this.page_items}}
-              <li class="page-item">
+              <li class="page-item page{{value}}">
                 <a style="cursor: pointer;" class="page-link">{{value}}</a>
               </li>
               {{/each}}
-              <li class="page-item">
+              <li class="page-item next {{#unless can_go_next}}disabled{{/unless}}">
                 <a style="cursor: pointer;" class="page-link">Next</a>
               </li>
             </ul>

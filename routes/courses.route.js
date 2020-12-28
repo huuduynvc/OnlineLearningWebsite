@@ -6,7 +6,13 @@ const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
 const numeral = require('numeral');
+
+const { create } = require('express-handlebars');
+//ratting
+//
+
 const e = require('express');
+
 
 router.get('/', async(req, res) => {
     let page = parseInt(req.query.page) || 1;
@@ -35,13 +41,14 @@ router.get('/', async(req, res) => {
     let listCourse = await courseModel.pageByCourse(offset, "");
     console.log(listCourse);
     let arrayCourse = [];
-    for (let course of listCourse) {
+    for (let [i, course] of listCourse.entries()) {
         arrayCourse.push({
             id: course.id,
             name: course.name,
             caturl: course.caturl,
             catname: course.catname,
             rating: course.rating,
+            rating_star: createRating(i, course.rating, 'rating'),
             num_of_rating: course.num_of_rating,
             img: course.image,
             current_price: numeral(course.price - course.price * course.offer / 100).format('0,0'),
@@ -51,7 +58,7 @@ router.get('/', async(req, res) => {
         });
     }
 
-    res.render('course', {
+    res.render('vwCourse/course', {
         listCourse: arrayCourse,
         page_items,
         can_go_prev: page > 1,
@@ -64,35 +71,152 @@ router.get('/', async(req, res) => {
 });
 
 router.post('/', async(req, res) => {
+    // get request from ajax
     let check = req.body.check;
     let key = req.body.key;
-
     let page = parseInt(req.body.page);
-    //let page = 1;
+    let indexCate = req.body.cate;
+    // pagination
     let offset = (page - 1) * 6;
-    //let listCourse = await courseModel.fullTextSearch(offset, key);
-    let listCourse = await courseModel.pageByCourse(offset, key);
     let total = await courseModel.countCourse();
     let nPages = Math.ceil(total / 6);
+    var disablePage = false;
+   
+    // get list course
+    let listCourse = await courseModel.pageByCourse(offset);
+
+    ///////////////////////////////////
+    // search
+    if(key!="")
+    {
+        if(indexCate !=-1) // have category
+        {
+             total = await courseModel.getCountCourseByCate(indexCate);
+             nPages = Math.ceil(total / 6);
+            if(check != "") // have check
+            {
+                if (check == "priceincrease")
+                    listCourse = await courseModel.searchCateCheckPriceASC(key, indexCate, offset);
+                if (check == "pricedecrease")
+                    listCourse = await courseModel.searchCateCheckPriceDESC(key, indexCate, offset);
+                if (check == "rateincrease")
+                    listCourse = await courseModel.searchCateCheckRateASC(key, indexCate, offset);
+                if (check == "ratedecrease")
+                    listCourse = await courseModel.searchCateCheckRateDESC(key, indexCate, offset);
+                if (check == "newcourse")
+                    listCourse = await courseModel.searchCateCheckNewCourse(key, indexCate, offset);
+                if (check == "learnestcourse")
+                    listCourse = await courseModel.searchCateCheckNewCourse(key, indexCate, offset);
+            }
+            else // havn't check
+            {
+               listCourse = await courseModel.searchCateNotCheck(key, indexCate, offset);
+            }
+
+        }
+        else // havn't category
+        {
+            if(check != "") // have check
+            {
+                if (check == "priceincrease")
+                    listCourse = await courseModel.searchNotCateCheckPriceASC(key, offset);
+                if (check == "pricedecrease")
+                    listCourse = await courseModel.searchNotCateCheckPriceDESC(key, offset);
+                if (check == "rateincrease")
+                    listCourse = await courseModel.searchNotCateCheckRateASC(key, offset);
+                if (check == "ratedecrease")
+                    listCourse = await courseModel.searchNotCateCheckRateDESC(key, offset);
+                if (check == "newcourse")
+                    listCourse = await courseModel.searchNotCateCheckNewCourse(key, offset);
+                if (check == "learnestcourse")
+                    listCourse = await courseModel.searchNotCateCheckNewCourse(key, offset);
+            }
+            else // havn't check
+            {
+                listCourse = await courseModel.searchNotCateNotCheck(key, offset);
+            }
+
+        }
+    }
+    else // not search
+    {
+        if(indexCate !=-1) // have category
+        {
+            total = await courseModel.getCountCourseByCate(indexCate);
+            nPages = Math.ceil(total / 6);
+            if(check != "") // have check
+            {
+                if (check == "priceincrease")
+                    listCourse = await courseModel.notSearchCateCheckPriceASC(indexCate, offset);
+                if (check == "pricedecrease")
+                    listCourse = await courseModel.notSearchCateCheckPriceDESC(indexCate, offset);
+                if (check == "rateincrease")
+                    listCourse = await courseModel.notSearchCateCheckRateASC(indexCate, offset);
+                if (check == "ratedecrease")
+                    listCourse = await courseModel.notSearchCateCheckRateDESC(indexCate, offset);
+                if (check == "newcourse")
+                    listCourse = await courseModel.notSearchCateCheckNewCourse(indexCate, offset);
+                if (check == "learnestcourse")
+                    listCourse = await courseModel.notSearchCateCheckNewCourse(indexCate, offset);
+            }
+            else // havn't check
+            {
+               listCourse = await courseModel.notSearchCateNotCheck(indexCate, offset);
+            }
+        }
+        else // havn't category
+        {
+            if(check != "") // have check
+            {
+                if (check == "priceincrease")
+                    listCourse = await courseModel.notSearchNotCateCheckPriceASC(offset);
+                if (check == "pricedecrease")
+                    listCourse = await courseModel.notSearchNotCateCheckPriceDESC(offset);
+                if (check == "rateincrease")
+                    listCourse = await courseModel.notSearchNotCateCheckRateASC(offset);
+                if (check == "ratedecrease")
+                    listCourse = await courseModel.notSearchNotCateCheckRateDESC(offset);
+                if (check == "newcourse")
+                    listCourse = await courseModel.notSearchNotCateCheckNewCourse(offset);
+                if (check == "learnestcourse")
+                    listCourse = await courseModel.notSearchNotCateCheckNewCourse(offset);
+            }
+            // else // havn't check
+            // {
+            //    //listCourse = await courseModel.notSearchNotCateNotCheck(indexCate, offset);
+            // }
+        }
+    }
+
+    ///////////////////////////////////
+    if(page == nPages)
+    {
+        disablePage = true;
+    }
+    
+    //let listCourse = await courseModel.fullTextSearch(offset, key);
+
+    // if(indexCate != '-1')
+    // listCourse  = await courseModel.getListCourseByCate(indexCate);
     let page_items = [];
     let listCategory = await courseModel.getListCategory();
     let arrayCategory = [];
-    if (check == "priceincrease")
-        listCourse = await courseModel.orderByPriceAsc(offset, key);
-    if (check == "pricedecrease")
-        listCourse = await courseModel.orderByPriceDesc(offset, key);
-    if (check == "rateincrease")
-        listCourse = await courseModel.orderByRateAsc(offset, key);
-    if (check == "ratedecrease")
-        listCourse = await courseModel.orderByRateDesc(offset, key);
-    if (check == "newcourse")
-        listCourse = await courseModel.orderByNewCourse(offset, key);
-    if (check == "learnestcourse")
-        listCourse = await courseModel.orderByNewCourse(offset, key);
-    if (check == undefined && key == "")
-        listCourse = await courseModel.pageByCourse(offset, key);
-    if (key != "")
-        listCourse = await courseModel.fullTextSearch(offset, key);
+    // if (check == "priceincrease")
+    //     listCourse = await courseModel.orderByPriceAsc(offset, key);
+    // if (check == "pricedecrease")
+    //     listCourse = await courseModel.orderByPriceDesc(offset, key);
+    // if (check == "rateincrease")
+    //     listCourse = await courseModel.orderByRateAsc(offset, key);
+    // if (check == "ratedecrease")
+    //     listCourse = await courseModel.orderByRateDesc(offset, key);
+    // if (check == "newcourse")
+    //     listCourse = await courseModel.orderByNewCourse(offset, key);
+    // if (check == "learnestcourse")
+    //     listCourse = await courseModel.orderByNewCourse(offset, key);
+    // if (check == undefined && key == "")
+    //     listCourse = await courseModel.pageByCourse(offset, key);
+    // if (key != "")
+    //     listCourse = await courseModel.fullTextSearch(offset, key);
 
 
     //test
@@ -114,7 +238,7 @@ router.post('/', async(req, res) => {
 
     console.log(listCourse);
     let arrayCourse = [];
-    for (let course of listCourse) {
+    for (let [i,course] of listCourse.entries()) {
         arrayCourse.push({
             id: course.id,
             name: course.name,
@@ -129,8 +253,9 @@ router.post('/', async(req, res) => {
             teacher: await teacherModel.getTeacherByCourseId(course.id)
         });
     }
+    var rating = "";
     var html = "";
-    for (let item of arrayCourse) {
+    for (let [i, item] of arrayCourse.entries()) {
 
         let t = "";
         for (let teach of item.teacher) {
@@ -140,6 +265,7 @@ router.post('/', async(req, res) => {
         for (let i = 0; i < item.rating; i++) {
             s += `<span class="mai-star"></span> `;
         }
+        rating = createRating(i, item.rating, "rating")
         html += ` <div class="item">
     <div class="course-card">
             <div class="badge badge-danger">New</div>
@@ -155,7 +281,7 @@ router.post('/', async(req, res) => {
             `</small>
               <div class="rating">
                 <span class="number-rating"><b>${item.rating}</b></span>` +
-            s +
+            rating +
             `<span class="person-rating" style="color:black;">(${item.num_of_rating})</span>
               </div>
               <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
@@ -166,7 +292,9 @@ router.post('/', async(req, res) => {
   </div>`;
     }
     res.send({
-        test: html,
+        html: html,
+        disable: disablePage,
+        nPages: nPages,
     })
 });
 

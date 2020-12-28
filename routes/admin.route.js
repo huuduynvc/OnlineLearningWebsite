@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
-var path = require('path');
+const path = require('path');
+const fs = require("fs");
 
 const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
@@ -147,10 +148,18 @@ router.post('/course/add', async(req, res) => {
             status: 1
         }, newPositon.insertId);
 
+        fs.mkdir(`./public/video/${newPositon.insertId}`, function(err) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("New directory successfully created.")
+            }
+        })
+
         if (err) {
 
         } else {
-            res.redirect('/admin/course');
+            res.redirect(`/admin/course/${newPositon.insertId}/addother`);
         }
     });
 })
@@ -170,7 +179,8 @@ router.get('/course/:id/addother', async(req, res) => {
 
         chapter_lesson.push({
             ...chapter[i],
-            lesson
+            lesson,
+            id_course: req.params.id,
         });
     }
 
