@@ -1,0 +1,65 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#txtDes',
+    height: 600,
+    plugins: 'paste link autolink lists table',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+<script>
+  $('#fuMain').fileinput({
+    theme: 'fa',
+    dropZoneEnabled: false,
+    allowedFileExtensions: ['png', 'jpg', 'gif'],
+  });
+</script>
+{{/section}}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800"> khóa học</h1>
+</div>
+
+<div class="row">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="txtName">Tên khóa học</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Nhập tên khóa học">
+    </div>
+    <div class="form-group">
+      <label for="price">Giá khóa học</label>
+      <input type="number" class="form-control" id="price" name="price" placeholder="Nhập giá khóa học">
+    </div>
+    <div class="form-group">
+      <label for="offer">Giảm giá (%)</label>
+      <input type="number" class="form-control" id="offer" name="offer" placeholder="Nhập % giảm giá (nếu có)">
+    </div>
+    <div class="form-group">
+      <div><label for="id_category">Chọn lĩnh vực của khóa học</label></div>
+      <select name="id_category" id="id_category">
+        {{#each categories}}
+        <option value={{id}}>{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="form-group">
+      <div><label for="fuMain">Chọn hình ảnh khóa học</label></div>
+      <input id="fuMain" name="fuMain" type="file" class="file" multiple>
+    </div>
+    <div class="form-group">
+        <label for="txtDes">Mô tả khóa học</label>
+        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm khóa học</button>
+  </form>  
+</div>

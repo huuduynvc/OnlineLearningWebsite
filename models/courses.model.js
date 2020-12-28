@@ -1,6 +1,7 @@
 const db = require('../utils/db');
 
 module.exports = {
+    add: entity => db.add('course', entity),
     all: () => db.load('select * from course'),
     async single(id) {
         const rows = await db.load(`select * from course where id = ${id}`);
@@ -14,6 +15,13 @@ module.exports = {
     patch: (entity, id) => {
         const condition = { id: id };
         return db.patch('course', entity, condition);
+    },
+
+    addChapter: entity => db.add('chapter', entity),
+    addLesson: entity => db.add('lesson', entity),
+    patchLesson: (entity, id) => {
+        const condition = { id: id };
+        return db.patch('lesson', entity, condition);
     },
 
     top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,

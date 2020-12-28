@@ -12,7 +12,7 @@
     <script src="/admin/js/demo/datatables-demo.js"></script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Danh sách lĩnh vực</h1>
+    <h1 class="h3 mb-0 text-gray-800">Danh sách học viên</h1>
 </div>
 
   <!-- DataTales Example -->
@@ -24,22 +24,29 @@
           <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
-                      <tr>
-                          <th>id</th>
-                          <th>name</th>
-                          <th>id_parent</th>
-                          <th>url</th>
-                          <th>action</th>
-                      </tr>
+                    <tr>
+                      <th scope="col">id</th>
+                      <th scope="col">fullname</th>
+                      <th scope="col">phone</th>
+                      <th scope="col">email</th>
+                      <th scope="col">username</th>
+                      <th scope="col">role</th>
+                      <th scope="col">action</th>
+                    </tr>
                   </thead>
                   <tbody>
-                      {{#each categories}}
+                      {{#each user}}
                       <tr>
                       <th scope="row">{{id}}</th>
-                      <td>{{name}}</td>
-                      <td>{{id_parent}}</td>
-                      <td>{{url}}</td>
-                      <td><a href="/admin/category/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                      <td>{{fullname}}</td>
+                      <td>{{phone}}</td>
+                      <td>{{email}}</td>
+                      <td>{{username}}</td>
+                      <td>{{role}}</td>
+                      <td>
+                        <a href="/admin/course/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="/admin/course/{{id}}/del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                      </td>
                       </tr>
                       {{/each}}
                   </tbody>
