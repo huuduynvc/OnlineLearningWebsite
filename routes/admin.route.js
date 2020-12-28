@@ -245,6 +245,63 @@ router.post('/course/:id/addlesson', async(req, res) => {
     });
 })
 
+router.get('/course/:id_course/edit', async(req, res) => {
+    const id = req.params.id_course;
+    const course = await courseModel.single(id);
+    const mycategory = await categoryModel.single(course.id_category);
+    const cat = await categoryModel.all();
+    var categories = [];
+    for (let i = 0; i < cat.length; i++) {
+        if (mycategory.id != cat[i].id) {
+            categories.push(cat[i]);
+        }
+    }
+
+    res.render("vwAdmin/course/edit", {
+        course,
+        mycategory,
+        categories,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/course/:id/edit', async(req, res) => {
+
+    const storage = multer.diskStorage({
+        destination: function(req, file, cb) {
+            cb(null, `./public/img/course`)
+        },
+        filename: function(req, file, cb) {
+            cb(null, req.params.id.toString() + path.extname(file.originalname))
+        }
+    });
+    const upload = multer({ storage });
+    upload.single('fuMain')(req, res, async function(err) {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        var course = {
+            id: req.params.id,
+            name: req.body.txtName,
+            price: +req.body.price,
+            offer: +req.body.offer,
+            creation_date: new Date(datetime),
+            modification_date: new Date(datetime),
+            id_category: +req.body.id_category,
+            description: req.body.txtDes,
+            status: 1
+        }
+
+        await courseModel.patch(course, course.id);
+
+        if (err) {
+
+        } else {
+            res.redirect(`/admin/course/${course.id}/edit`);
+        }
+    });
+
+});
+
 //user admin
 router.get('/user', async(req, res) => {
 
