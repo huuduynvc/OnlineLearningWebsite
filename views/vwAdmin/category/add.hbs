@@ -1,0 +1,36 @@
+{{#section 'css'}}
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{/section}}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm lĩnh vực</h1>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+  <form method="POST">
+    <div class="form-group">
+      <label for="txtName">Tên lĩnh vực</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" aria-describedby="emailHelp" placeholder="Nhập tên lĩnh vực">
+    </div>
+    <div class="form-group">
+      <div><label for="parent">Chọn lĩnh vực cha</label></div>
+      <div>
+        <select name="parent" id="parent" style="width: 100%; height:38px;">
+        <option value="0">Không có</option>
+        {{#each categories}}
+        <option value={{id}}>{{name}}</option>
+        {{/each}}
+      </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="txtUrl">URL</label>
+      <input type="text" class="form-control" id="txtUrl" name="txtUrl" aria-describedby="emailHelp" placeholder="Nhập url">
+    </div>
+    <button type="submit" class="btn btn-primary px-5">Thêm</button>
+  </form>  
+  </div>
+</div>

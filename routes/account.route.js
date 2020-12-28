@@ -4,15 +4,15 @@ const moment = require('moment');
 const bodyParser = require('body-parser');
 const userModel = require('../models/user.model');
 const auth = require('../middlewares/auth.mdw');
-const router = express.Router();
+const router = express.Router();    
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get('/login', async function(req, res) {
-    // if (req.headers.referer) {
-    //     req.session.retUrl = ref;
-    // }
+    if (req.headers.referer) {
+        req.session.retUrl = ref;
+    }
     res.render('vwAccount/login', {
         layout: false
     });
@@ -38,9 +38,9 @@ router.post('/login', async function(req, res) {
     req.session.isAuth = true;
     req.session.authUser = user;
 
-    let url = req.session.retUrl || '/';
+    let url =  req.session.retUrl ||'/';
     res.redirect(url);
-
+    
 })
 
 router.post('/logout', async function(req, res) {
@@ -75,7 +75,8 @@ router.post('/register', async function(req, res) {
 
     await userModel.add(user);
     res.render('vwAccount/register', {
-        err_message: 'Đăng kí thành công!!'
+        layout: false,
+        err_message: 'Đăng kí thành công!!' 
     });
 })
 

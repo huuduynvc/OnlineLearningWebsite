@@ -2,14 +2,17 @@ const express = require('express');
 const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
-const coursesModel = require('../models/courses.model');
 const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
 const numeral = require('numeral');
+
 const { create } = require('express-handlebars');
 //ratting
 //
+
+const e = require('express');
+
 
 router.get('/', async(req, res) => {
     let page = parseInt(req.query.page) || 1;
@@ -310,14 +313,14 @@ function createRating(i, rating, name) {
     return html;
 }
 
-router.get('/:category/:id', async(req, res) => {
+router.get('/:id', async(req, res) => {
 
     await courseModel.update(req.params.id);
-    const course = await coursesModel.single(req.params.id);
-    const chapter = await coursesModel.getChapterByCourseId(req.params.id);
+    const course = await courseModel.single(req.params.id);
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
     var chapter_lesson = [];
     for (let i = 0; i < chapter.length; i++) {
-        const les = await coursesModel.getLessonByChapterId(chapter[i].id);
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
         var lesson = [];
         for (let j = 0; j < les.length; j++) {
             lesson.push({
@@ -337,7 +340,7 @@ router.get('/:category/:id', async(req, res) => {
     // console.log(chapter_lesson[0].lesson);
 
     var course_detail = {
-        ...course[0],
+        ...course,
         chapter_lesson
     }
 
@@ -345,25 +348,26 @@ router.get('/:category/:id', async(req, res) => {
     course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
     course_detail.price = numeral(course_detail.price).format('0,0');
 
+    console.log(course_detail);
 
-    const top5course = await coursesModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
+    const top5course = await courseModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     for (let i = 0; i < top5course.length; i++) {
         top5course[i].modification_date = moment(top5course[i].modification_date).format('DD/MM/YYYY');
-        top5course[i].num_of_member = (await coursesModel.countMemberByCourseID(top5course[i].id))[0];
+        top5course[i].num_of_member = (await courseModel.countMemberByCourseID(top5course[i].id))[0];
         top5course[i].rating = (await feedbackModel.getRatingByCourseId(top5course[i].id))[0];
     }
-    console.log(top5course);
+    //console.log(top5course);
     const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
     //console.log(teacher);
     const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
-    console.log(feedback);
+    //console.log(feedback);
     for (let i = 0; i < feedback.length; i++) {
         feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
         feedback[i].rating_star = createRating(i, feedback[i].rating, 'feedback');
     }
     const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
     //console.log(rating.num_of_rating);
-    const num_of_member = (await coursesModel.countMemberByCourseID(course_detail.id))[0];
+    const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
 
     res.render('vwCourse/course-detail', {
         course_detail,
@@ -377,7 +381,7 @@ router.get('/:category/:id', async(req, res) => {
     });
 });
 
-router.post('/:category/:id', authRole, async(req, res) => {
+router.post('/:id', authRole, async(req, res) => {
     if (req.session.isAuth) {
         var currentdate = new Date();
         var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
@@ -395,6 +399,86 @@ router.post('/:category/:id', authRole, async(req, res) => {
 
         let url = req.session.retUrl || '/';
         res.redirect(url);
+    } else {
+        res.render('/account/login');
+    }
+
+});
+
+router.get('/:id/lesson/:id_lesson', async(req, res) => {
+    await courseModel.update(req.params.id);
+    const course = await courseModel.single(req.params.id);
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
+    const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
+    var chapter_lesson = [];
+    for (let i = 0; i < chapter.length; i++) {
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
+        var lesson = [];
+        for (let j = 0; j < les.length; j++) {
+            lesson.push({
+                ...les[j]
+            });
+        }
+
+        //console.log(lesson);
+
+        chapter_lesson.push({
+            ...chapter[i],
+            lesson
+        });
+    }
+
+    // console.log(chapter_lesson);
+    // console.log(chapter_lesson[0].lesson);
+
+    var course_detail = {
+        ...course,
+        chapter_lesson
+    }
+
+    res.render('vwCourse/lesson', {
+        course_detail,
+        lesson_detail,
+        menu: res.locals.menu,
+        layout: 'sub.handlebars'
+    });
+
+});
+
+router.get('/:id/buy', async(req, res) => {
+    const course = await courseModel.single(req.params.id);
+
+    course.modification_date = moment(course.modification_date).format('hh:mm:ss DD/MM/YYYY');
+    course.current_price = numeral(course.price - course.price * course.offer / 100).format('0,0');
+    course.price = numeral(course.price).format('0,0');
+
+    const teacher = await teacherModel.getTeacherByCourseId(course.id);
+
+    console.log(course);
+
+    res.render('vwCourse/buy-course', {
+        course,
+        teacher,
+        menu: res.locals.menu,
+        layout: 'sub.handlebars'
+    });
+
+});
+
+router.post('/:id/buy', authRole, async(req, res) => {
+    if (req.session.isAuth) {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        const enroll = {
+            id_course: req.params.id,
+            id_user: req.session.authUser.id,
+            enroll_date: new Date(datetime),
+            status: 1,
+        }
+
+        await courseModel.enrollCourse(enroll);
+
+        res.redirect(`/course/${req.params.id}`);
     } else {
         res.render('/account/login');
     }

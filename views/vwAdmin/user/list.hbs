@@ -1,0 +1,56 @@
+{{#section 'css'}}
+    <!-- Custom styles for this page -->
+    <link href="/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+{{/section}}
+
+{{#section 'js'}}
+    <!-- Page level plugins -->
+    <script src="/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/admin/js/demo/datatables-demo.js"></script>
+{{/section}}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Danh sách học viên</h1>
+</div>
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+      {{!-- <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+      </div> --}}
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th scope="col">id</th>
+                      <th scope="col">fullname</th>
+                      <th scope="col">phone</th>
+                      <th scope="col">email</th>
+                      <th scope="col">username</th>
+                      <th scope="col">role</th>
+                      <th scope="col">action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {{#each user}}
+                      <tr>
+                      <th scope="row">{{id}}</th>
+                      <td>{{fullname}}</td>
+                      <td>{{phone}}</td>
+                      <td>{{email}}</td>
+                      <td>{{username}}</td>
+                      <td>{{role}}</td>
+                      <td>
+                        <a href="/admin/course/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="/admin/course/{{id}}/del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                      </td>
+                      </tr>
+                      {{/each}}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>

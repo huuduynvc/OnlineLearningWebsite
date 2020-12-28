@@ -1,14 +1,27 @@
 const db = require('../utils/db');
 
 module.exports = {
-    all: () => db.load('select * from course'),
-    single: id => db.load(`select * from course where id = ${id}`),
     add: entity => db.add('course', entity),
+    all: () => db.load('select * from course'),
+    async single(id) {
+        const rows = await db.load(`select * from course where id = ${id}`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
+    enrollCourse: entity => db.add('enroll_course', entity),
     del: id => db.del('course', { id: id }),
     update: id => db.load(`UPDATE course SET view = view + 1 WHERE id = '${id}'`),
     patch: (entity, id) => {
         const condition = { id: id };
         return db.patch('course', entity, condition);
+    },
+
+    addChapter: entity => db.add('chapter', entity),
+    addLesson: entity => db.add('lesson', entity),
+    patchLesson: (entity, id) => {
+        const condition = { id: id };
+        return db.patch('lesson', entity, condition);
     },
 
     top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
@@ -265,6 +278,12 @@ module.exports = {
 
     getChapterByCourseId: id => db.load(`select * from chapter where id_course = ${id}`),
     getLessonByChapterId: id => db.load(`select * from lesson where id_chapter = ${id}`),
+    async getLessonById(id) {
+        const rows = await db.load(`select * from lesson where id = '${id}'`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
     top5CourseOtherMostBuy: (id_course, id_category) => db.load(`SELECT *,count(ec.id_course) as members 
     FROM enroll_course as ec LEFT JOIN course as c ON ec.id_course = c.id
     WHERE ec.id_course != ${id_course} AND c.id_category = ${id_category}

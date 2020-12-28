@@ -1,5 +1,23 @@
 const db = require('../utils/db');
 
+const TBL_User ='user';
+
+module.exports= {
+    all(){
+        return db.load('select * from ${TBL_User}');
+    },
+    async single(id){
+        const rows = await db.load('select * from $(TBL_User) where id=${id}');
+        if (rows.length===0)
+        return null;
+
+        return rows[0];
+    },
+    add(entity){
+        return db.add(entity,TBL_User)
+    },
+}
+
 module.exports = {
     add: entity => db.add('user', entity),
     all: () => db.load(`select * from user`),
