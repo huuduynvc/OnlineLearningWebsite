@@ -29,7 +29,6 @@
 
   <script src="/js/index.js"></script>
 
-
 </head>
 
 <body>
@@ -65,34 +64,34 @@
           </ul>
         </li>
         {{#if isAuth}}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            Xin chào,
+            {{#if (authUser.name) }}
+            <b>{{authUser.name}}</b>!
+            {{else}}
+            <b>{{authUser.username}}</b>!
+            {{/if}}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/account/profile">
               <i class="fa fa-user" aria-hidden="true"></i>
-              Xin chào, 
-              {{#if (authUser.name) }}
-              <b>{{authUser.name}}</b>!             
-              {{else}}
-              <b>{{authUser.username}}</b>!
-              {{/if}}
+              Thông tin tài khoản
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/account/profile">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                Thông tin tài khoản
-              </a>
-              <div class="dropdown-divider"></div>
-              <form id="frmLogout" method="POST" action="/account/logout"></form>
-              <a class="dropdown-item" href="javascript: $('#frmLogout').submit();">
-                <i class="fa fa-sign-out" aria-hidden="true"></i>
-                Đăng xuất
-              </a>
-            </div>
-          </li>
+            <div class="dropdown-divider"></div>
+            <form id="frmLogout" method="POST" action="/account/logout"></form>
+            <a class="dropdown-item" href="javascript: $('#frmLogout').submit();">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              Đăng xuất
+            </a>
+          </div>
+        </li>
         {{else}}
-          <li class="nav-item">
-            <a href="/account/login" class="btn btn-primary">Đăng nhập</a>
-          </li>
+        <li class="nav-item">
+          <a href="/account/login" class="btn btn-primary">Đăng nhập</a>
+        </li>
         {{/if}}
       </ul>
       </div>
@@ -193,6 +192,7 @@
   <script src="/vendor/wow/wow.min.js"></script>
 
   <script src="/js/theme.js"></script>
+
 
   {{{_sections.js}}}
 
