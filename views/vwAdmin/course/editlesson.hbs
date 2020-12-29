@@ -1,7 +1,6 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
 {{/section}}
-
 {{#section 'js'}}
 <script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
   referrerpolicy="origin"></script>
@@ -31,47 +30,37 @@
   });
 </script>
 {{/section}}
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa khóa học</h1>
+<div class="d-sm-flex align-items-center justify-content-between my-4">
+    <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa bài học</h1>
 </div>
-
 <div class="row">
   <div class="col-sm-10">
-  <form id="f" method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="txtName">Tên khóa học</label>
-      <input type="text" class="form-control" id="txtName" name="txtName" value="{{course.name}}">
+      <label for="txtName">Tên bài học</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" value="{{lesson.name}}">
+    </div>
+        <div class="form-group">
+        <input type="hidden" id="value_content" value="{{lesson.content}}">
+        <label for="txtDes">Nội dung bài học</label>
+        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
     </div>
     <div class="form-group">
-      <label for="price">Giá khóa học</label>
-      <input type="number" class="form-control" id="price" name="price" value="{{course.price}}">
-    </div>
-    <div class="form-group">
-      <label for="offer">Giảm giá (%)</label>
-      <input type="number" class="form-control" id="offer" name="offer" value="{{course.offer}}">
-    </div>
-    <div class="form-group">
-      <div><label for="id_category">Chọn lĩnh vực của khóa học</label></div>
+      <div><label for="id_chapter">Bài học thuộc chương</label></div>
       <div>
-        <select name="id_category" id="id_category" style="width: 100%;height:38px">
-        <option value="{{mycategory.id}}" selected="selected">{{mycategory.name}}</option>
-        {{#each categories}}
+      <select name="id_chapter" id="id_chapter" style="width: 100%; height:38px;">
+        <option value="{{mychapter.id}}" selected="selected">{{mychapter.name}}</option>
+        {{#each chapters}}
         <option value={{id}}>{{name}}</option>
         {{/each}}
       </select>
       </div>
     </div>
     <div class="form-group">
-      <div><label for="fuMain">Chọn hình ảnh khóa học</label></div>
-      <img src="/img/course/{{course.id}}.jpg" alt="" style="width: 150px;" class="pb-3">
+      <div><label for="fuMain">Tải lên video bài học</label></div>
       <input id="fuMain" name="fuMain" type="file" class="file" multiple>
     </div>
-    <div class="form-group">
-        <label for="txtDes">Mô tả khóa học</label></br>
-        <input type="hidden" id="value_content" value="{{course.description}}">
-        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10" value="{{course.description}}"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Thay đổi</button>
+    <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
   </form>
   </div>
 </div>

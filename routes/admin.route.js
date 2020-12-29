@@ -8,6 +8,8 @@ const teacherModel = require('../models/teacher.model');
 const categoryModel = require('../models/categories.model');
 const userModel = require('../models/user.model');
 const authRole = require('../middlewares/auth.mdw');
+const coursesModel = require('../models/courses.model');
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 
 
 const router = express.Router();
@@ -141,7 +143,6 @@ router.post('/course/add', async(req, res) => {
             name: req.body.txtName,
             price: +req.body.price,
             offer: +req.body.offer,
-            creation_date: new Date(datetime),
             modification_date: new Date(datetime),
             id_category: +req.body.id_category,
             description: req.body.txtDes,
@@ -230,7 +231,6 @@ router.post('/course/:id/addlesson', async(req, res) => {
 
         await courseModel.patchLesson({
             name: req.body.txtName,
-            creation_date: new Date(datetime),
             modification_date: new Date(datetime),
             id_chapter: +req.body.id_chapter,
             content: req.body.txtDes,
@@ -284,7 +284,6 @@ router.post('/course/:id/edit', async(req, res) => {
             name: req.body.txtName,
             price: +req.body.price,
             offer: +req.body.offer,
-            creation_date: new Date(datetime),
             modification_date: new Date(datetime),
             id_category: +req.body.id_category,
             description: req.body.txtDes,
@@ -296,10 +295,143 @@ router.post('/course/:id/edit', async(req, res) => {
         if (err) {
 
         } else {
-            res.redirect(`/admin/course/${course.id}/edit`);
+            res.redirect(`/admin/course/${course.id}/editother`);
         }
     });
 
+});
+
+router.get('/course/:id/editother', async(req, res) => {
+    const course = await courseModel.single(req.params.id);
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
+    var chapter_lesson = [];
+    for (let i = 0; i < chapter.length; i++) {
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
+        var lesson = [];
+        for (let j = 0; j < les.length; j++) {
+            lesson.push({
+                ...les[j]
+            });
+        }
+
+        chapter_lesson.push({
+            ...chapter[i],
+            lesson,
+            id_course: req.params.id,
+        });
+    }
+
+    var course_detail = {
+        ...course,
+        chapter_lesson
+    }
+
+    res.render("vwAdmin/course/editother", {
+        course_detail,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.get('/course/:id/editchapter/:id_chapter', async(req, res) => {
+    const chapter = await courseModel.getChapterById(req.params.id_chapter);
+
+    res.render("vwAdmin/course/editchapter", {
+        chapter,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/course/:id/editchapter/:id_chapter', async(req, res) => {
+    const chapter = {
+        name: req.body.txtName,
+        id_course: req.params.id,
+    }
+
+    await coursesModel.patchChapter(chapter, req.params.id_chapter);
+
+    res.redirect(`/admin/course/${req.params.id}/editother`);
+});
+
+router.get('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', async(req, res) => {
+    const mychapter = await courseModel.getChapterById(req.params.id_chapter);
+    const lesson = await courseModel.getLessonById(req.params.id_lesson);
+
+    const chap = await courseModel.getChapterByCourseId(req.params.id);
+    var chapters = [];
+    for (let i = 0; i < chap.length; i++) {
+        if (mychapter.id != chap[i].id) {
+            chapters.push(chap[i]);
+        }
+    }
+
+    res.render("vwAdmin/course/editlesson", {
+        lesson,
+        mychapter,
+        chapters,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', async(req, res) => {
+
+    const storage = multer.diskStorage({
+        destination: function(req, file, cb) {
+            cb(null, `./public/video/${req.params.id}`)
+        },
+        filename: function(req, file, cb) {
+            cb(null, req.params.id_lesson.toString() + path.extname(file.originalname))
+        }
+    });
+    const upload = multer({ storage });
+    upload.single('fuMain')(req, res, async function(err) {
+        console.log(req.body);
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+        await courseModel.patchLesson({
+            name: req.body.txtName,
+            modification_date: new Date(datetime),
+            id_chapter: +req.body.id_chapter,
+            content: req.body.txtDes,
+            status: 1
+        }, req.params.id_lesson);
+
+        if (err) {
+
+        } else {
+            res.redirect(`/admin/course/${req.params.id}/editother`);
+        }
+    });
+
+});
+
+router.post('/course/:id/delchapter/:id_chapter', async function(req, res) {
+    const lesson = await courseModel.getLessonByChapterId(req.params.id_chapter);
+    for (let i = 0; i < lesson.length; i++) {
+        await courseModel.delLesson(lesson[i].id);
+    }
+    await courseModel.delChapter(req.params.id_chapter);
+    res.redirect(`/admin/course/${req.params.id}/editother`);
+});
+
+router.post('/course/:id/dellesson/:id_lesson', async function(req, res) {
+    await courseModel.delLesson(req.params.id_lesson);
+    res.redirect(`/admin/course/${req.params.id}/editother`);
+});
+
+router.post('/course/:id/del', async function(req, res) {
+    const chapter = await courseModel.getChapterByCourseId(req.params.id);
+
+    for (let i = 0; i < chapter.length; i++) {
+        const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
+        for (let i = 0; i < lesson.length; i++) {
+            await courseModel.delLesson(lesson[i].id);
+        }
+        await courseModel.delChapter(chapter[i].id);
+    }
+
+    await courseModel.del(req.params.id);
+    res.redirect(`/admin/course`);
 });
 
 //user admin

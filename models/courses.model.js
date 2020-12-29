@@ -17,11 +17,29 @@ module.exports = {
         return db.patch('course', entity, condition);
     },
 
+    delLesson: id => db.del('lesson', { id: id }),
+    delChapter: id => db.del('chapter', { id: id }),
     addChapter: entity => db.add('chapter', entity),
     addLesson: entity => db.add('lesson', entity),
+    patchChapter: (entity, id) => {
+        const condition = { id: id };
+        return db.patch('chapter', entity, condition);
+    },
     patchLesson: (entity, id) => {
         const condition = { id: id };
         return db.patch('lesson', entity, condition);
+    },
+    async getChapterById(id) {
+        const rows = await db.load(`select * from chapter where id = ${id}`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
+    },
+    async getLessonById(id) {
+        const rows = await db.load(`select * from lesson where id = ${id}`);
+        if (rows.length === 0)
+            return null;
+        return rows[0];
     },
 
     top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
@@ -46,9 +64,9 @@ module.exports = {
    group by c.id
    HAVING avg(f.rating) >= 4
    ORDER BY c.view DESC limit 5`),
-   //// search have  category and check (sort)
-   // asc price
-   searchCateCheckPriceASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    //// search have  category and check (sort)
+    // asc price
+    searchCateCheckPriceASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -56,8 +74,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
-   // desc price
-   searchCateCheckPriceDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc price
+    searchCateCheckPriceDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -65,8 +83,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
-   // asc rate
-   searchCateCheckRateASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // asc rate
+    searchCateCheckRateASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -74,8 +92,8 @@ module.exports = {
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
-   // desc rate
-   searchCateCheckRateDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc rate
+    searchCateCheckRateDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -83,8 +101,8 @@ module.exports = {
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
-   // new course
-   searchCateCheckNewCourse: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // new course
+    searchCateCheckNewCourse: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -92,17 +110,17 @@ module.exports = {
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
-   //// search have  category and not check (sort)
-   searchCateNotCheck: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    //// search have  category and not check (sort)
+    searchCateNotCheck: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('${keySearch}') and cat.id_parent = ${idCate}
   group by c.id
    limit 6 offset ${offset}`),
-   //// search havn't category and have check (sort)
+    //// search havn't category and have check (sort)
     // asc price
-   searchNotCateCheckPriceASC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    searchNotCateCheckPriceASC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -110,8 +128,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
-   // desc price
-   searchNotCateCheckPriceDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc price
+    searchNotCateCheckPriceDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -119,8 +137,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
-   // asc rate
-   searchNotCateCheckRateDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // asc rate
+    searchNotCateCheckRateDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -128,8 +146,8 @@ module.exports = {
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
-   // desc rate
-   searchNotCateCheckRateDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc rate
+    searchNotCateCheckRateDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -137,8 +155,8 @@ module.exports = {
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
-   // new course
-   searchNotCateCheckNewCourse: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // new course
+    searchNotCateCheckNewCourse: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -155,9 +173,9 @@ module.exports = {
    group by c.id
     limit 6 offset ${offset}`),
     //////////////////////////////////////////////////////////////////////
-   //// not search have  category and check (sort)
-   // asc price
-   notSearchCateCheckPriceASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    //// not search have  category and check (sort)
+    // asc price
+    notSearchCateCheckPriceASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -165,8 +183,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
-   // desc price
-   notSearchCateCheckPriceDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc price
+    notSearchCateCheckPriceDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -174,8 +192,8 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
-   // asc rate
-   notSearchCateCheckRateASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // asc rate
+    notSearchCateCheckRateASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -183,8 +201,8 @@ module.exports = {
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
-   // desc rate
-   notSearchCateCheckRateDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc rate
+    notSearchCateCheckRateDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -192,8 +210,8 @@ module.exports = {
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
-   // new course
-   notSearchCateCheckNewCourse: ( idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // new course
+    notSearchCateCheckNewCourse: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -201,15 +219,15 @@ module.exports = {
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
-   //// not search have  category and not check (sort)
-   notSearchCateNotCheck: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    //// not search have  category and not check (sort)
+    notSearchCateNotCheck: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where cat.id_parent = ${idCate}
   group by c.id
    limit 6 offset ${offset}`),
-   //// search havn't category and have check (sort)
+    //// search havn't category and have check (sort)
     // asc price
     notSearchNotCateCheckPriceASC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
@@ -218,32 +236,32 @@ module.exports = {
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
-   // desc price
-   notSearchNotCateCheckPriceDESC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc price
+    notSearchNotCateCheckPriceDESC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
-   // asc rate
-   notSearchNotCateCheckRateASC: ( offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // asc rate
+    notSearchNotCateCheckRateASC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
-   // desc rate
-   notSearchNotCateCheckRateDESC: ( offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // desc rate
+    notSearchNotCateCheckRateDESC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
-   // new course
-   notSearchNotCateCheckNewCourse: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    // new course
+    notSearchNotCateCheckNewCourse: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
@@ -259,15 +277,15 @@ module.exports = {
    group by c.id
     limit 6 offset ${offset}`),
 
-   getCountCourseByCate: async(id)=>{
-       let count = await db.load(`   SELECT count(*) as total from
+    getCountCourseByCate: async(id) => {
+        let count = await db.load(`   SELECT count(*) as total from
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
           where  cat.id_parent = ${id}
        group by c.id) t`);
-    return count[0].total;
-   },
+        return count[0].total;
+    },
 
     countCourse: async() => {
         let count = await db.load(`select count(*) as total from course`);

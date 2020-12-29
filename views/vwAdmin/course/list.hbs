@@ -42,8 +42,9 @@
                       <td>{{offer}}</td>
                       <td>{{view}}</td>
                       <td>
+                        <form id="del{{id}}" method="POST" action="/admin/course/{{id}}/del"></form>
                         <a href="/admin/course/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a href="/admin/course/{{id}}/del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#del{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                       </td>
                       </tr>
                       {{/each}}
