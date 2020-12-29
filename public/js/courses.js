@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     var key = "";
-    var sort = "";
+    var sort = undefined;
     var page ="1";
     var cate = -1;
    
@@ -67,6 +67,7 @@ $(document).ready(function(){
         $('.prev').addClass('disabled');
         else
         $('.prev').removeClass('disabled');
+        cate = $( "#sort option:selected" ).val();
         $.ajax({
             method: 'post',
             url: '/course',
@@ -92,7 +93,7 @@ $(document).ready(function(){
         $.ajax({
             method: 'post',
             url: '/course',
-            data: { cate: cate, key: key, check: sort, page: page},
+            data: { cate: cate, key: key, check: sort, page: "1"},
             dataType: 'json'
         })
         .done(function(data){
@@ -112,7 +113,12 @@ $(document).ready(function(){
                 <a style="cursor: pointer;" class="page-link">${i+2}</a>
               </li>`
             }
+            if(nPage !=1)
             html+=` <li class="page-item next">
+            <a style="cursor: pointer;" class="page-link">Next</a>
+          </li>`;
+          else
+          html+=` <li class="page-item next disabled">
             <a style="cursor: pointer;" class="page-link">Next</a>
           </li>`;
             $('.pagination').html(html);
