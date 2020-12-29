@@ -88,41 +88,12 @@
   {{{body}}}
 
 
-  <footer class="page-footer">
+   <footer class="page-footer" style="padding-top: 50px;">
     <div class="container">
-
-      <div class="row justify-content-center mb-4">
-        <div class="col-sm-6 col-lg-3 py-3">
+      <div class="row justify-content-center">
+        <div class="col-sm-5">
           <h3>Rekdu</h3>
-          <p>The Best online course platform, and collaborate with thousands leading universities and companies</p>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3 pl-lg-5">
-          <h5>Company</h5>
-          <ul class="footer-menu">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Career</a></li>
-            <li><a href="#">Resources</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Popular Course</h5>
-          <ul class="footer-menu">
-            <li><a href="#">Data Analyst</a></li>
-            <li><a href="#">Search Engine Optimization</a></li>
-            <li><a href="#">Programming</a></li>
-            <li><a href="#">Artificial Intelligence</a></li>
-            <li><a href="#">Android Development</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6 col-lg-3 py-3">
-          <h5>Newsletter</h5>
-          <form action="#">
-            <input type="text" class="form-control" placeholder="Enter your email">
-            <button type="submit" class="btn btn-primary btn-sm mt-2">Submit</button>
-          </form>
-
+          <p>Nền tảng khóa học trực tuyến tốt nhất và cộng tác với hàng nghìn trường đại học và công ty hàng đầu</p>
           <div class="sosmed-button mt-3">
             <a href="#"><span class="mai-logo-facebook-f"></span></a>
             <a href="#"><span class="mai-logo-twitter"></span></a>
@@ -130,15 +101,31 @@
             <a href="#"><span class="mai-logo-linkedin"></span></a>
           </div>
         </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <h5>Về chúng tôi</h5>
+          <ul class="footer-menu">
+            <li><a href="/team">Đội ngũ</a></li>
+            <li><a href="/policy">Chính sách bảo mật</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3">
+          <h5>Các lĩnh vực phổ biến</h5>
+          <ul class="footer-menu">
+            {{#each fcat}}
+            <li><a href="/course{{caturl}}">{{name}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
       <hr>
       <div class="row mt-4">
         <div class="col-md-6">
-          <p id="copyright">Copyright &copy; 2020. This template designed by <a href="https://macodeid.com">MACode ID</a></p>
+          <p id="copyright">Copyright &copy; Rekdu 2020.</p>
         </div>
       </div>
-    </div>
-  </footer>
+    </div> <!-- .container -->
+  </footer> <!-- .page-footer -->
 
 <script src="/js/jquery-3.5.1.min.js"></script>
 

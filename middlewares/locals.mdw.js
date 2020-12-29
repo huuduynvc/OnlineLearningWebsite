@@ -18,6 +18,11 @@ module.exports = function(app) {
         res.locals.menu = html;
         next();
     })
+
+    app.use(async function(req, res, next) {
+        res.locals.fcat = await categoryModel.top5CatMostEnroll();
+        next();
+    })
 }
 
 function addCategories(obj) {
