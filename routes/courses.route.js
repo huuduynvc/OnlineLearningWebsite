@@ -39,7 +39,6 @@ router.get('/', async(req, res) => {
         page_items.push(item);
     }
     let listCourse = await courseModel.pageByCourse(offset, "");
-    console.log(listCourse);
     let arrayCourse = [];
     for (let [i, course] of listCourse.entries()) {
         arrayCourse.push({
@@ -144,7 +143,8 @@ router.post('/', async(req, res) => {
         {
             total = await courseModel.getCountCourseByCate(indexCate);
             nPages = Math.ceil(total / 6);
-            if(check != "") // have check
+            console.log(nPages);
+            if(check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.notSearchCateCheckPriceASC(indexCate, offset);
@@ -162,6 +162,7 @@ router.post('/', async(req, res) => {
             else // havn't check
             {
                listCourse = await courseModel.notSearchCateNotCheck(indexCate, offset);
+               console.log("OKOK");
             }
         }
         else // havn't category
