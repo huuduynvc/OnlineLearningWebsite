@@ -1,0 +1,39 @@
+{{#section 'css'}}
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{/section}}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa giáo viên</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+  <form method="POST">
+    <input type="hidden" id="txtId" name="txtId" value="{{teacher.id}}">
+    <div class="form-group">
+      <label for="txtName">Họ tên</label>
+      <input type="text" class="form-control" id="txtName" name="txtName"  value="{{teacher.fullname}}">
+    </div>
+    <div class="form-group">
+      <label for="txtUsername">Tên tài khoản</label>
+      <input type="text" class="form-control" id="txtUsername" name="txtUsername"  value="{{teacher.username}}">
+    </div>
+    <div class="form-group">
+      <label for="txtPhone">Số điện thoại</label>
+      <input type="text" class="form-control" id="txtPhone" name="txtPhone"  value="{{teacher.phone}}">
+    </div>
+    <div class="form-group">
+      <label for="txtEmail">Email</label>
+      <input type="email" class="form-control" id="txtEmail" name="txtEmail" value="{{teacher.email}}">
+    </div>
+    <div class="form-group">
+      <label for="txtInfo">Thông tin</label>
+      <input type="text" class="form-control" id="txtInfo" name="txtInfo"  value="{{teacher.info}}">
+    </div>
+    <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
+  </form>
+  </div>
+</div>

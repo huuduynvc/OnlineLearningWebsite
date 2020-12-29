@@ -12,14 +12,11 @@
     <script src="/admin/js/demo/datatables-demo.js"></script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Danh sách học viên</h1>
+    <h1 class="h3 mb-0 text-gray-800">Danh sách giáo viên</h1>
 </div>
 
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
-      {{!-- <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
-      </div> --}}
       <div class="card-body">
           <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -44,8 +41,9 @@
                       <td>{{username}}</td>
                       <td>{{info}}</td>
                       <td>
-                        <a href="/admin/course/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a href="/admin/course/{{id}}/del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <form id="delteacher{{id}}" method="POST" action="/admin/teacher/{{id}}/del"></form>
+                        <a href="/admin/teacher/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#delteacher{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                       </td>
                       </tr>
                       {{/each}}

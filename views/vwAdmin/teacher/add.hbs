@@ -12,14 +12,11 @@
     <script src="/admin/js/demo/datatables-demo.js"></script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Danh sách học viên</h1>
+    <h1 class="h3 mb-0 text-gray-800">Danh sách giáo viên</h1>
 </div>
 
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
-      {{!-- <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
-      </div> --}}
       <div class="card-body">
           <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -30,23 +27,25 @@
                       <th scope="col">phone</th>
                       <th scope="col">email</th>
                       <th scope="col">username</th>
-                      <th scope="col">role</th>
+                      <th scope="col">info</th>
                       <th scope="col">action</th>
                     </tr>
                   </thead>
                   <tbody>
-                      {{#each user}}
+                      {{#each teacher}}
                       <tr>
                       <th scope="row">{{id}}</th>
                       <td>{{fullname}}</td>
                       <td>{{phone}}</td>
                       <td>{{email}}</td>
                       <td>{{username}}</td>
-                      <td>{{role}}</td>
+                      <td>{{info}}</td>
                       <td>
-                        <form id="deluser{{id}}" method="POST" action="/admin/user/{{id}}/del"></form>
-                        <a href="/admin/user/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a href="javascript: $('#deluser{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                          <form id="addteacher{{id}}" method="POST">
+                            <input type="hidden" name="txtId" value="{{id}}">
+                            <input type="hidden" name="txtInfo" value="{{info}}">
+                          </form>
+                        <a href="javascript: $('#addteacher{{id}}').submit();"><i class="fa fa-check-square-o" aria-hidden="true"></i></a>
                       </td>
                       </tr>
                       {{/each}}

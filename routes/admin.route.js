@@ -445,6 +445,64 @@ router.get('/user', async(req, res) => {
     });
 });
 
+router.get('/user/:id/edit', async(req, res) => {
+
+    const user = await userModel.single(req.params.id);
+    const temp = [
+        { id: 1, name: 'Học viên' },
+        { id: 2, name: 'Giáo viên' },
+        { id: 3, name: 'Quản trị viên' }
+    ];
+    const role = [];
+    var myrole = {};
+    for (let i = 0; i < temp.length; i++) {
+        if (temp[i].id !== user.role) {
+            role.push(temp[i]);
+        } else {
+            myrole = {
+                id: temp[i].id,
+                name: temp[i].name,
+            };
+        }
+    }
+
+    res.render("vwAdmin/user/edit", {
+        user,
+        myrole,
+        role,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/user/:id/edit', async(req, res) => {
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+    var user = {
+        fullname: req.body.txtName,
+        username: req.body.txtUsername,
+        phone: req.body.txtPhone,
+        role: +req.body.role,
+        email: req.body.txtEmail,
+        modification_date: new Date(datetime),
+    }
+
+    await userModel.patch(user, req.params.id);
+
+    res.redirect(`/admin/user/${req.params.id}/edit`);
+});
+
+router.post('/user/:id/del', async function(req, res) {
+
+    await userModel.delUserEnrollCourse(req.params.id);
+    await userModel.delUserFeedback(req.params.id);
+    await userModel.delUserTeacher(req.params.id);
+
+    await userModel.del(req.params.id);
+
+    res.redirect(`/admin/user`);
+});
+
 //teacher admin
 router.get('/teacher', async(req, res) => {
 
@@ -454,6 +512,85 @@ router.get('/teacher', async(req, res) => {
         teacher,
         layout: 'admin.handlebars'
     });
+});
+
+router.get('/teacher/:id/edit', async(req, res) => {
+
+    const teacher = await teacherModel.single(req.params.id);
+
+    res.render("vwAdmin/teacher/edit", {
+        teacher,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/teacher/:id/edit', async(req, res) => {
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+    var user = {
+        id: req.params.id,
+        fullname: req.body.txtName,
+        username: req.body.txtUsername,
+        phone: req.body.txtPhone,
+        email: req.body.txtEmail,
+        modification_date: new Date(datetime),
+    }
+
+    var teacher = {
+        id: req.body.id,
+        info: req.body.txtInfo,
+    }
+
+    await userModel.patch(user, user.id);
+    await teacherModel.patch(teacher, teacher.id);
+
+    res.redirect(`/admin/teacher/${req.params.id}/edit`);
+});
+
+router.post('/teacher/:id/del', async function(req, res) {
+
+    const teacher = {
+        id: req.params.id,
+        role: 1,
+    }
+    await userModel.patch(teacher, teacher.id);
+    await teacherModel.patch({
+        id: teacher.id,
+        status: 0,
+    }, teacher.id)
+
+    res.redirect(`/admin/teacher`);
+});
+
+router.get('/teacher/add', async(req, res) => {
+
+    const teacher = await teacherModel.getApplyTeacher();
+
+    res.render("vwAdmin/teacher/add", {
+        teacher,
+        layout: 'admin.handlebars'
+    });
+});
+
+router.post('/teacher/add', async(req, res) => {
+
+    const teacher = {
+        id: +req.body.txtId,
+        info: req.body.txtInfo,
+        status: 1,
+    }
+
+    const user = {
+        id: +req.body.txtId,
+        role: 2,
+    }
+
+    await teacherModel.add(teacher);
+    await userModel.patch(user, user.id);
+    await teacherModel.delApply(user.id);
+
+    res.redirect('/admin/teacher/add');
 });
 
 module.exports = router;

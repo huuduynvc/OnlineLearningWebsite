@@ -1,26 +1,23 @@
 const db = require('../utils/db');
 
-const TBL_User ='user';
-
-module.exports= {
-    all(){
-        return db.load('select * from ${TBL_User}');
-    },
-    async single(id){
-        const rows = await db.load('select * from $(TBL_User) where id=${id}');
-        if (rows.length===0)
-        return null;
-
-        return rows[0];
-    },
-    add(entity){
-        return db.add(entity,TBL_User)
-    },
-}
-
 module.exports = {
     add: entity => db.add('user', entity),
     all: () => db.load(`select * from user`),
+    async single(id) {
+        const rows = await db.load(`select * from user where id=${id}`);
+        if (rows.length === 0)
+            return null;
+
+        return rows[0];
+    },
+    del: id => db.del('user', { id: id }),
+    delUserFeedback: id => db.del('feedback', { id_user: id }),
+    delUserEnrollCourse: id => db.del('enroll_course', { id_user: id }),
+    delUserTeacher: id => db.del('teacher', { id: id }),
+    patch: (entity, id) => {
+        const condition = { id: id };
+        return db.patch('user', entity, condition);
+    },
     async singleByUserName(username) {
         const rows = await db.load(`select * from user where username = '${username}'`);
         if (rows.length === 0)
