@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     var key = "";
-    var sort = "";
+    var sort = undefined;
     var page ="1";
     var cate = -1;
    

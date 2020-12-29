@@ -92,7 +92,7 @@ router.post('/', async(req, res) => {
         {
              total = await courseModel.getCountCourseByCate(indexCate);
              nPages = Math.ceil(total / 6);
-            if(check != "") // have check
+            if(check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.searchCateCheckPriceASC(key, indexCate, offset);
@@ -115,7 +115,7 @@ router.post('/', async(req, res) => {
         }
         else // havn't category
         {
-            if(check != "") // have check
+            if(check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.searchNotCateCheckPriceASC(key, offset);
@@ -143,7 +143,6 @@ router.post('/', async(req, res) => {
         {
             total = await courseModel.getCountCourseByCate(indexCate);
             nPages = Math.ceil(total / 6);
-            console.log(nPages);
             if(check != undefined) // have check
             {
                 if (check == "priceincrease")
@@ -162,12 +161,11 @@ router.post('/', async(req, res) => {
             else // havn't check
             {
                listCourse = await courseModel.notSearchCateNotCheck(indexCate, offset);
-               console.log("OKOK");
             }
         }
         else // havn't category
         {
-            if(check != "") // have check
+            if(check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.notSearchNotCateCheckPriceASC(offset);
@@ -237,7 +235,6 @@ router.post('/', async(req, res) => {
         page_items.push(item);
     }
 
-    console.log(listCourse);
     let arrayCourse = [];
     for (let [i,course] of listCourse.entries()) {
         arrayCourse.push({
