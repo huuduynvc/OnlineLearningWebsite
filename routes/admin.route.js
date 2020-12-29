@@ -538,8 +538,9 @@ router.post('/teacher/:id/edit', async(req, res) => {
     }
 
     var teacher = {
-        id: req.body.id,
+        id: req.params.id,
         info: req.body.txtInfo,
+        status: 1,
     }
 
     await userModel.patch(user, user.id);
