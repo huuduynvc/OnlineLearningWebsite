@@ -11,7 +11,7 @@
       <nav aria-label="breadcrumb">
       <ol class="breadcrumb" style="background-color: #ffffff!important; margin-bottom:0px!important">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item"><a href="">Khóa học</a></li>
+        <li class="breadcrumb-item"><a href="/course">Khóa học</a></li>
         <li class="breadcrumb-item"><a href="/course/{{course_detail.id}}">{{course_detail.name}}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{lesson_detail.name}}</li>
       </ol>
@@ -25,7 +25,7 @@
             <div class="blog-single-wrap">
               <div class="post-thumbnail">
                 <video width="730" controls>
-                  <source src="/video/{{course_detail.id}}/{{lesson_detail.id}}.mkv">
+                  <source src="/video/{{course_detail.id}}/{{lesson_detail.video}}">
                 </video>
               </div>
               <h3 class="post-title">{{lesson_detail.name}}</h3>

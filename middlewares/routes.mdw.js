@@ -5,50 +5,6 @@ const userModel = require('../models/user.model');
 const numeral = require('numeral');
 
 module.exports = function(app) {
-    // function getMenu(data, id_find) {
-    //     return (function(arr) {
-    //         for (var i = 0; i < data.length; i++) {
-    //             (function(item) {
-    //                 if (!item || item.id_parent != id_find || !item.id || !item.name) return;
-    //                 item = (function(json) {
-    //                     var sub = getMenu(data, json.id);
-    //                     if (sub.length > 0) json.sub = sub;
-    //                     return json;
-    //                 })({
-    //                     id: item.id,
-    //                     name: item.name,
-    //                     url: item.url
-    //                 });
-    //                 return arr.push(item);
-    //             })(data[i]);
-    //         }
-    //         return arr;
-    //     })([])
-    // }
-
-    // function addCategories(obj) {
-    //     htmlBuilder = '';
-    //     for (var i = 0; i < obj.length; i++) {
-    //         if (obj[i].sub != null)
-    //             htmlBuilder += '<li class="nav-item active dropdown">' +
-    //             `<a class="nav-link dropdown-toggle" href="${obj[i].url}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    //   ${obj[i].name}
-    // </a>`;
-    //         else
-    //             htmlBuilder += '<li class="nav-item active">' +
-    //             `<a class="nav-link" href="${obj[i].url}">${obj[i].name}</a>`;
-
-    //         if (obj[i].sub != null) {
-    //             htmlBuilder += '<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
-    //             htmlBuilder += addCategories(obj[i].sub);
-    //             htmlBuilder += '</ul>';
-    //         }
-    //         htmlBuilder += '</li>';
-    //     }
-
-    //     return htmlBuilder;
-    // }
-
     function createRating(i, rating, name) {
         html = `<div id="rater${name}${i}"></div>
         <script>
@@ -80,7 +36,7 @@ module.exports = function(app) {
                 rating: numeral(topCourseNew[i].rating).format('0,0'),
                 rating_star: createRating(i, topCourseNew[i].rating, 'topNew'),
                 num_of_rating: topCourseNew[i].num_of_rating,
-                img: topCourseNew[i].image,
+                image: topCourseNew[i].image,
                 current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
@@ -96,7 +52,7 @@ module.exports = function(app) {
                 rating: numeral(topCourseNew[i].rating).format('0.0'),
                 rating_star: createRating(i, topCourseNew[i].rating, 'topNew'),
                 num_of_rating: topCourseNew[i].num_of_rating,
-                img: topCourseNew[i].image,
+                image: topCourseNew[i].image,
                 current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
@@ -116,7 +72,7 @@ module.exports = function(app) {
                 rating: numeral(topCourseView[i].rating).format('0,0'),
                 rating_star: createRating(i, topCourseView[i].rating, 'topView'),
                 num_of_rating: topCourseView[i].num_of_rating,
-                img: topCourseView[i].image,
+                image: topCourseView[i].image,
                 current_price: numeral(topCourseView[i].price - topCourseView[i].price * topCourseView[i].offer / 100).format('0,0'),
                 price: numeral(topCourseView[i].price).format('0,0'),
                 offer: topCourseView[i].offer,
@@ -132,7 +88,7 @@ module.exports = function(app) {
                 rating: numeral(topCourseView[i].rating).format('0,0'),
                 rating_star: createRating(i, topCourseView[i].rating, 'topView'),
                 num_of_rating: topCourseView[i].num_of_rating,
-                img: topCourseView[i].image,
+                image: topCourseView[i].image,
                 current_price: numeral(topCourseView[i].price - topCourseView[i].price * topCourseView[i].offer / 100).format('0,0'),
                 price: numeral(topCourseView[i].price).format('0,0'),
                 offer: topCourseView[i].offer,
@@ -151,7 +107,7 @@ module.exports = function(app) {
                 rating: numeral(topCourseHot[i].rating).format('0,0'),
                 rating_star: createRating(i, topCourseHot[i].rating, 'topHot'),
                 num_of_rating: topCourseHot[i].num_of_rating,
-                img: topCourseHot[i].image,
+                image: topCourseHot[i].image,
                 current_price: numeral(topCourseHot[i].price - topCourseHot[i].price * topCourseHot[i].offer / 100).format('0,0'),
                 price: numeral(topCourseHot[i].price).format('0,0'),
                 offer: topCourseHot[i].offer,
@@ -174,8 +130,10 @@ module.exports = function(app) {
     })
 
     app.use('/account', require('../routes/account.route'));
-    // course
+
     app.use('/course', require('../routes/courses.route'));
+
+    app.use('/teacher', require('../routes/teacher.route'));
 
     app.use('/admin', require('../routes/admin.route'));
 }

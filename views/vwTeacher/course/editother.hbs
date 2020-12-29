@@ -1,0 +1,45 @@
+{{#section 'css'}}
+{{/section}}
+{{#section 'js'}}
+{{/section}}
+<div class="widget">
+              <h3>Đề cương khóa học</h3>
+            <div class="accordion" id="accordionExample">
+              {{#each course_detail.chapter_lesson}}
+              <div class="card">
+                <div class="card-header" id="heading{{this.id}}">
+                  <h6 class="mb-0 d-flex justify-content-between">
+                    <a href="/teacher/course/{{id_course}}/editchapter/{{id}}">
+                    <button class="btn btn-link text-left" style="width: 100%; padding-left:0px;" type="button" data-toggle="collapse" data-target="#collapse{{this.id}}" aria-expanded="true" aria-controls="collapse{{this.id}}">
+                      {{this.name}}
+                    </button>
+                    </a>
+                    <div>
+                    <form id="delChapter{{id}}" method="POST" action="/teacher/course/{{id_course}}/delchapter/{{id}}"></form>
+                    <a href="/teacher/course/{{id_course}}/editchapter/{{id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a href="javascript: $('#delChapter{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>            
+                    </div>     
+                  </h6>
+                </div>
+
+                <div id="collapse{{this.id}}" class="collapse show" aria-labelledby="heading{{this.id}}" data-parent="#accordionExample">
+
+                  {{#each this.lesson}}
+                  <div class="card-body border-bottom d-flex justify-content-between">
+                    <a class="d-flex text-dark" href="/teacher/course/{{../id_course}}/chapter/{{../id}}/editlesson/{{id}}">{{this.name}}</a>
+                    <div>
+                    <form id="delLesson{{id}}" method="POST" action="/teacher/course/{{../id_course}}/dellesson/{{id}}"></form>
+                    <a class="text-dark" href="/teacher/course/{{../id_course}}/chapter/{{../id}}/editlesson/{{id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a class="text-dark" href="javascript: $('#delLesson{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>            
+                    </div> 
+                  </div>
+                  {{/each}}
+                </div>
+              </div>
+              {{/each}}
+            </div>                 
+            </div>
+
+  <a href="/teacher/course">
+    <button type="submit" class="btn btn-primary px-5 my-5">Hoàn tất đề cương khóa học</button>
+  </a>

@@ -23,4 +23,9 @@ module.exports = {
     GROUP BY cat.id
     ORDER BY num DESC limit 6`),
 
+    top5CatMostEnroll: () => db.load(`SELECT cat.url as caturl, cat.name, count(cat.id) as num
+    FROM category cat LEFT JOIN course c on cat.id = c.id_category LEFT JOIN enroll_course ec on c.id = ec.id_course
+    GROUP BY cat.id
+    ORDER BY num DESC limit 5`),
+
 };

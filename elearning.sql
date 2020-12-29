@@ -79,7 +79,7 @@ CREATE TABLE `chapter` (
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_course` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +88,7 @@ CREATE TABLE `chapter` (
 
 LOCK TABLES `chapter` WRITE;
 /*!40000 ALTER TABLE `chapter` DISABLE KEYS */;
-INSERT INTO `chapter` VALUES (1,'Chương 1: Mở đầu',1),(2,'Chương 2: Kiến thức cơ bản',1),(3,'Chương 3: Kiến thức nâng cao',1),(4,'Chương 4: Bài tập áp dụng',1),(5,'Chương 5: Tổng kết',1),(6,'Chương 1: Mở đầu',2),(7,'Chương 2: Kiến thức cơ bản',2),(8,'Chương 3: Kiến thức nâng cao',2),(9,'Chương 4: Bài tập áp dụng',2),(10,'Chương 5: Tổng kết',2),(11,'Chương 1: Mở đầu',3),(12,'Chương 2: Kiến thức cơ bản',3),(13,'Chương 3: Kiến thức nâng cao',3),(14,'Chương 4: Bài tập áp dụng',3),(15,'Chương 5: Tổng kết',3),(17,'Chương 6: Project thực tế',1),(18,'Chương 1: Giới thiệu khóa học',4),(19,'Chương 2: Ôn tâp kiến thức cơ bản',4),(20,'Chương 3: Lý thuyết khóa học',4),(21,'Chương 4: Bài tâp thực hành',4),(23,'Chương 2: Ôn tâp kiến thức cơ bản',30);
+INSERT INTO `chapter` VALUES (1,'Chương 1: Mở đầu',1),(2,'Chương 2: Kiến thức cơ bản',1),(3,'Chương 3: Kiến thức nâng cao',1),(4,'Chương 4: Bài tập áp dụng',1),(5,'Chương 5: Tổng kết',1),(6,'Chương 1: Mở đầu',2),(7,'Chương 2: Kiến thức cơ bản',2),(8,'Chương 3: Kiến thức nâng cao',2),(9,'Chương 4: Bài tập áp dụng',2),(10,'Chương 5: Tổng kết',2),(11,'Chương 1: Mở đầu',3),(12,'Chương 2: Kiến thức cơ bản',3),(13,'Chương 3: Kiến thức nâng cao',3),(14,'Chương 4: Bài tập áp dụng',3),(15,'Chương 5: Tổng kết',3),(17,'Chương 6: Project thực tế',1),(18,'Chương 1: Giới thiệu khóa học',4),(19,'Chương 2: Ôn tâp kiến thức cơ bản',4),(20,'Chương 3: Lý thuyết khóa học',4),(21,'Chương 4: Bài tâp thực hành',4),(23,'Chương 2: Ôn tâp kiến thức cơ bản',30),(27,'Chương 1: Giới thiệu khóa học',32);
 /*!40000 ALTER TABLE `chapter` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `course` (
   FULLTEXT KEY `name` (`name`,`description`),
   FULLTEXT KEY `name_2` (`name`),
   FULLTEXT KEY `description` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',299000,10,'2020-12-29 04:06:37','2020-12-29 09:27:21','<p>456</p>',1,3,126,NULL),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3,57,NULL),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4,100,NULL),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4,73,NULL),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3,4,NULL),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3,80,NULL),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4,NULL,NULL),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4,90,NULL),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3,8,NULL),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3,NULL,NULL),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11,NULL,NULL),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12,120,NULL),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9,NULL,NULL),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13,124,NULL),(29,'Lập trình java nâng cao',200000,10,'2020-12-28 08:06:32','2020-12-28 08:06:32','<p><strong>Lập tr&igrave;nh java n&acirc;ng cao</strong></p>',1,4,NULL,NULL),(30,'Lập trình web nâng cao',250000,20,'2020-12-28 16:36:02','2020-12-29 09:57:21','<p>Kh&oacute;a học lập tr&igrave;nh web n&acirc;ng cao</p>',1,3,NULL,NULL);
+INSERT INTO `course` VALUES (1,'Lập trình PHP cơ bản',299000,10,'2020-12-29 04:06:37','2020-12-29 09:27:21','<p>456</p>',1,3,129,'1.jpg'),(2,'Lập trình Web cơ bản ',200000,0,'2020-07-29 19:07:52','2020-07-29 19:07:52','Lập trình web cơ bản ',1,3,57,'2.jpg'),(3,'Lập trình Java ',199000,10,'2020-07-30 19:07:52','2020-07-30 19:07:52','Lập trình Java ',1,4,100,'3.jpg'),(4,'Lập trình Kotlin ',300000,15,'2020-08-01 19:07:52','2020-08-01 19:07:52','Lập trình Kotlin ',1,4,73,'4.jpg'),(5,'Lập trình Javascript ',299000,10,'2020-08-02 19:07:52','2020-08-02 19:07:52','Lập trình Javascript ',1,3,4,'5.jpg'),(6,'Lập trình Frontend ',499000,10,'2020-08-02 20:07:52','2020-08-02 20:07:52','Lập trình Frontend ',1,3,80,'6.jpg'),(7,'Lập trình Android ',399000,30,'2020-08-02 10:07:52','2020-08-02 10:07:52','Lập trình Android ',1,4,NULL,'7.jpg'),(8,'Lập trình iOS ',399000,30,'2020-08-02 11:07:52','2020-08-02 11:07:52','Lập trình iOS ',1,4,90,'8.jpg'),(9,'Thiết kế website WordPress chuẩn SEO ',299000,10,'2020-08-03 11:07:52','2020-08-03 11:07:52','Thiết kế website WordPress chuẩn SEO',1,3,8,'9.jpg'),(10,'All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',399000,0,'2020-08-04 11:07:52','2020-08-04 11:07:52','All in one, html/css3, bootstrap 4 và học cắt web từ file thiết kế qua 20 bài tập thực tế',1,3,NULL,'10.jpg'),(11,'Luyện thi TOEIC new format mục tiêu 450-750+',450000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Luyện thi TOEIC new format mục tiêu 450-750+',1,11,NULL,'11.jpg'),(12,'Tiếng Pháp cơ bản cấp độ 1',350000,25,'2020-08-04 11:07:52','2020-08-04 11:07:52','Tiếng Pháp cơ bản cấp độ 1',1,12,120,'12.jpg'),(13,'Học guitar đệm hát cấp tốc trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Học guitar đệm hát cấp tốc trong 30 ngày',1,9,NULL,'13.jpg'),(14,'Chinh phục Beatbox trong 30 ngày',250000,10,'2020-08-04 11:07:52','2020-08-04 11:07:52','Chinh phục Beatbox trong 30 ngày',1,13,124,'14.jpg'),(29,'Lập trình java nâng cao',200000,10,'2020-12-28 08:06:32','2020-12-28 08:06:32','<p><strong>Lập tr&igrave;nh java n&acirc;ng cao</strong></p>',1,4,NULL,'29.jpg'),(30,'Lập trình web nâng cao',250000,20,'2020-12-28 16:36:02','2020-12-29 09:57:21','<p>Kh&oacute;a học lập tr&igrave;nh web n&acirc;ng cao</p>',1,3,NULL,'30.jpg'),(32,'Kĩ năng mềm',200000,10,'2020-12-29 17:15:53','2020-12-29 17:15:53','<p>Kĩ năng mềm</p>',1,10,NULL,'32.jpg');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +229,7 @@ CREATE TABLE `lesson` (
   `id_chapter` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +238,7 @@ CREATE TABLE `lesson` (
 
 LOCK TABLES `lesson` WRITE;
 /*!40000 ALTER TABLE `lesson` DISABLE KEYS */;
-INSERT INTO `lesson` VALUES (1,'Bài 1: Giới thiệu khóa học','<p>Giới thiệu kh&oacute;a học 1</p>',NULL,'2020-11-28 19:07:52','2020-12-29 07:18:07',1,1),(2,'Bài 2: Cài đặt phần mềm cần thiết','Cài đặt phần mềm cần thiết',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(3,'Bài 3: Ôn tập kiến thức cơ bản','Ôn tập kiến thức cơ bản',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(4,'Bài 4: Giới thiệu kiến thức mới','Giới thiệu kiến thức mới',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(5,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:04:13','2020-12-28 16:04:13',18,1),(6,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:37:03','2020-12-28 16:37:03',23,1);
+INSERT INTO `lesson` VALUES (1,'Bài 1: Giới thiệu khóa học','<p>Giới thiệu kh&oacute;a học 1</p>',NULL,'2020-11-28 19:07:52','2020-12-29 07:18:07',1,1),(2,'Bài 2: Cài đặt phần mềm cần thiết','Cài đặt phần mềm cần thiết',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',1,1),(3,'Bài 3: Ôn tập kiến thức cơ bản','Ôn tập kiến thức cơ bản',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(4,'Bài 4: Giới thiệu kiến thức mới','Giới thiệu kiến thức mới',NULL,'2020-11-28 19:07:52','2020-11-28 19:07:52',2,1),(5,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:04:13','2020-12-28 16:04:13',18,1),(6,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</p>',NULL,'2020-12-28 16:37:03','2020-12-28 16:37:03',23,1),(10,'Bài 1: Giới thiệu khóa học và cách học hiệu quả','<p><strong>Giới thiệu kh&oacute;a học v&agrave; c&aacute;ch học hiệu quả</strong></p>','10.mkv','2020-12-29 17:22:39','2020-12-29 17:22:39',27,1),(11,'Bài 2: Cài đặt phần mềm','<p><strong>C&agrave;i đặt phần mềm</strong></p>','11.mkv','2020-12-29 17:24:58','2020-12-29 17:24:58',27,1);
 /*!40000 ALTER TABLE `lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,7 +263,7 @@ CREATE TABLE `teacher` (
 
 LOCK TABLES `teacher` WRITE;
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-INSERT INTO `teacher` VALUES (1,'nguyenhuuduy2011@gmail.com sadsad',1),(3,' Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',1),(4,'Teacher Nguyễn Văn Diện',1);
+INSERT INTO `teacher` VALUES (1,'<p><strong>Nguyễn&nbsp;<em>Hữu&nbsp;</em></strong>Duy</p>',1),(3,' Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',1),(4,'Teacher Nguyễn Văn Diện',1);
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +288,7 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +297,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','0369439969','nguyenhuuduy@gmail.com','huuduy','123',2,'2020-12-29 10:34:22','2020-07-28 19:07:52',1,NULL),(2,'Ngọc Minh Duy','0961509619','minhduy3110@gmail.com','nmd30cm','123',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(3,'Trần Vũ Công','0281516887','maydapdaklak@gmail.com','trancong1','123',3,'2020-12-29 10:34:08','2020-12-29 11:12:59',1,NULL),(4,'Nguyễn Văn Diện','0966028215','vandien3103@gmail.com','vandien99','123',1,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,NULL),(34,'admin4','0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,NULL,NULL,1,NULL);
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','0369439969','nguyenhuuduy@gmail.com','huuduy','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-12-29 10:34:22','2020-12-29 12:32:27',1,'1.jpg'),(2,'Ngọc Minh Duy','0961509619','minhduy3110@gmail.com','nmd30cm','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'2.jpg'),(3,'Trần Vũ Công','0281516887','maydapdaklak@gmail.com','trancong1','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-12-29 10:34:08','2020-12-29 11:12:59',1,'3.jpg'),(4,'Nguyễn Văn Diện','0966028215','vandien3103@gmail.com','vandien99','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'4.jpg'),(34,'admin4','0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'34.jpg'),(37,'Administration','0396993690','admin.rekdu@gmail.com','admin','$2a$10$oBEbkh5CVWBbVj9JSldO8OzbGfOzbkCcTDsLrJrKkXkOjCymfVmzi',3,'2020-12-29 17:10:03','2020-12-29 17:10:03',1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -310,4 +310,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-29 12:16:53
+-- Dump completed on 2020-12-29 18:35:23
