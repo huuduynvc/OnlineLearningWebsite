@@ -20,7 +20,7 @@ router.get('/login', async function(req, res) {
 
 router.post('/login', async function(req, res) {
     const user = await userModel.singleByUserName(req.body.username);
-    if (user === null) {
+    if (user === null || user === '') {
         return res.render('vwAccount/login', {
             layout: false,
             err_message: 'Sai tên người dùng hoặc mật khẩu.'
@@ -28,7 +28,7 @@ router.post('/login', async function(req, res) {
     }
 
     const ret = bcrypt.compareSync(req.body.password, user.password);
-    if (ret === false) {
+    if (ret === 1) {
         return res.render('vwAccount/login', {
             layout: false,
             err_message: 'Sai tên người dùng hoặc mật khẩu.'
