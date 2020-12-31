@@ -10,11 +10,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get('/login', async function(req, res) {
-    // if (req.headers.referer) {
-    //     req.session.retUrl = ref;
-    // }
+    if (req.headers.referer) {
+        req.session.retUrl = req.headers.referer;
+    }
     res.render('vwAccount/login', {
-        layout: false
+        layout: false,
     });
 })
 
@@ -28,7 +28,7 @@ router.post('/login', async function(req, res) {
     }
 
     const ret = bcrypt.compareSync(req.body.password, user.password);
-    if (ret === 1) {
+    if (ret === false) {
         return res.render('vwAccount/login', {
             layout: false,
             err_message: 'Sai tên người dùng hoặc mật khẩu.'
@@ -56,34 +56,53 @@ router.get('/register', async function(req, res) {
 })
 
 router.post('/register', async function(req, res) {
-    const hash = bcrypt.hashSync(req.body.password, 10);
-    //const dob = moment(req.body.dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    var currentdate = new Date();
-    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-    const user = {
-        username: req.body.username,
-        password: hash,
-        //birthday: dob,
-        fullname: req.body.name,
-        email: req.body.email,
-        creation_date: new Date(datetime),
-        modification_date: new Date(datetime),
-        role: 1,
-        status: 1,
-        phone: req.body.phone
+    try {
+        const hash = bcrypt.hashSync(req.body.txtPassword, 10);
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        const user = {
+            username: req.body.txtUsername,
+            password: hash,
+            fullname: req.body.txtName,
+            email: req.body.txtEmail,
+            creation_date: new Date(datetime),
+            modification_date: new Date(datetime),
+            role: 1,
+            status: 1,
+            phone: req.body.txtPhone
+        }
+        await userModel.add(user);
+    } catch (e) {
+        console.error(e);
+
+        res.render('vwAccount/register', {
+            layout: false,
+            err_message: 'Đăng kí thất bại !'
+        });
+
     }
 
-    await userModel.add(user);
     res.render('vwAccount/register', {
         layout: false,
-        err_message: 'Đăng kí thành công!!'
+        err_message: 'Đăng kí thành công !'
     });
+
 })
 
-router.get('/is-available', async function(req, res) {
+router.get('/username/is-available', async function(req, res) {
     const username = req.query.user;
     const user = await userModel.singleByUserName(username);
     if (user === null) {
+        return res.json(true);
+    }
+
+    res.json(false);
+})
+
+router.get('/email/is-available', async function(req, res) {
+    const email = req.query.email;
+    const result = await userModel.singleByEmail(email);
+    if (result === null) {
         return res.json(true);
     }
 

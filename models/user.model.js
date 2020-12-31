@@ -25,6 +25,13 @@ module.exports = {
 
         return rows[0];
     },
+    async singleByEmail(email) {
+        const rows = await db.load(`select * from user where email = '${email}'`);
+        if (rows.length === 0)
+            return null;
+
+        return rows[0];
+    },
     countUser: () => db.load(`select count(*) as sl from user where status = 1`),
     countTeacher: () => db.load(`select count(*) as sl from user where role = 3 and status = 1`),
     countHappies: () => db.load(`select count(*) as sl from (select * from feedback where rating >=3 and status =1 group by id_user) as myalias`)

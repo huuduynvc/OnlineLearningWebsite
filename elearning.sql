@@ -54,7 +54,7 @@ CREATE TABLE `category` (
   PRIMARY KEY (`id`),
   FULLTEXT KEY `name` (`name`),
   FULLTEXT KEY `name_2` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `enroll_course` (
   `enroll_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +199,7 @@ CREATE TABLE `feedback` (
   `modification_date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,8 +287,9 @@ CREATE TABLE `user` (
   `status` int(11) NOT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +298,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','0369439969','nguyenhuuduy@gmail.com','huuduy','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-12-29 10:34:22','2020-12-29 12:32:27',1,'1.jpg'),(2,'Ngọc Minh Duy','0961509619','minhduy3110@gmail.com','nmd30cm','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'2.jpg'),(3,'Trần Vũ Công','0281516887','maydapdaklak@gmail.com','trancong1','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-12-29 10:34:08','2020-12-29 11:12:59',1,'3.jpg'),(4,'Nguyễn Văn Diện','0966028215','vandien3103@gmail.com','vandien99','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'4.jpg'),(34,'admin4','0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'34.jpg'),(37,'Administration','0396993690','admin.rekdu@gmail.com','admin','$2a$10$oBEbkh5CVWBbVj9JSldO8OzbGfOzbkCcTDsLrJrKkXkOjCymfVmzi',3,'2020-12-29 17:10:03','2020-12-29 17:10:03',1,NULL);
+INSERT INTO `user` VALUES (1,'Nguyễn Hữu Duy','0369439969','nguyenhuuduy@gmail.com','huuduy','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-12-29 10:34:22','2020-12-29 12:32:27',1,'1.jpg'),(2,'Ngọc Minh Duy','0961509619','minhduy3110@gmail.com','nmd30cm','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'2.jpg'),(3,'Trần Vũ Công','0281516887','maydapdaklak@gmail.com','trancong1','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-12-29 10:34:08','2020-12-29 11:12:59',1,'3.jpg'),(4,'Nguyễn Văn Diện','0966028215','vandien3103@gmail.com','vandien99','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',2,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'4.jpg'),(34,'admin4','0369439969','admin4@gmail.com','admin4','$2a$10$q/2pNU9r9XoS5KHpfl7hEu47xMnwYiCc3UKgwLFeV06/xmjL0IEPC',3,'2020-07-28 19:07:52','2020-07-28 19:07:52',1,'34.jpg'),(37,'Administration','0396993690','admin.rekdu@gmail.com','admin','$2a$10$oBEbkh5CVWBbVj9JSldO8OzbGfOzbkCcTDsLrJrKkXkOjCymfVmzi',3,'2020-12-29 17:10:03','2020-12-29 17:10:03',1,NULL),(78,'Hải','01234567890','hai@gmail.com','haimtp','$2a$10$YQUh.7VTZgpuSBURX53nVePyd8R6JphcOk7nruZNk9b91U7YJe0qK',1,'2020-12-31 15:27:13','2020-12-31 15:27:13',1,NULL),(92,'Hải','0123456789','hai1@gmail.com','haimtp1','$2a$10$tH9yj8AQ7iI0TQG5JjNe7eARXgqsQdZFvGBNmxNN/TgE6kri1Jqja',1,'2020-12-31 16:16:00','2020-12-31 16:16:00',1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -310,4 +311,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-29 18:35:23
+-- Dump completed on 2020-12-31 16:17:02

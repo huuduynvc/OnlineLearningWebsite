@@ -22,9 +22,6 @@
 
   <link rel="stylesheet" href="/css/theme.css">
 
-  <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-
 </head>
 <body>
 
@@ -35,90 +32,59 @@
 
   <!-- Back to top button -->
   <div class="back-to-top"></div>
-
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a href="./index.html" class="navbar-brand">Rekdu</a>
-
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse collapse" id="navbarContent">
-          <ul class="navbar-nav ml-auto py-3 py-lg-0">
-            <li class="nav-item">
-              <a href="about.html" class="nav-link">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a href="tutor.html" class="nav-link">Find Tutor</a>
-            </li>
-            <li class="nav-item">
-              <a href="course.html" class="nav-link">Explore Course</a>
-            </li>
-            <li class="nav-item">
-              <a href="blog.html" class="nav-link">Our Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">Become Tutor</a>
-            </li>
-            <li class="nav-item">
-              <a href="account.html" class="btn btn-primary">Sign Up</a>
-            </li>
-          </ul>
-        </div> <!-- .navbar-collapse -->
-      </div> <!-- .container -->
-    </nav> <!-- .navbar -->
-  </header>
   <main>
     <div class="page-section">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="card-sign mb-3">
-        {{#if err_message}}
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-                {{err_message}}       
-        {{/if}}
               <div class="wrap">
+                {{#if err_message}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{err_message}}
+                </div>
+                {{/if}}
                 <h1 class="text-center fg-primary">Đăng kí</h1>
                 <form class="mt-4" action="" method="POST" id="frmRegister">
                   <div class="form-group">
                     <label for="txtName">Họ và tên</label>
-                    <input type="text" class="form-control" id="txtName" name="name">
+                    <input type="text" class="form-control" id="txtName" name="txtName">
                   </div>
                   <div class="form-group">
                     <label for="txtUsername">Tên tài khoản</label>
-                    <input type="text" class="form-control" id="txtUsername" name="username">
+                    <input type="text" class="form-control" id="txtUsername" name="txtUsername">
                   </div>
                   <div class="form-group">
                     <label for="txtPassword">Mật khẩu</label>
-                    <input type="password" class="form-control" id="txtPassword" name="password">
+                    <input type="password" class="form-control" id="txtPassword" name="txtPassword">
                   </div>
                   <div class="form-group">
                     <label for="txtConfirm">Xác nhận mật khẩu</label>
-                    <input type="password" class="form-control" id="txtConfirm" name="confirm">
+                    <input type="password" class="form-control" id="txtConfirm" name="txtConfirm">
                   </div>
                   <div class="form-group">
                     <label for="txtEmail">Địa chỉ email</label>
-                    <input type="text" class="form-control" id="txtEmail" name="email">
+                    <input type="text" class="form-control" id="txtEmail" name="txtEmail">
                   </div>
 
                   <div class="form-group">
                     <label for="txtPhone">Số điện thoại</label>
-                    <input type="text" class="form-control" id="txtPhone" name="phone">
+                    <input type="text" class="form-control" id="txtPhone" name="txtPhone">
                   </div>
 
-                  <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                  <input type="hidden" class="form-control" id="txt" name="txt">
+
+                  <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Tạo tài khoản</button>
+                  </div>
                 </form>
               </div>
             </div>
 
-            <p class="text-center">Bạn đã có tài khoản? Đăng nhập <a href="#">tại đây</a>.</p>
+            <p class="text-center">Bạn đã có tài khoản? Đăng nhập <a href="/account/login">tại đây</a>.</p>
 
             <div class="text-center space-up-48">
               <small class="text-weight-bold fg-secondary">Đăng nhập với</small>
@@ -129,6 +95,10 @@
               </div>
             </div>
         </div>
+      </div>
+    </div>
+    </div>
+  </main>
         
 <script src="/js/jquery-3.5.1.min.js"></script>
 
@@ -147,16 +117,63 @@
 <script src="/vendor/wow/wow.min.js"></script>
 
 <script src="/js/theme.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
 </script>                                                                                 
 
 <script>
-      var validated = function(){
-			var error = validated_name();
+    
+    $('#frmRegister').on('submit', function (e) {
+      e.preventDefault();
+      var rel = $('#txt').val(validated_name());
+      if($('#txt').val() == "true"){
+        rel = $('#txt').val(validated_username());
+        if($('#txt').val() == "true"){
+          const username = $('#txtUsername').val();
+          $.getJSON(`/account/username/is-available?user=${username}`, function (data) {
+            if (data === true) {
+              rel = $('#txt').val(validated_password());
+              if($('#txt').val() == "true"){
+                rel = $('#txt').val(validated_confirm());
+                if($('#txt').val() == "true"){
+                  rel = $('#txt').val(validated_email());
+                  if($('#txt').val() == "true"){
+                    const email = $('#txtEmail').val();
+                    $.getJSON(`/account/email/is-available?email=${email}`, function (data) {
+                      if (data === true) {
+                        rel = $('#txt').val(validated_phone());
+                        if($('#txt').val() == "true"){
+                          $('#frmRegister').off('submit').submit();
+                        }else{
+                          alert("Số điện thoại không hợp lệ.");
+                        }
+                      } else {         
+                        alert('Email đã tồn tại.');
+                      }
+                    })
+                  }else{
+                    alert("Email không hợp lệ.");
+                  }
+                }else{
+                  alert("Xác nhận mật khẩu sai.");
+                }
+              }else{
+                alert("Xin vui lòng điền mật khẩu của bạn.");
+              }
+            } else {         
+              alert('Tên tài khoản đã tồn tại.');
+            }
+          })
+        }else{
+          alert("Xin vui lòng điền tên tài khoản của bạn.");
+        }
+      }else{
+        alert("Xin vui lòng điền họ và tên của bạn.");
+      }
+    });
+
+
+
+    function validated(){
+      var error = validated_name();
       if(error){
         error = validated_username();
         if(error){
@@ -166,7 +183,7 @@
             if(error){
               error = validated_email();
               if(error){
-                error = validated_Phone();
+                error = validated_phone();
               }
             }
           }       
@@ -174,89 +191,62 @@
       }
 			return error;
 		};
-  $('#frmRegister').on('submit', function (e) {
-    
-    if(validated()){
-      e.preventDefault();
-      const username = $('#txtUsername').val();
-      $.getJSON(`/account/is-available?user=${username}`, function (data) {
-        if (data === true) {
-          $('#frmRegister').off('submit').submit();
-        } else {         
-          alert('Tên tài khoản đã tồn tại.');
-        }
-      })
-    }
-  });
-  $('#txtDOB').datetimepicker({
-    format: 'd/m/Y',
-    timepicker: false,
-    mask: true,
-  });
-    		var validated_name = function(){
+    function validated_name(){
 			var name = document.getElementById("txtName").value;
-			//var noticeName = document.getElementById("noticeName");
 			if(name === null || name === ''){
-				alert("Xin vui lòng điền họ và tên của bạn.");
+				//alert("Xin vui lòng điền họ và tên của bạn.");
 				return false;
 			}
-			else{
-				return true;
-			}
-		}
-    var validated_username = function(){
+      
+			return true;
+		};
+
+    function validated_username(){
 			var name = document.getElementById("txtUsername").value;
-			//var noticeName = document.getElementById("noticeName");
 			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên tài khoản của bạn.");
+				//alert("Xin vui lòng điền tên tài khoản của bạn.");
 				return false;
 			}
-			else{
-				return true;
-			}
-		}
-    var validated_password = function(){
+      return true;
+		};
+
+    function validated_password(){
 			var pass = document.getElementById("txtPassword").value;
 			if(pass === null || pass === ''){
-				alert("Xin vui lòng điền mật khẩu của bạn.");
+				//alert("Xin vui lòng điền mật khẩu của bạn.");
 				return false;
 			}
-			else{
-				return true;
-			}
-		}
-    var validated_confirm= function(){
+			return true;
+		};
+
+    function validated_confirm(){
       var pass = document.getElementById("txtPassword").value;
 			var confirm = document.getElementById("txtConfirm").value;
 			if(confirm === null || confirm === '' || confirm !== pass){
-				alert("Xác nhận mật khẩu sai.");
+				//alert("Xác nhận mật khẩu sai.");
 				return false;
 			}
-			else{
-				return true;
-			}
-		}
-		var validated_email = function(){
+			return true;
+		};
+
+		function validated_email(){
 			var email = document.getElementById("txtEmail").value;
 			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
-			if(email === '' || email === null ||reg_mail.test(email) === false){		
-        alert("Email không hợp lệ.");
+			if(email === '' || email === null || reg_mail.test(email) === false){		
+        //alert("Email không hợp lệ.");
 				return false;
 			}
-			else{
-				return true;
-			}
-		}
-var validated_Phone = function(){
-			var phone = document.getElementById("txtPhone").value;
-			if(phone === null || phone === '' || phone.length !== 10 ){
-				alert("Số điện thoại không hợp lệ.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
+      return true;
+		};
+
+    function validated_phone(){
+      var phone = document.getElementById("txtPhone").value;
+      if(phone === null || phone === '' || phone.length > 11 || phone.length < 6){
+        //alert("Số điện thoại không hợp lệ.");
+        return false;
+      }
+      return true;
+    };
   
 </script>
 </body>
