@@ -310,4 +310,9 @@ module.exports = {
     FROM enroll_course
     WHERE id_course = ${id}`),
 
+    getCourseByTeacherId: id => db.load(`SELECT * 
+    FROM course_teacher as ct left join course as c on ct.id_course = c.id
+    where ct.id_teacher = ${id}`),
+    addCourseTeacher: entity => db.add('course_teacher', entity),
+
 };

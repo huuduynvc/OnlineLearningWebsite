@@ -20,7 +20,10 @@ router.get('/', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn chưa đăng nhập'
+        });
     }
 });
 
@@ -28,14 +31,17 @@ router.get('/', authRole, async(req, res) => {
 router.get('/course', authRole, async(req, res) => {
 
     if (req.session.isAuth && req.session.authUser.role === 2) {
-        const courses = await courseModel.all();
+        const courses = await courseModel.getCourseByTeacherId(req.session.authUser.id);
 
         res.render("vwTeacher/course/list", {
             courses,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -49,17 +55,19 @@ router.get('/course/add', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/add', authRole, async(req, res) => {
-
     if (req.session.isAuth && req.session.authUser.role === 2) {
         const newPositon = await courseModel.add({
-            name: 'uknow',
+            name: 'uknown',
             id_category: 0,
-            status: 1
+            status: 0
         });
 
         var filename;
@@ -80,6 +88,7 @@ router.post('/course/add', authRole, async(req, res) => {
             var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
 
             await courseModel.patch({
+                id: newPositon.insertId,
                 name: req.body.txtName,
                 price: +req.body.price,
                 offer: +req.body.offer,
@@ -89,7 +98,13 @@ router.post('/course/add', authRole, async(req, res) => {
                 description: req.body.txtDes,
                 status: 1,
                 image: filename,
+                short_description: req.body.txtShortDescription
             }, newPositon.insertId);
+
+            await courseModel.addCourseTeacher({
+                id_course: newPositon.insertId,
+                id_teacher: req.session.authUser.id
+            });
 
             fs.mkdir(`./public/video/${newPositon.insertId}`, function(err) {
                 if (err) {
@@ -100,18 +115,27 @@ router.post('/course/add', authRole, async(req, res) => {
             })
 
             if (err) {
-
+                console.log(err);
             } else {
                 res.redirect(`/teacher/course/${newPositon.insertId}/addother`);
             }
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 })
 
 router.get('/course/:id/addother', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const course = await courseModel.single(req.params.id);
         const chapter = await courseModel.getChapterByCourseId(req.params.id);
         var chapter_lesson = [];
@@ -141,12 +165,21 @@ router.get('/course/:id/addother', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/:id/addchapter', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const chapter = {
             name: req.body.txtName,
             id_course: req.params.id,
@@ -156,13 +189,21 @@ router.post('/course/:id/addchapter', authRole, async(req, res) => {
 
         res.redirect(`/teacher/course/${req.params.id}/addother`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 })
 
 router.post('/course/:id/addlesson', authRole, async(req, res) => {
-
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const newPositon = await courseModel.addLesson({
             name: 'uknow',
             id_chapter: 1,
@@ -203,13 +244,22 @@ router.post('/course/:id/addlesson', authRole, async(req, res) => {
             }
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 
 })
 
 router.get('/course/:id_course/edit', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id_course);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const id = req.params.id_course;
         const course = await courseModel.single(id);
         const mycategory = await categoryModel.single(course.id_category);
@@ -228,13 +278,21 @@ router.get('/course/:id_course/edit', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/:id/edit', authRole, async(req, res) => {
-
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const storage = multer.diskStorage({
             destination: function(req, file, cb) {
                 cb(null, `./public/img/course`)
@@ -255,7 +313,8 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
                 modification_date: new Date(datetime),
                 id_category: +req.body.id_category,
                 description: req.body.txtDes,
-                status: 1
+                status: 1,
+                short_description: req.body.txtShortDescription
             }
 
             await courseModel.patch(course, course.id);
@@ -267,13 +326,22 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
             }
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 
 });
 
 router.get('/course/:id/editother', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const course = await courseModel.single(req.params.id);
         const chapter = await courseModel.getChapterByCourseId(req.params.id);
         var chapter_lesson = [];
@@ -303,12 +371,21 @@ router.get('/course/:id/editother', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.get('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const chapter = await courseModel.getChapterById(req.params.id_chapter);
 
         res.render("vwTeacher/course/editchapter", {
@@ -316,12 +393,21 @@ router.get('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const chapter = {
             name: req.body.txtName,
             id_course: req.params.id,
@@ -331,12 +417,21 @@ router.post('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => 
 
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.get('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const mychapter = await courseModel.getChapterById(req.params.id_chapter);
         const lesson = await courseModel.getLessonById(req.params.id_lesson);
 
@@ -355,12 +450,21 @@ router.get('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, as
             layout: 'teacher.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, async(req, res) => {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const storage = multer.diskStorage({
             destination: function(req, file, cb) {
                 cb(null, `./public/video/${req.params.id}`)
@@ -390,13 +494,22 @@ router.post('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, a
             }
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 
 });
 
 router.post('/course/:id/delchapter/:id_chapter', authRole, async function(req, res) {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         const lesson = await courseModel.getLessonByChapterId(req.params.id_chapter);
         for (let i = 0; i < lesson.length; i++) {
             await courseModel.delLesson(lesson[i].id);
@@ -404,35 +517,81 @@ router.post('/course/:id/delchapter/:id_chapter', authRole, async function(req, 
         await courseModel.delChapter(req.params.id_chapter);
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 router.post('/course/:id/dellesson/:id_lesson', authRole, async function(req, res) {
-    if (req.session.isAuth && req.session.authUser.role === 2) {
+    const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
+    var temp = false;
+    for (let i = 0; i < teacher.length; i++) {
+        if (teacher[i].id === req.session.authUser.id)
+            temp = true;
+    }
+    if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         await courseModel.delLesson(req.params.id_lesson);
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
-router.post('/course/:id/del', authRole, async function(req, res) {
+//info teacher admin
+router.get('/info', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 2) {
-        const chapter = await courseModel.getChapterByCourseId(req.params.id);
+        const teacher = await teacherModel.single(req.session.authUser.id);
 
-        for (let i = 0; i < chapter.length; i++) {
-            const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
-            for (let i = 0; i < lesson.length; i++) {
-                await courseModel.delLesson(lesson[i].id);
-            }
-            await courseModel.delChapter(chapter[i].id);
-        }
-
-        await courseModel.del(req.params.id);
-        res.redirect(`/teacher/course`);
+        res.render("vwTeacher/info/list", {
+            teacher,
+            layout: 'teacher.handlebars'
+        });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
+    }
+});
+
+router.get('/info/edit', authRole, async(req, res) => {
+    if (req.session.isAuth && req.session.authUser.role === 2) {
+        const teacher = await teacherModel.single(req.session.authUser.id);
+
+        res.render("vwTeacher/info/edit", {
+            teacher,
+            layout: 'teacher.handlebars'
+        });
+    } else {
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
+    }
+});
+
+router.post('/info/edit', authRole, async(req, res) => {
+    if (req.session.isAuth && req.session.authUser.role === 2) {
+        var teacher = {
+            id: req.session.authUser.id,
+            info: req.body.txtDes,
+            status: 1
+        }
+        console.log(teacher);
+
+        await teacherModel.patch(teacher, teacher.id);
+
+        res.redirect(`/teacher/info/edit`);
+    } else {
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 

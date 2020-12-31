@@ -56,21 +56,23 @@ router.get('/register', async function(req, res) {
 })
 
 router.post('/register', async function(req, res) {
+
+    const hash = bcrypt.hashSync(req.body.txtPassword, 10);
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    const user = {
+        username: req.body.txtUsername,
+        password: hash,
+        fullname: req.body.txtName,
+        email: req.body.txtEmail,
+        creation_date: new Date(datetime),
+        modification_date: new Date(datetime),
+        role: 1,
+        status: 1,
+        phone: req.body.txtPhone
+    }
+
     try {
-        const hash = bcrypt.hashSync(req.body.txtPassword, 10);
-        var currentdate = new Date();
-        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-        const user = {
-            username: req.body.txtUsername,
-            password: hash,
-            fullname: req.body.txtName,
-            email: req.body.txtEmail,
-            creation_date: new Date(datetime),
-            modification_date: new Date(datetime),
-            role: 1,
-            status: 1,
-            phone: req.body.txtPhone
-        }
         await userModel.add(user);
     } catch (e) {
         console.error(e);
@@ -82,10 +84,11 @@ router.post('/register', async function(req, res) {
 
     }
 
-    res.render('vwAccount/register', {
-        layout: false,
-        err_message: 'Đăng kí thành công !'
-    });
+    req.session.isAuth = true;
+    req.session.authUser = await userModel.singleByUserName(user.username);
+
+    let url = req.session.retUrl || '/';
+    res.redirect(url);
 
 })
 

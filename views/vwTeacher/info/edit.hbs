@@ -1,0 +1,37 @@
+{{#section 'css'}}
+{{/section}}
+{{#section 'js'}}
+<script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#txtDes',
+    height: 400,
+    plugins: 'paste link autolink lists table',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+    setup: editor => {
+      editor.on('init', () => {
+          editor.setContent(document.getElementById("value_content").value);
+      });
+    }
+  });
+</script>
+{{/section}}
+<div class="d-sm-flex align-items-center justify-content-between my-4">
+    <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa thông tin giáo viên</h1>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+  <form method="POST">
+    <div class="form-group">
+      <div><label for="fuMain">Thông tin giáo viên</label></div>
+      <input type="hidden" id="value_content" value="{{teacher.info}}">
+      <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
+  </form>
+  </div>
+</div>

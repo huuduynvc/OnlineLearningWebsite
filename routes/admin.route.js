@@ -20,7 +20,10 @@ router.get('/', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -36,7 +39,10 @@ router.get('/category', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -50,7 +56,10 @@ router.get('/category/add', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -67,7 +76,10 @@ router.post('/category/add', authRole, async(req, res) => {
 
         res.redirect('/admin/category');
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 
 });
@@ -97,7 +109,10 @@ router.get('/category/:id_category/edit', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -114,7 +129,10 @@ router.post('/category/:id_category/edit', authRole, async(req, res) => {
 
         res.redirect(`/admin/category/${cat.id}/edit`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
