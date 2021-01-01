@@ -11,7 +11,7 @@
 
 <div class="row">
   <div class="col-sm-6">
-  <form method="POST">
+  <form method="POST" onsubmit="return validated_name()">
     <input type="hidden" id="txtId" name="txtId" value="{{category.id}}">
     <div class="form-group">
       <label for="txtName">Tên lĩnh vực</label>
@@ -37,28 +37,10 @@
   </div>
 
    <script> 
-
-  function validated(){
-      var error = validated_name();
-      if(error){
-        error = validated_URL();
-      }
-			return error;
-		};
-        function validated_name(){
+    function validated_name(){
 			var name = document.getElementById("txtName").value;
 			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên lĩnh vực của bạn.");
-				return false;
-			}
-      
-			return true;
-		};
-
-     function validated_URL(){
-			var name = document.getElementById("txtURL").value;
-			if(name === null || name === ''){
-				alert("Xin vui lòng điền URL.");
+				alert("Xin vui lòng điền tên lĩnh vực.");
 				return false;
 			}
       

@@ -10,7 +10,7 @@
 </div>
 <div class="row">
   <div class="col-sm-6">
-  <form method="POST">
+  <form method="POST" onsubmit="return validated_name()">
     <div class="form-group">
       <label for="txtName">Tên lĩnh vực</label>
       <input type="text" class="form-control" id="txtName" name="txtName" aria-describedby="emailHelp" placeholder="Nhập tên lĩnh vực">
@@ -34,15 +34,10 @@
   </form>  
   </div>
  <script>
-  function validated(){
-      var error = validated_name();
-      if(error===0)
-			return error;
-		};
-        function validated_name(){
+    function validated_name(){
 			var name = document.getElementById("txtName").value;
 			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên lĩnh vực của bạn.");
+				alert("Xin vui lòng điền tên lĩnh vực.");
 				return false;
 			}
       

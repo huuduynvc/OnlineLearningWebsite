@@ -13,18 +13,10 @@ const feedbackModel = require('../models/feedback.model');
 router.use(bodyParser.urlencoded({ extended: true }));
 
 
-<<<<<<< HEAD
-router.get('/login', async function(req, res)  {
-    // if (req.headers.referer) {
-    //     req.session.retUrl = ref;
-    // }
-   
-=======
 router.get('/login', async function(req, res) {
     if (req.headers.referer) {
         req.session.retUrl = req.headers.referer;
     }
->>>>>>> 6822a21bf293928223817bb2df341f2a833b2e80
     res.render('vwAccount/login', {
         layout: false,
     });
