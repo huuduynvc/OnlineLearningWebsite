@@ -33,4 +33,20 @@
     <button type="submit" class="btn btn-primary px-5">Thêm</button>
   </form>  
   </div>
-</div>
+ <script>
+  function validated(){
+      var error = validated_name();
+      if(error===0)
+			return error;
+		};
+        function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên lĩnh vực của bạn.");
+				return false;
+			}
+      
+			return true;
+		};
+    <script>
+    </div>

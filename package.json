@@ -1,74 +1,23 @@
 {
-<<<<<<< HEAD
   "name": "onlinelearningwebsite",
   "version": "1.0.0",
   "description": "- Nguyen Huu Duy: Trang chủ, Chi tiết khóa học, Chi tiết bài giảng, Mua khóa học, Admin\r - Ngoc Minh Duy: Đăng nhập, đăng xuất\r - Tran Vu Cong: Danh sách khóa học, Tìm kiếm, Sắp xếp, Phân trang",
   "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huuduy-web/OnlineLearningWebsite.git"
+    "url": "git+https://github.com/huuduynvc/OnlineLearningWebsite.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/huuduy-web/OnlineLearningWebsite/issues"
+    "url": "https://github.com/huuduynvc/OnlineLearningWebsite/issues"
   },
-  "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-handlebars": "^5.2.0",
-    "express-handlebars-sections": "^1.0.1",
-    "express-session": "^1.17.1",
-    "moment": "^2.29.1",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "mysql": "^2.18.1",
-    "numeral": "^2.0.6",
-    "path": "^0.12.7",
-    "uid": "^2.0.0"
-  },
-  "devDependencies": {}
-=======
-    "name": "onlinelearningwebsite",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/huuduy-web/OnlineLearningWebsite.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/huuduy-web/OnlineLearningWebsite/issues"
-    },
-    "homepage": "https://github.com/huuduy-web/OnlineLearningWebsite#readme",
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "express": "^4.17.1",
-        "express-async-errors": "^3.1.1",
-        "express-handlebars": "^5.2.0",
-        "express-handlebars-sections": "^1.0.1",
-        "express-session": "^1.17.1",
-        "moment": "^2.29.1",
-        "morgan": "^1.10.0",
-        "multer": "^1.4.2",
-        "mysql": "^2.18.1",
-        "nodemon": "^2.0.6",
-        "numeral": "^2.0.6",
-        "path": "^0.12.7",
-        "uid": "^2.0.0"
-    },
-    "devDependencies": {}
->>>>>>> 6822a21bf293928223817bb2df341f2a833b2e80
+  "homepage": "https://github.com/huuduynvc/OnlineLearningWebsite#readme"
 }

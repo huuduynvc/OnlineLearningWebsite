@@ -35,4 +35,35 @@
     <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
   </form>
   </div>
+
+   <script> 
+
+  function validated(){
+      var error = validated_name();
+      if(error){
+        error = validated_URL();
+      }
+			return error;
+		};
+        function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên lĩnh vực của bạn.");
+				return false;
+			}
+      
+			return true;
+		};
+
+     function validated_URL(){
+			var name = document.getElementById("txtURL").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền URL.");
+				return false;
+			}
+      
+			return true;
+		};
+    <script>
+    
 </div>
