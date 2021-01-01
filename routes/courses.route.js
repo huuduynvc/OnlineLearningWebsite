@@ -264,7 +264,7 @@ router.post('/', async(req, res) => {
             s += `<span class="mai-star"></span> `;
         }
         rating = createRating(i, item.rating, "rating")
-        html += ` <div class="item">
+        html += ` <div class="item" id = "${item.id}" style="cursor: pointer;">
     <div class="course-card">
             <div class="badge badge-danger">New</div>
             <div class="header">
@@ -312,7 +312,7 @@ function createRating(i, rating, name) {
 }
 
 router.get('/:id', async(req, res) => {
-
+    console.log(req.params.id);
     await courseModel.update(req.params.id);
     const course = await courseModel.single(req.params.id);
     const chapter = await courseModel.getChapterByCourseId(req.params.id);
@@ -367,6 +367,9 @@ router.get('/:id', async(req, res) => {
     //console.log(rating.num_of_rating);
     const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
 
+    // let url = req.session.retUrl || '/';
+    // res.redirect(url);
+
     res.render('vwCourse/course-detail', {
         course_detail,
         top5course,
@@ -377,6 +380,7 @@ router.get('/:id', async(req, res) => {
         menu: res.locals.menu,
         layout: 'sub.handlebars'
     });
+
 });
 
 router.post('/:id', authRole, async(req, res) => {
