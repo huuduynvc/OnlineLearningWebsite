@@ -9,11 +9,74 @@
     a:focus{
         color: blue;
     }
+    .avatar-wrapper{
+	position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    }
+	.profile-pic {
+        position: absolute;
+        z-index: 1;
+	}
+	.upload-button {
+		position: absolute;
+        z-index: 2;
+        bottom:0;
+        left: 0;
+        width: 100%;
+        height: 30%;
+        opacity: 0;
+        background-color: rgb(31, 30, 30);
+        color: white;
+	}
+    .upload-button:hover{
+        cursor: pointer;
+        opacity: 0.7;
+    }
+    .input-group.file-caption-main,.file-input.theme-fa{
+        display: none;
+    }
+}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
 {{/section}}
 
 {{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+<script>
+  $('#fuMain').fileinput({
+    theme: 'fa',
+    dropZoneEnabled: false,
+    allowedFileExtensions: ['png', 'jpg', 'gif'],
+  });
+</script>
+<script>
+    $(document).ready(function() {      
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                    $('.avatar').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    
+        $("#fuMain").on('change', function(){
+            readURL(this);
+        });
+        
+        $(".upload-button.d-flex.justify-content-center.align-items-center").on('click', function() {
+        $("#fuMain").click();
+        });
+    });
+</script>
 {{/section}}
 
   <main>
@@ -34,7 +97,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-3">
-                        <img class="rounded-circle" style="width:60px; height:60px;" alt="100x100" src="/img/user/{{user.avatar}}"
+                        <img class="avatar rounded-circle" style="width:60px; height:60px;" alt="60x60" src="/img/user/{{user.avatar}}"
                         data-holder-rendered="true">
                     </div>
                     <div class="col-sm-9">
@@ -59,12 +122,17 @@
                 <li class="list-group-item">
                     <div class="row">
                     <div class="col-3">
-                        <img class="rounded-circle" style="width:150px; height:150px;" alt="100x100" src="/img/user/{{user.avatar}}"
-                        data-holder-rendered="true">
+                        <div class="avatar-wrapper mt-2">
+                            <img class="rounded-circle profile-pic" style="width:150px; height:150px;" alt="150x150" src="/img/user/{{user.avatar}}"
+                            data-holder-rendered="true">
+                            <div class="upload-button d-flex justify-content-center align-items-center">
+                                <i class="fa fa-camera fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-9">
                         <form id="form1" method="get" action="/account/changepassword"></form>
-                        <form method="post">
+                        <form method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <div class="row my-4">
                                     <div class="col-sm-4 d-flex align-items-center">
@@ -102,6 +170,7 @@
                                     <button class="btn btn-outline-primary px-5" form="form1">Thay đổi mật khẩu</button>             
                                     <button type="submit" class="btn btn-primary px-5 ml-2">Lưu thay đổi</button>
                                 </div>
+                                <input id="fuMain" name="fuMain" type="file" class="file" multiple>
                             </div>
                         </form>
                     </div>
