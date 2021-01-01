@@ -1,0 +1,15 @@
+.submenu {
+  right: 100%;
+  left: auto;
+  top: -10px;
+  background-color: chocolate;
+}
+.straight {
+  left: -75px;
+}
+.dropdown-menu li:hover {
+  background-color: chocolate;
+}
+/* .dropdown-menu li:hover .submenu {    can't working
+  background-color: chocolate;
+} */

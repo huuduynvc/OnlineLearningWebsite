@@ -80,19 +80,18 @@ router.post('/', async(req, res) => {
     let total = await courseModel.countCourse();
     let nPages = Math.ceil(total / 6);
     var disablePage = false;
-   
+
     // get list course
     let listCourse = await courseModel.pageByCourse(offset);
 
     ///////////////////////////////////
     // search
-    if(key!="")
-    {
-        if(indexCate !=-1) // have category
+    if (key != "") {
+        if (indexCate != -1) // have category
         {
-             total = await courseModel.getCountCourseByCate(indexCate);
-             nPages = Math.ceil(total / 6);
-            if(check != undefined) // have check
+            total = await courseModel.getCountCourseByCate(indexCate);
+            nPages = Math.ceil(total / 6);
+            if (check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.searchCateCheckPriceASC(key, indexCate, offset);
@@ -106,16 +105,14 @@ router.post('/', async(req, res) => {
                     listCourse = await courseModel.searchCateCheckNewCourse(key, indexCate, offset);
                 if (check == "learnestcourse")
                     listCourse = await courseModel.searchCateCheckNewCourse(key, indexCate, offset);
-            }
-            else // havn't check
+            } else // havn't check
             {
-               listCourse = await courseModel.searchCateNotCheck(key, indexCate, offset);
+                listCourse = await courseModel.searchCateNotCheck(key, indexCate, offset);
             }
 
-        }
-        else // havn't category
+        } else // havn't category
         {
-            if(check != undefined) // have check
+            if (check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.searchNotCateCheckPriceASC(key, offset);
@@ -129,21 +126,19 @@ router.post('/', async(req, res) => {
                     listCourse = await courseModel.searchNotCateCheckNewCourse(key, offset);
                 if (check == "learnestcourse")
                     listCourse = await courseModel.searchNotCateCheckNewCourse(key, offset);
-            }
-            else // havn't check
+            } else // havn't check
             {
                 listCourse = await courseModel.searchNotCateNotCheck(key, offset);
             }
 
         }
-    }
-    else // not search
+    } else // not search
     {
-        if(indexCate !=-1) // have category
+        if (indexCate != -1) // have category
         {
             total = await courseModel.getCountCourseByCate(indexCate);
             nPages = Math.ceil(total / 6);
-            if(check != undefined) // have check
+            if (check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.notSearchCateCheckPriceASC(indexCate, offset);
@@ -157,15 +152,13 @@ router.post('/', async(req, res) => {
                     listCourse = await courseModel.notSearchCateCheckNewCourse(indexCate, offset);
                 if (check == "learnestcourse")
                     listCourse = await courseModel.notSearchCateCheckNewCourse(indexCate, offset);
-            }
-            else // havn't check
+            } else // havn't check
             {
-               listCourse = await courseModel.notSearchCateNotCheck(indexCate, offset);
+                listCourse = await courseModel.notSearchCateNotCheck(indexCate, offset);
             }
-        }
-        else // havn't category
+        } else // havn't category
         {
-            if(check != undefined) // have check
+            if (check != undefined) // have check
             {
                 if (check == "priceincrease")
                     listCourse = await courseModel.notSearchNotCateCheckPriceASC(offset);
@@ -188,11 +181,10 @@ router.post('/', async(req, res) => {
     }
 
     ///////////////////////////////////
-    if(page == nPages)
-    {
+    if (page == nPages) {
         disablePage = true;
     }
-    
+
     //let listCourse = await courseModel.fullTextSearch(offset, key);
 
     // if(indexCate != '-1')
@@ -236,7 +228,7 @@ router.post('/', async(req, res) => {
     }
 
     let arrayCourse = [];
-    for (let [i,course] of listCourse.entries()) {
+    for (let [i, course] of listCourse.entries()) {
         arrayCourse.push({
             id: course.id,
             name: course.name,
@@ -264,7 +256,7 @@ router.post('/', async(req, res) => {
             s += `<span class="mai-star"></span> `;
         }
         rating = createRating(i, item.rating, "rating")
-        html += ` <div class="item">
+        html += ` <div class="item" id = "${item.id}" style="cursor: pointer;">
     <div class="course-card">
             <div class="badge badge-danger">New</div>
             <div class="header">
@@ -312,7 +304,7 @@ function createRating(i, rating, name) {
 }
 
 router.get('/:id', async(req, res) => {
-
+    console.log(req.params.id);
     await courseModel.update(req.params.id);
     const course = await courseModel.single(req.params.id);
     const chapter = await courseModel.getChapterByCourseId(req.params.id);
@@ -377,6 +369,7 @@ router.get('/:id', async(req, res) => {
         menu: res.locals.menu,
         layout: 'sub.handlebars'
     });
+
 });
 
 router.post('/:id', authRole, async(req, res) => {

@@ -20,7 +20,10 @@ router.get('/', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -36,7 +39,10 @@ router.get('/category', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -50,7 +56,10 @@ router.get('/category/add', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -67,7 +76,10 @@ router.post('/category/add', authRole, async(req, res) => {
 
         res.redirect('/admin/category');
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 
 });
@@ -97,7 +109,10 @@ router.get('/category/:id_category/edit', authRole, async(req, res) => {
             layout: 'admin.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
@@ -114,24 +129,27 @@ router.post('/category/:id_category/edit', authRole, async(req, res) => {
 
         res.redirect(`/admin/category/${cat.id}/edit`);
     } else {
-        res.redirect('/account/login');
+        res.render('vwAccount/login', {
+            layout: false,
+            err_message: 'Bạn không có quyền ở chức năng này'
+        });
     }
 });
 
 //course admin
-// router.get('/course', authRole, async(req, res) => {
+router.get('/course', authRole, async(req, res) => {
 
-//     if (req.session.isAuth && req.session.authUser.role === 3) {
-//         const courses = await courseModel.all();
+    if (req.session.isAuth && req.session.authUser.role === 3) {
+        const courses = await courseModel.all();
 
-//         res.render("vwAdmin/course/list", {
-//             courses,
-//             layout: 'admin.handlebars'
-//         });
-//     } else {
-//         res.redirect('/account/login');
-//     }
-// });
+        res.render("vwAdmin/course/list", {
+            courses,
+            layout: 'admin.handlebars'
+        });
+    } else {
+        res.redirect('/account/login');
+    }
+});
 
 // router.get('/course/add', authRole, async(req, res) => {
 
@@ -511,24 +529,24 @@ router.post('/category/:id_category/edit', authRole, async(req, res) => {
 //     }
 // });
 
-// router.post('/course/:id/del', authRole, async function(req, res) {
-//     if (req.session.isAuth && req.session.authUser.role === 3) {
-//         const chapter = await courseModel.getChapterByCourseId(req.params.id);
+router.post('/course/:id/del', authRole, async function(req, res) {
+    if (req.session.isAuth && req.session.authUser.role === 3) {
+        const chapter = await courseModel.getChapterByCourseId(req.params.id);
 
-//         for (let i = 0; i < chapter.length; i++) {
-//             const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
-//             for (let i = 0; i < lesson.length; i++) {
-//                 await courseModel.delLesson(lesson[i].id);
-//             }
-//             await courseModel.delChapter(chapter[i].id);
-//         }
+        for (let i = 0; i < chapter.length; i++) {
+            const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
+            for (let i = 0; i < lesson.length; i++) {
+                await courseModel.delLesson(lesson[i].id);
+            }
+            await courseModel.delChapter(chapter[i].id);
+        }
 
-//         await courseModel.del(req.params.id);
-//         res.redirect(`/admin/course`);
-//     } else {
-//         res.redirect('/account/login');
-//     }
-// });
+        await courseModel.del(req.params.id);
+        res.redirect(`/admin/course`);
+    } else {
+        res.redirect('/account/login');
+    }
+});
 
 //user admin
 router.get('/user', authRole, async(req, res) => {

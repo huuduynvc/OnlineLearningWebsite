@@ -1,0 +1,93 @@
+{{#section 'css'}}
+<style>
+    a{
+        color: black;
+    }
+    a:hover{
+        text-decoration: none;
+    }
+    a:focus{
+        color: blue;
+    }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+
+
+{{/section}}
+
+  <main>
+    <div class="container">
+      <nav aria-label="breadcrumb">
+      <ol class="breadcrumb" style="background-color: #ffffff!important; margin-bottom:0px!important">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Danh sách khóa học yêu thích</li>
+      </ol>
+    </nav>
+    </div>
+    <div class="page-section bg-light" style="padding-top:0px!important">
+      <div class="container">
+
+        <div class="row justify-content-center">
+          <div class="col-md-4 py-3">
+            <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-3">
+                        <img class="rounded-circle" style="width:60px; height:60px;" alt="100x100" src="/img/user/{{user.avatar}}"
+                        data-holder-rendered="true">
+                    </div>
+                    <div class="col-sm-9">
+                        <h5>{{user.fullname}}</h5>
+                        {{role}}
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="/account/profile"><strong>Thông tin tài khoản</strong></a></li>
+                <li class="list-group-item" style="border-left: 5px solid blue;"><a href="/account/watchlist"><strong>Danh sách khóa học yêu thích</strong></a></li>
+            </ul>
+            </div>  
+          </div>
+
+        <div class="col-md-8 py-3">
+            <div class="card">
+            <div class="card-header py-4 d-flex align-items-center">
+                <h5>Danh sách khóa học yêu thích</h5>
+            </div>
+            <div id="easyPaginate" class="row d-flex justify-content-start" style="margin:0">                   
+                    {{#each watchlist}}
+                <div class="course-card mt-3" style="margin:0; margin-left: 2.5%; width:30%">
+                <div class="badge badge-danger">Hot</div>
+                <div class="header">
+                    <img src="/img/course/{{image}}" alt="{{name}}">
+                </div>
+                <div class="content text-left">
+                    <p class="course-title"><a href="/course/{{id}}" title="Artificial Intelligence">{{this.name}}</a></p>
+                    <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                    </br>
+                    <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                    {{#each this.teacher}}
+                    {{this.fullname}}, 
+                    {{/each}}                         
+                    </small>
+                    <div class="rating-row">
+                    <span class="number-rating"><b>{{rating}}</b></span>
+                    {{{this.rating_star}}}
+                    <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
+                    </div>
+                    <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                    <span class="text-danger font-weight-bold">{{this.current_price}} đ</span> <del class="text-muted">{{this.price}} đ</del>
+                    </div>
+                </div>                     
+                </div>
+                {{/each}}                            
+            </div>
+
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </main>

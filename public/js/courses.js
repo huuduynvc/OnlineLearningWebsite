@@ -132,6 +132,17 @@ $(document).ready(function(){
         location.reload();
     }
     });
-    
+    // change route detail course
+    $('.item').on('click', function(){
+        var id =parseInt($(this).attr('id'));
+        $.ajax({
+            method:'get',
+            url: '/course/'+id,
+            data:{id:id},
+        })
+        .done(function(){
+            window.location.href = '/course/'+id;
+        });
+    })
 });
 
