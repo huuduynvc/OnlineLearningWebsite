@@ -9,10 +9,11 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
 
-router.get('/login', async function(req, res) {
+router.get('/login', async function(req, res)  {
     // if (req.headers.referer) {
     //     req.session.retUrl = ref;
     // }
+   
     res.render('vwAccount/login', {
         layout: false
     });
@@ -20,7 +21,7 @@ router.get('/login', async function(req, res) {
 
 router.post('/login', async function(req, res) {
     const user = await userModel.singleByUserName(req.body.username);
-    if (user === null || user === '') {
+    if (user === null) {
         return res.render('vwAccount/login', {
             layout: false,
             err_message: 'Sai tên người dùng hoặc mật khẩu.'
