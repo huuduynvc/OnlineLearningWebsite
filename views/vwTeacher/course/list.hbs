@@ -30,6 +30,7 @@
                       <th scope="col">price</th>
                       <th scope="col">offer</th>
                       <th scope="col">view</th>
+                      <th scope="col">iscomplete</th>
                       <th scope="col">action</th>
                     </tr>
                   </thead>
@@ -41,6 +42,11 @@
                       <td>{{price}}</td>
                       <td>{{offer}}</td>
                       <td>{{view}}</td>
+                      {{#if iscomplete}}
+                      <td>Đã hoàn thành</td>
+                      {{else}}
+                      <td>Chưa hoàn thành</td>
+                      {{/if}}
                       <td>
                         <a href="/teacher/course/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                       </td>

@@ -75,6 +75,15 @@
         <input type="hidden" id="value_content" value="{{course.description}}">
         <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10" value="{{course.description}}"></textarea>
     </div>
+    <div class="form-group">
+      <div><label for="is_complete">Trạng thái khóa học</label></div>
+      <div>
+        <select name="is_complete" id="is_complete" style="width: 100%;height:38px">
+        <option value="{{myIscomplete.id}}" selected="selected">{{myIscomplete.name}}</option>
+        <option value={{isComplete.id}}>{{isComplete.name}}</option>
+      </select>
+      </div>
+    </div>
     <button type="submit" class="btn btn-primary">Thay đổi</button>
   </form>
   </div>

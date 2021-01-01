@@ -98,7 +98,8 @@ router.post('/course/add', authRole, async(req, res) => {
                 description: req.body.txtDes,
                 status: 1,
                 image: filename,
-                short_description: req.body.txtShortDescription
+                short_description: req.body.txtShortDescription,
+                iscomplete: 0,
             }, newPositon.insertId);
 
             await courseModel.addCourseTeacher({
@@ -271,10 +272,37 @@ router.get('/course/:id_course/edit', authRole, async(req, res) => {
             }
         }
 
+        var myIscomplete = {
+            id: course.iscomplete,
+            name: ''
+        }
+
+        if (course.iscomplete === 1) {
+            myIscomplete.name = 'Đã hoàn thành'
+        } else {
+            myIscomplete.name = 'Chưa hoàn thành'
+        }
+
+
+        const comp = [
+            { id: 0, name: 'Chưa hoàn thành' },
+            { id: 1, name: 'Đã hoàn thành' }
+        ];
+
+        var isComplete = [];
+        for (let i = 0; i < comp.length; i++) {
+            if (myIscomplete.id != comp[i].id) {
+                isComplete.push(comp[i]);
+            }
+        }
+        isComplete = isComplete[0];
+
         res.render("vwTeacher/course/edit", {
             course,
             mycategory,
             categories,
+            myIscomplete,
+            isComplete,
             layout: 'teacher.handlebars'
         });
     } else {
@@ -314,7 +342,8 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
                 id_category: +req.body.id_category,
                 description: req.body.txtDes,
                 status: 1,
-                short_description: req.body.txtShortDescription
+                short_description: req.body.txtShortDescription,
+                iscomplete: +req.body.is_complete,
             }
 
             await courseModel.patch(course, course.id);
