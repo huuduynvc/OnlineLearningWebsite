@@ -36,7 +36,7 @@
     </div>
     <div class="form-group">
       <label for="txtUsername">Tên tài khoản</label>
-      <input type="text" class="form-control" id="txtUsername" name="txtUsername"  value="{{teacher.username}}">
+      <input type="text" class="form-control" id="txtUsername" name="txtUsername"  value="{{teacher.username}}"disabled>
     </div>
     <div class="form-group">
       <label for="txtPhone">Số điện thoại</label>
@@ -54,4 +54,34 @@
     <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
   </form>
   </div>
+  
+   <script> 
+    function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên lĩnh vực.");
+				return false;
+			}      
+			return true;
+		};
+   
+    function validated_phone(){
+      var phone = document.getElementById("txtPhone").value;
+      if(phone === null || phone === '' || phone.length > 11 || phone.length < 6){
+        alert("Số điện thoại không hợp lệ.");
+        return false;
+      }
+      return true;
+    };
+  
+   	function validated_email(){
+			var email = document.getElementById("txtEmail").value;
+			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
+			if(email === '' || email === null || reg_mail.test(email) === false){		
+        alert("Email không hợp lệ.");
+				return false;
+			}
+      return true;
+		};
+    <script>
 </div>
