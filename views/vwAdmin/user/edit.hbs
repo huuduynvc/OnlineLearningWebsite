@@ -3,7 +3,88 @@
 {{/section}}
 
 {{#section 'js'}}
+<script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#txtInfo',
+    height: 400,
+    plugins: 'paste link autolink lists table',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+    setup: editor => {
+      editor.on('init', () => {
+          editor.setContent(document.getElementById("value_content").value);
+      });
+    }
+  });
+</script>
+   <script>
+    $('#frm').on('submit', function (e) {
+      e.preventDefault();
+      var rel = $('#txt').val(validated_name());
+      if($('#txt').val() == "true"){
+        rel = $('#txt').val(validated_email());
+        if($('#txt').val() == "true"){
+          const email = $('#txtEmail').val();
+          const old_email = $('#old_email').val();
+          if(email != old_email){
+          $.getJSON(`/account/email/is-available?email=${email}`, function (data) {
+            if (data === true) {
+              rel = $('#txt').val(validated_phone());
+              if($('#txt').val() == "true"){
+                $('#frm').off('submit').submit();
+              }else{
+                alert("Số điện thoại không hợp lệ.");
+              }
+            } else {         
+              alert('Email đã tồn tại.');
+            }
+          })
+          }else{
+            rel = $('#txt').val(validated_phone());
+              if($('#txt').val() == "true"){
+                $('#frm').off('submit').submit();
+              }else{
+                alert("Số điện thoại không hợp lệ.");
+            }
+          }
+        }else{
+          alert("Email không hợp lệ.");
+        }
+      }else{
+        alert("Xin vui lòng điền họ và tên của bạn.");
+      }
+    });
 
+    
+    function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				return false;
+			}      
+			return true;
+		};
+   
+    function validated_phone(){
+      var phone = document.getElementById("txtPhone").value;
+      if(phone === null || phone === '' || phone.length > 11 || phone.length < 6){
+        return false;
+      }
+      return true;
+    };
+  
+   	function validated_email(){
+			var email = document.getElementById("txtEmail").value;
+			var reg_mail = /^[A-Za-z0-9]+([_\.\-]?[A-Za-z0-9])*@[A-Za-z0-9]+([\.\-]?[A-Za-z0-9]+)*(\.[A-Za-z]+)+$/;
+			if(email === '' || email === null || reg_mail.test(email) === false){		
+				return false;
+			}
+      return true;
+		};
+    </script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa học viên</h1>
@@ -41,6 +122,8 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
+    <input type="hidden" class="form-control" id="txt" name="txt">
+    <input type="hidden" class="form-control" id="old_email" name="old_email" value="{{user.email}}">
   </form>
   </div>
 </div>
