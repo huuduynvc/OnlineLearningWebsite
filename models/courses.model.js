@@ -315,4 +315,9 @@ module.exports = {
     where ct.id_teacher = ${id}`),
     addCourseTeacher: entity => db.add('course_teacher', entity),
 
+    // check whether current user has purchased the course
+    checkPurchasedCourse: async (idUser, idCourse) =>{
+        let count = await db.load(`select count(*) as total from enroll_course where id_user = ${idUser} and id_course = ${idCourse}`);
+        return count[0].total;
+    }
 };

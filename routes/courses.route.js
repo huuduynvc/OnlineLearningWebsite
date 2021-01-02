@@ -6,6 +6,7 @@ const authRole = require('../middlewares/auth.mdw');
 const router = express.Router();
 const moment = require('moment');
 const numeral = require('numeral');
+const userModel = require('../models/user.model');
 
 const { create } = require('express-handlebars');
 //ratting
@@ -304,7 +305,6 @@ function createRating(i, rating, name) {
 }
 
 router.get('/:id', async(req, res) => {
-    console.log(req.params.id);
     await courseModel.update(req.params.id);
     const course = await courseModel.single(req.params.id);
     const chapter = await courseModel.getChapterByCourseId(req.params.id);
@@ -338,7 +338,7 @@ router.get('/:id', async(req, res) => {
     course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
     course_detail.price = numeral(course_detail.price).format('0,0');
 
-    console.log(course_detail);
+    //console.log(course_detail);
 
     const top5course = await courseModel.top5CourseOtherMostBuy(course_detail.id, course_detail.id_category);
     for (let i = 0; i < top5course.length; i++) {
@@ -359,6 +359,18 @@ router.get('/:id', async(req, res) => {
     //console.log(rating.num_of_rating);
     const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
 
+    // check whether current user has purchased the course
+    var checkUserPurchased = true;
+    if(req.session.isAuth)
+    {
+        const userPurchased = await courseModel.checkPurchasedCourse(req.session.authUser.id, course.id);
+        if(userPurchased != 0)
+        {
+            checkUserPurchased = false;
+        }
+        
+    }
+    
     res.render('vwCourse/course-detail', {
         course_detail,
         top5course,
@@ -367,6 +379,8 @@ router.get('/:id', async(req, res) => {
         rating,
         num_of_member,
         menu: res.locals.menu,
+        sessionuser: req.session.isAuth,
+        checkUserPurchased,
         layout: 'sub.handlebars'
     });
 
