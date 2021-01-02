@@ -3,7 +3,17 @@
 {{/section}}
 
 {{#section 'js'}}
-
+ <script>
+    function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên lĩnh vực.");
+				return false;
+			}
+      
+			return true;
+		};
+  </script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Thêm lĩnh vực</h1>
@@ -33,15 +43,4 @@
     <button type="submit" class="btn btn-primary px-5">Thêm</button>
   </form>  
   </div>
- <script>
-    function validated_name(){
-			var name = document.getElementById("txtName").value;
-			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên lĩnh vực.");
-				return false;
-			}
-      
-			return true;
-		};
-    <script>
     </div>

@@ -11,6 +11,7 @@ const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
 const multer = require('multer');
 const path = require('path');
+const { isBuffer } = require('util');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -135,34 +136,33 @@ router.get('/profile', auth, async function(req, res) {
     });
 })
 
-router.post('/profile', async function(req, res) {
-    const user = {
-        id: req.session.authUser.id,
-        fullname: req.body.txtName,
-        email: req.body.txtEmail,
-        phone: req.body.txtPhone
-    }
+router.post('/profile', auth, async function(req, res) {
 
+    var filename;
     const storage = multer.diskStorage({
         destination: function(req, file, cb) {
             cb(null, './public/img/user')
         },
         filename: function(req, file, cb) {
             cb(null, (req.session.authUser.id).toString() + path.extname(file.originalname))
+            filename = (req.session.authUser.id).toString() + path.extname(file.originalname);
         }
     });
     const upload = multer({ storage });
     upload.single('fuMain')(req, res, async function(err) {
+        console.log(filename == undefined)
+        if (filename == undefined) {
+            filename = (await userModel.single(req.session.authUser.id)).avatar;
+        }
         var currentdate = new Date();
         var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-        console.log(req.file.filename);
         const user = {
             id: req.session.authUser.id,
             fullname: req.body.txtName,
             email: req.body.txtEmail,
             phone: req.body.txtPhone,
             modification_date: new Date(datetime),
-            avatar: req.file.filename
+            avatar: filename
         }
 
         await userModel.patch(user, user.id);
@@ -260,50 +260,6 @@ router.get('/watchlist', auth, async function(req, res) {
     });
 })
 
-router.get('/watchlist/getcourse', auth, async function(req, res) {
-    const courses = await userModel.getWatchList(req.session.authUser.id);
-    var watchlist = [];
-    for (let i = 0; i < courses.length; i++) {
-        watchlist.push({
-            id: courses[i].id,
-            name: courses[i].name,
-            catname: courses[i].catname,
-            rating: numeral(courses[i].rating).format('0,0'),
-            rating_star: createRating(i, courses[i].rating, 'watchlist'),
-            num_of_rating: courses[i].num_of_rating,
-            image: courses[i].image,
-            current_price: numeral(courses[i].price - courses[i].price * courses[i].offer / 100).format('0,0'),
-            price: numeral(courses[i].price).format('0,0'),
-            offer: courses[i].offer,
-            teacher: await teacherModel.getTeacherByCourseId(courses[i].id)
-        });
-
-        var data = [];
-        for (let i = 0; i < watchlist.length; i++) {
-            data.push(`<div class="course-card mt-3" style="margin:0; margin-left: 2.5%; width:30%">
-                <div class="badge badge-danger">Hot</div>
-                <div class="header">
-                    <img src="/img/course/${watchlist[i].image}" alt="${watchlist[i].name}">
-                </div>
-                <div class="content text-left">
-                    <p class="course-title"><a href="/course/${watchlist[i].id}" title="Artificial Intelligence">${watchlist[i].name}</a></p>
-                    <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${watchlist[i].catname}</small>
-                    </br>
-                    <div class="rating-row">
-                    <span class="number-rating"><b>${watchlist[i].rating}</b></span>
-                    ${watchlist[i].rating_star}
-                    <span class="person-rating" style="color:black;">(${watchlist[i].num_of_rating})</span>
-                    </div>
-                    <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                    <span class="text-danger font-weight-bold">${watchlist[i].current_price} đ</span> <del class="text-muted">${watchlist[i].price} đ</del>
-                    </div>
-                </div>                     
-                </div>`)
-        }
-    }
-
-    res.json(data);
-})
 
 function createRating(i, rating, name) {
     html = `<div id="rater${name}${i}"></div>
