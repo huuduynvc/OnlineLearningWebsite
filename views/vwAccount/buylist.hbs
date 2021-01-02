@@ -21,7 +21,7 @@
       <nav aria-label="breadcrumb">
       <ol class="breadcrumb" style="background-color: #ffffff!important; margin-bottom:0px!important">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Danh sách khóa học yêu thích</li>
+        <li class="breadcrumb-item active" aria-current="page">Khóa học đã mua</li>
       </ol>
     </nav>
     </div>
@@ -45,7 +45,8 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a href="/account/profile"><strong>Thông tin tài khoản</strong></a></li>
-                <li class="list-group-item" style="border-left: 5px solid blue;"><a href="/account/watchlist"><strong>Danh sách khóa học yêu thích</strong></a></li>
+                <li class="list-group-item"><a href="/account/watchlist"><strong>Khóa học yêu thích</strong></a></li>
+                <li class="list-group-item" style="border-left: 5px solid blue;"><a href="/account/buylist"><strong>Khóa học đã mua</strong></a></li>
             </ul>
             </div>  
           </div>
@@ -53,12 +54,12 @@
         <div class="col-md-8 py-3">
             <div class="card">
             <div class="card-header py-4 d-flex align-items-center">
-                <h5>Danh sách khóa học yêu thích</h5>
+                <h5>Danh sách khóa học đã mua</h5>
             </div>
-            <div id="easyPaginate" class="row d-flex justify-content-start" style="margin:0">                   
+            <div id="easyPaginate" class="row d-flex justify-content-start pb-4" style="margin:0">                   
                     {{#each watchlist}}
                 <div class="course-card mt-3" style="margin:0; margin-left: 2.5%; width:30%">
-                <div class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i></div>
+                <div class="badge badge-danger">Hot</div>
                 <div class="header">
                     <img src="/img/course/{{image}}" alt="{{name}}">
                 </div>

@@ -129,6 +129,8 @@ module.exports = function(app) {
         });
     })
 
+
+
     app.use('/account', require('../routes/account.route'));
 
     app.use('/course', require('../routes/courses.route'));
