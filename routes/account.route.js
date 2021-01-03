@@ -260,6 +260,43 @@ router.get('/watchlist', auth, async function(req, res) {
     });
 })
 
+router.get('/buylist', auth, async function(req, res) {
+    const user = await userModel.single(req.session.authUser.id);
+    var role;
+    if (user.role === 1) {
+        role = 'Học viên';
+    } else if (user.role === 2) {
+        role = 'Giáo viên';
+    } else {
+        role = 'Quản trị viên';
+    }
+
+    const courses = await userModel.getBuyList(req.session.authUser.id);
+    var watchlist = [];
+    for (let i = 0; i < courses.length; i++) {
+        watchlist.push({
+            id: courses[i].id,
+            name: courses[i].name,
+            catname: courses[i].catname,
+            rating: numeral(courses[i].rating).format('0,0'),
+            rating_star: createRating(i, courses[i].rating, 'watchlist'),
+            num_of_rating: courses[i].num_of_rating,
+            image: courses[i].image,
+            current_price: numeral(courses[i].price - courses[i].price * courses[i].offer / 100).format('0,0'),
+            price: numeral(courses[i].price).format('0,0'),
+            offer: courses[i].offer,
+            teacher: await teacherModel.getTeacherByCourseId(courses[i].id)
+        });
+    }
+
+    res.render('vwAccount/buylist', {
+        user,
+        role,
+        watchlist,
+        layout: 'sub.handlebars'
+    });
+})
+
 
 function createRating(i, rating, name) {
     html = `<div id="rater${name}${i}"></div>
@@ -275,5 +312,10 @@ function createRating(i, rating, name) {
     </script>`
     return html;
 }
+
+router.get('/delwatchlist/:id_course', auth, async function(req, res) {
+    await userModel.delWatchList(req.session.authUser.id, +req.params.id_course);
+    res.redirect(`/account/watchlist`);
+})
 
 module.exports = router;

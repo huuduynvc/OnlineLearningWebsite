@@ -38,6 +38,13 @@ module.exports = {
     WHERE wt.id_user = ${id}
     group by c.id`),
 
+    delWatchList: (id_user, id_course) => db.load(`delete from watch_list where id_user = ${id_user} and id_course = ${id_course}`),
+
+    getBuyList: id => db.load(`SELECT c.*,cat.name as catname,avg(f.rating)as rating, count(f.rating) as num_of_rating
+    FROM enroll_course as ec left join course as c on ec.id_course = c.id left join category as cat on c.id_category = cat.id  LEFT JOIN feedback as f on c.id = f.id_course
+    WHERE ec.id_user = ${id}
+    group by c.id`),
+
     countUser: () => db.load(`select count(*) as sl from user where status = 1`),
     countTeacher: () => db.load(`select count(*) as sl from user where role = 3 and status = 1`),
     countHappies: () => db.load(`select count(*) as sl from (select * from feedback where rating >=3 and status =1 group by id_user) as myalias`)
