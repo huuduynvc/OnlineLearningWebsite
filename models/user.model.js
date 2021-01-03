@@ -38,6 +38,7 @@ module.exports = {
     WHERE wt.id_user = ${id}
     group by c.id`),
 
+    addWatchList: entity => db.add('watch_list', entity),
     delWatchList: (id_user, id_course) => db.load(`delete from watch_list where id_user = ${id_user} and id_course = ${id_course}`),
 
     getBuyList: id => db.load(`SELECT c.*,cat.name as catname,avg(f.rating)as rating, count(f.rating) as num_of_rating

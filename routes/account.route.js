@@ -318,4 +318,14 @@ router.get('/delwatchlist/:id_course', auth, async function(req, res) {
     res.redirect(`/account/watchlist`);
 })
 
+router.get('/addwatchlist/:id_course', auth, async function(req, res) {
+    await userModel.addWatchList({
+        id_user: req.session.authUser.id,
+        id_course: +req.params.id_course
+    });
+
+    let url = req.session.retUrl || '/';
+    res.redirect(url);
+})
+
 module.exports = router;

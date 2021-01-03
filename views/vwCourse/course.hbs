@@ -1,5 +1,18 @@
 {{#section 'css'}}
-
+<style>
+    .course-card{
+      position: relative!important;
+    }
+    .badge.badge-danger{
+      position: absolute!important;
+      left: 85%;
+      top: 5;
+      width: 10%;
+      opacity: 0;
+    }
+    .content{
+    }
+</style>
 {{/section}}
 
 {{#section 'js'}}
@@ -89,12 +102,12 @@
             {{#each listCourse}}
             <div class="item" id = "{{id}}" style="cursor: pointer;">
               <div class="course-card">
-                <div class="badge badge-danger">New</div>
+                <div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
                 <div class="header">
                   <img src="/img/course/{{id}}.jpg" alt="">
                 </div>
                 <div class="content text-left">
-                  <p class="course-title"><a href="{{caturl}}/{{id}}" title="Artificial Intelligence">{{this.name}}</a>
+                  <p class="course-title"><a href="/course/{{id}}">{{this.name}}</a>
                   </p>
                   <small
                     style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
