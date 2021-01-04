@@ -130,8 +130,22 @@ $(document).ready(function() {
         }
     });
     // change route detail course
-    $('.item').on('click', function() {
-        var id = parseInt($(this).attr('id'));
+    // $('.item').on('click', function() {
+    //     var id = parseInt($(this).attr('id'));
+    //     $.ajax({
+    //             method: 'get',
+    //             url: '/course/' + id,
+    //             data: { id: id },
+    //         })
+    //         .done(function() {
+    //             window.location.href = '/course/' + id;
+    //             jsWatchList();
+    //         });
+    // });
+
+
+    $('.content').on('click', function() {
+        var id = parseInt($('.item').attr('id'));
         $.ajax({
                 method: 'get',
                 url: '/course/' + id,
