@@ -42,6 +42,13 @@ module.exports = {
         return rows[0];
     },
 
+    getCountCourseByCatId: async(id) => {
+        let count = await db.load(`select count(c.id) as count
+        FROM course c LEFT JOIN category cat on c.id_category=cat.id
+        where  c.id_category = ${id}`);
+        return count[0].count;
+    },
+
     top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
      avg(f.rating)as rating, count(f.rating) as num_of_rating
     FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
@@ -316,7 +323,7 @@ module.exports = {
     addCourseTeacher: entity => db.add('course_teacher', entity),
 
     // check whether current user has purchased the course
-    checkPurchasedCourse: async (idUser, idCourse) =>{
+    checkPurchasedCourse: async(idUser, idCourse) => {
         let count = await db.load(`select count(*) as total from enroll_course where id_user = ${idUser} and id_course = ${idCourse}`);
         return count[0].total;
     }

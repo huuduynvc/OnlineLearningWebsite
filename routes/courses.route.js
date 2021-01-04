@@ -260,7 +260,7 @@ router.post('/', async(req, res) => {
         html += ` <div class="item" id = "${item.id}" style="cursor: pointer;">
     <div class="course-card">
     <div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/${item.id}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
-    <a href="/course/${id}"><div class="header">
+    <a href="/course/${item.id}"><div class="header">
               <img src="/img/course/${item.id}.jpg" alt="">
             </div></a>
             <div class="content text-left">

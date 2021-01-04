@@ -8,7 +8,6 @@ const teacherModel = require('../models/teacher.model');
 const categoryModel = require('../models/categories.model');
 const userModel = require('../models/user.model');
 const authRole = require('../middlewares/auth.mdw');
-const coursesModel = require('../models/courses.model');
 
 
 const router = express.Router();
@@ -134,6 +133,27 @@ router.post('/category/:id_category/edit', authRole, async(req, res) => {
             err_message: 'Bạn không có quyền ở chức năng này'
         });
     }
+});
+
+//del category
+router.post('/category', authRole, async(req, res) => {
+    const course = await courseModel.getCountCourseByCatId(+req.body.id);
+    console.log(course);
+    var err_message = '';
+    if (course > 0) {
+        err_message = 'Xóa danh mục thất bại. Danh mục đã có khóa học.';
+    } else {
+        await categoryModel.del(+req.body.id);
+        err_message = 'Xóa danh mục thành công.';
+    }
+
+    const categories = await categoryModel.all();
+    res.render('vwAdmin/category/list', {
+        categories,
+        layout: 'admin.handlebars',
+        err_message
+    });
+
 });
 
 //course admin
@@ -439,7 +459,7 @@ router.get('/course', authRole, async(req, res) => {
 //             id_course: req.params.id,
 //         }
 
-//         await coursesModel.patchChapter(chapter, req.params.id_chapter);
+//         await courseModel.patchChapter(chapter, req.params.id_chapter);
 
 //         res.redirect(`/admin/course/${req.params.id}/editother`);
 //     } else {

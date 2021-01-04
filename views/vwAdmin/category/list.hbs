@@ -21,6 +21,14 @@
           <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
       </div> --}}
       <div class="card-body">
+            {{#if err_message}}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{err_message}}
+            </div>
+            {{/if}}
           <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
@@ -39,7 +47,12 @@
                       <td>{{name}}</td>
                       <td>{{id_parent}}</td>
                       <td>{{url}}</td>
-                      <td><a href="/admin/category/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                      <td>
+                        <form id="del{{id}}" method="POST">
+                        <input type="hidden" name = "id" value="{{id}}">
+                        </form>
+                        <a href="/admin/category/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#del{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
                       </tr>
                       {{/each}}
                   </tbody>

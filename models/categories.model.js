@@ -3,6 +3,7 @@ const db = require('../utils/db');
 module.exports = {
     add: entity => db.add('category', entity),
     all: () => db.load(`select * from category`),
+    del: id => db.del('category', { id: id }),
 
     async single(id) {
         const rows = await db.load(`select * from category where id = ${id}`);
