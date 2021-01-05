@@ -170,27 +170,6 @@
       }
     });
 
-
-
-    function validated(){
-      var error = validated_name();
-      if(error){
-        error = validated_username();
-        if(error){
-          error = validated_password();
-          if(error){
-            error = validated_confirm();
-            if(error){
-              error = validated_email();
-              if(error){
-                error = validated_phone();
-              }
-            }
-          }       
-        }
-      }
-			return error;
-		};
     function validated_name(){
 			var name = document.getElementById("txtName").value;
 			if(name === null || name === ''){

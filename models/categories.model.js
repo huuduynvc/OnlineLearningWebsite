@@ -29,4 +29,6 @@ module.exports = {
     GROUP BY cat.id
     ORDER BY num DESC limit 5`),
 
+    getChildrenCategory: (id) => db.load(`SELECT id from category where id_parent = ${id}`),
+
 };

@@ -3,6 +3,14 @@
 {{#section 'js'}}
 {{/section}}
 <div class="widget">
+            {{#if err_message}}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{err_message}}
+            </div>
+            {{/if}}
               <h3>Đề cương khóa học</h3>
             <div class="accordion" id="accordionExample">
               {{#each course_detail.chapter_lesson}}
@@ -39,6 +47,56 @@
               {{/each}}
             </div>                 
             </div>
+            <div class="d-sm-flex align-items-center justify-content-between my-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm chương</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-10">
+  <form method="POST" action="/teacher/course/{{course_detail.id}}/addchapter">
+  <input type="hidden" class="form-control"name="edit" value="true">
+    <div class="form-group">
+      <label for="txtName">Tên chương</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Nhập tên khóa học">
+    </div>
+    <button type="submit" class="btn btn-primary px-5">Thêm</button>
+  </form>
+  </div>
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between my-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm bài học</h1>
+</div>
+<div class="row">
+  <div class="col-sm-10">
+  <form method="POST" enctype="multipart/form-data" action="/teacher/course/{{course_detail.id}}/addlesson">
+  <input type="hidden" class="form-control"name="edit" value="true">
+    <div class="form-group">
+      <label for="txtName">Tên bài học</label>
+      <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Nhập tên khóa học">
+    </div>
+        <div class="form-group">
+        <label for="txtDes">Nội dung bài học</label>
+        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
+    </div>
+    <div class="form-group">
+      <div><label for="id_chapter">Bài học thuộc chương</label></div>
+      <div>
+        <select name="id_chapter" id="id_chapter" style="width: 100%; height: 38px;">
+        {{#each course_detail.chapter_lesson}}
+        <option value={{id}}>{{name}}</option>
+        {{/each}}
+      </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <div><label for="fuMain">Tải lên video bài học</label></div>
+      <input id="fuMain" name="fuMain" type="file" class="file" multiple>
+    </div>
+    <button type="submit" class="btn btn-primary px-5">Thêm</button>
+  </form>
+  </div>
+</div>
 
   <a href="/teacher/course">
     <button type="submit" class="btn btn-primary px-5 my-5">Hoàn tất đề cương khóa học</button>

@@ -20,7 +20,10 @@ router.get('/login', async function(req, res) {
     if (req.headers.referer) {
         req.session.retUrl = req.headers.referer;
     }
+    const err_message = req.session.err_message;
+    req.session.err_message = null;
     res.render('vwAccount/login', {
+        err_message,
         layout: false,
     });
 })
@@ -28,18 +31,14 @@ router.get('/login', async function(req, res) {
 router.post('/login', async function(req, res) {
     const user = await userModel.singleByUserName(req.body.username);
     if (user === null) {
-        return res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Sai tên người dùng hoặc mật khẩu.'
-        });
+        req.session.err_message = 'Sai tên người dùng hoặc mật khẩu.';
+        return res.redirect('/account/login');
     }
 
     const ret = bcrypt.compareSync(req.body.password, user.password);
     if (ret === false) {
-        return res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Sai tên người dùng hoặc mật khẩu.'
-        });
+        req.session.err_message = 'Sai tên người dùng hoặc mật khẩu.';
+        return res.redirect('/account/login');
     }
 
     req.session.isAuth = true;
@@ -57,7 +56,10 @@ router.post('/logout', async function(req, res) {
 })
 
 router.get('/register', async function(req, res) {
+    const err_message = req.session.err_message;
+    req.session.err_message = null;
     res.render('vwAccount/register', {
+        err_message,
         layout: false
     });
 })
@@ -83,12 +85,9 @@ router.post('/register', async function(req, res) {
         await userModel.add(user);
     } catch (e) {
         console.error(e);
+        req.session.err_message = 'Đăng kí thất bại !';
 
-        res.render('vwAccount/register', {
-            layout: false,
-            err_message: 'Đăng kí thất bại !'
-        });
-
+        res.redirect(`/account/register`);
     }
 
     req.session.isAuth = true;

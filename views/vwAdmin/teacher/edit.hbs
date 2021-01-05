@@ -91,6 +91,14 @@
 </div>
 
 <div class="row">
+  {{#if err_message}}
+            <div class="col-sm-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{err_message}}
+            </div>
+            {{/if}}
   <div class="col-sm-10">
   <form method="POST" id="frm">
     <input type="hidden" id="txtId" name="txtId" value="{{teacher.id}}">

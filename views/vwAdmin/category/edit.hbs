@@ -3,13 +3,31 @@
 {{/section}}
 
 {{#section 'js'}}
-
+   <script> 
+    function validated_name(){
+			var name = document.getElementById("txtName").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng điền tên lĩnh vực.");
+				return false;
+			}
+      
+			return true;
+		};
+    </script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Chỉnh sửa lĩnh vực</h1>
 </div>
 
 <div class="row">
+              {{#if err_message}}
+            <div class="col-sm-12 alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{err_message}}
+            </div>
+            {{/if}}
   <div class="col-sm-6">
   <form method="POST" onsubmit="return validated_name()">
     <input type="hidden" id="txtId" name="txtId" value="{{category.id}}">
@@ -21,7 +39,7 @@
       <div><label for="parent">Lĩnh vực cha</label></div>
       <div>
       <select name="parent" id="parent" style="width: 100%; height:38px;">
-        <option value="{{category.id}}" selected="selected">{{parent_name}}</option>
+        <option value="{{category.id_parent}}" selected="selected">{{parent_name}}</option>
         {{#each categories}}
         <option value={{id}}>{{name}}</option>
         {{/each}}
@@ -35,17 +53,5 @@
     <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
   </form>
   </div>
-
-   <script> 
-    function validated_name(){
-			var name = document.getElementById("txtName").value;
-			if(name === null || name === ''){
-				alert("Xin vui lòng điền tên lĩnh vực.");
-				return false;
-			}
-      
-			return true;
-		};
-    <script>
     
 </div>

@@ -20,10 +20,8 @@ router.get('/', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn chưa đăng nhập'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -33,15 +31,17 @@ router.get('/course', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 2) {
         const courses = await courseModel.getCourseByTeacherId(req.session.authUser.id);
 
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+
         res.render("vwTeacher/course/list", {
             courses,
+            err_message,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -55,10 +55,8 @@ router.get('/course/add', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -122,10 +120,8 @@ router.post('/course/add', authRole, async(req, res) => {
             }
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 })
 
@@ -161,15 +157,17 @@ router.get('/course/:id/addother', authRole, async(req, res) => {
             chapter_lesson
         }
 
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+
         res.render("vwTeacher/course/addchapter", {
             course_detail,
+            err_message,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -188,12 +186,17 @@ router.post('/course/:id/addchapter', authRole, async(req, res) => {
 
         await courseModel.addChapter(chapter);
 
-        res.redirect(`/teacher/course/${req.params.id}/addother`);
+        req.session.err_message = "Thêm chương thành công.";
+
+        console.log(req.body.edit);
+        if (req.body.edit) {
+            res.redirect(`/teacher/course/${req.params.id}/editother`);
+        } else {
+            res.redirect(`/teacher/course/${req.params.id}/addother`);
+        }
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 })
 
@@ -239,16 +242,19 @@ router.post('/course/:id/addlesson', authRole, async(req, res) => {
             }, newPositon.insertId);
 
             if (err) {
-
+                console.log(err);
             } else {
-                res.redirect(`/teacher/course/${req.params.id}/addother`);
+                req.session.err_message = "Thêm bài giảng thành công.";
+                if (req.body.edit) {
+                    res.redirect(`/teacher/course/${req.params.id}/editother`);
+                } else {
+                    res.redirect(`/teacher/course/${req.params.id}/addother`);
+                }
             }
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 
 })
@@ -297,19 +303,21 @@ router.get('/course/:id_course/edit', authRole, async(req, res) => {
         }
         isComplete = isComplete[0];
 
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+
         res.render("vwTeacher/course/edit", {
             course,
             mycategory,
             categories,
             myIscomplete,
             isComplete,
+            err_message,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -349,16 +357,14 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
             await courseModel.patch(course, course.id);
 
             if (err) {
-
+                console.log(err);
             } else {
                 res.redirect(`/teacher/course/${course.id}/editother`);
             }
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 
 });
@@ -395,15 +401,17 @@ router.get('/course/:id/editother', authRole, async(req, res) => {
             chapter_lesson
         }
 
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+
         res.render("vwTeacher/course/editother", {
             course_detail,
+            err_message,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -422,10 +430,8 @@ router.get('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -444,12 +450,11 @@ router.post('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => 
 
         await coursesModel.patchChapter(chapter, req.params.id_chapter);
 
+        req.session.err_message = "Chỉnh sửa chương thành công.";
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -479,10 +484,8 @@ router.get('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, as
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -517,16 +520,15 @@ router.post('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, a
             }, req.params.id_lesson);
 
             if (err) {
-
+                console.log(err);
             } else {
+                req.session.err_message = "Chỉnh sửa bài giảng thành công.";
                 res.redirect(`/teacher/course/${req.params.id}/editother`);
             }
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 
 });
@@ -544,12 +546,11 @@ router.post('/course/:id/delchapter/:id_chapter', authRole, async function(req, 
             await courseModel.delLesson(lesson[i].id);
         }
         await courseModel.delChapter(req.params.id_chapter);
+        req.session.err_message = "Xóa chương thành công.";
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -562,12 +563,11 @@ router.post('/course/:id/dellesson/:id_lesson', authRole, async function(req, re
     }
     if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         await courseModel.delLesson(req.params.id_lesson);
+        req.session.err_message = "Xóa bài giảng thành công.";
         res.redirect(`/teacher/course/${req.params.id}/editother`);
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -576,15 +576,17 @@ router.get('/info', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 2) {
         const teacher = await teacherModel.single(req.session.authUser.id);
 
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+
         res.render("vwTeacher/info/list", {
             teacher,
+            err_message,
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -597,10 +599,8 @@ router.get('/info/edit', authRole, async(req, res) => {
             layout: 'teacher.handlebars'
         });
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
@@ -615,12 +615,11 @@ router.post('/info/edit', authRole, async(req, res) => {
 
         await teacherModel.patch(teacher, teacher.id);
 
-        res.redirect(`/teacher/info/edit`);
+        req.session.err_message = "Cập nhật thông tin giáo viên thành công.";
+        res.redirect(`/teacher/info`);
     } else {
-        res.render('vwAccount/login', {
-            layout: false,
-            err_message: 'Bạn không có quyền ở chức năng này'
-        });
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
     }
 });
 
