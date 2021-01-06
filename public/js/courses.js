@@ -25,7 +25,13 @@ $(document).ready(function() {
         // this.check = !this.check;      
 
     });
-    $('.btnsearch').click(function() {
+    // search enter
+    $('.search').keypress(function(event) {
+        if (event.keyCode == '13') {
+            event.preventDefault();
+        }
+     });
+    $('.btnsearch').click(function(event) {
         cate = $("#sort option:selected").val();
         key = $('.search').val();
         $.ajax({
@@ -194,3 +200,46 @@ $(document).ready(function() {
     }
 
 });
+
+function search(event) {
+    cate = $("#sort option:selected").val();
+    key = $('.search').val();
+    $.ajax({
+            method: 'post',
+            url: '/course',
+            data: { cate: cate, key: key, check: sort, page: "1" },
+            dataType: 'json'
+        })
+        .done(function(data) {
+            $('.col-lg-8 .row').html(data.html);
+            let nPage = data.nPages;
+                let html = `
+        <li class="page-item prev disabled">
+          <a style="cursor: pointer;" class="page-link">Prev</a>
+        </li>
+        <li class="page-item page1 active">
+        <a style="cursor: pointer;" class="page-link">1</a>
+      </li>`;
+                for (let i = 0; i < nPage - 1; i++) {
+                    html += `<li class="page-item page${i+2}">
+            <a style="cursor: pointer;" class="page-link">${i+2}</a>
+          </li>`
+                }
+                if (nPage != 1)
+                    html += ` <li class="page-item next">
+        <a style="cursor: pointer;" class="page-link">Next</a>
+      </li>`;
+                else
+                    html += ` <li class="page-item next disabled">
+        <a style="cursor: pointer;" class="page-link">Next</a>
+      </li>`;
+                $('.pagination').html(html);
+            jsWatchList();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    // this.checked = this.check;
+    // this.check = !this.check;      
+    event.preventDefault();
+}
