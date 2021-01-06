@@ -10,6 +10,6 @@
 .dropdown-menu li:hover {
   background-color: chocolate;
 }
-/* .dropdown-menu li:hover .submenu {    can't working
-  background-color: chocolate;
-} */
+.dropdown-menu {
+  background-color: rgb(124, 111, 101) !important;
+}

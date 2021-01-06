@@ -1,15 +1,16 @@
 {{#section 'css'}}
 <style>
-    .course-card{
-      position: relative!important;
-    }
-    .badge.badge-danger{
-      position: absolute!important;
-      left: 85%;
-      top: 5;
-      width: 10%;
-      opacity: 0;
-    }
+  .course-card {
+    position: relative !important;
+  }
+
+  .badge.badge-danger {
+    position: absolute !important;
+    left: 85%;
+    top: 5;
+    width: 10%;
+    opacity: 0;
+  }
 </style>
 {{/section}}
 
@@ -98,13 +99,15 @@
         <div class="col-lg-8">
           <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3">
             {{#each listCourse}}
-            <div class="item" id = "{{id}}" style="cursor: pointer;">
+            <div class="item" id="{{id}}" style="cursor: pointer;">
               <div class="course-card">
-                <div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
+                <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                 <a href="/course/{{id}}">
-                <div class="header">
-                  <img src="/img/course/{{id}}.jpg" alt="">
-                </div>
+                  <div class="header">
+                    <img src="/img/course/{{id}}.jpg" alt="">
+                  </div>
                 </a>
                 <div class="content text-left">
                   <p class="course-title"><a href="/course/{{id}}">{{this.name}}</a>

@@ -37,10 +37,12 @@
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      {{#if isCourse}}
       <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm khóa học" aria-label="Search">
         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Tìm kiếm</button>
       </form>
+      {{/if}}
       <div class="collapse navbar-collapse" id="navbarNavDropdown"></div>
       <ul class="navbar-nav ml-auto py-3 py-lg-0">
         <li class="nav-item active dropdown">

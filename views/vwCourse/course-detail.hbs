@@ -220,8 +220,8 @@
               </li>
             </ul>
             {{#if checkUserPurchased }}
-            <a {{#if sessionuser}} href="/course/{{course_detail.id}}/buy" {{else}} href="/account/login/"
-              {{/if}}><button type="button" class="btn btn-danger btn-block">MUA NGAY</button></a>
+            <a {{#if sessionuser}} href="/course/{{course_detail.id}}/buy" {{else}} href="/account/login/" {{/if}}
+              class="text-decoration-none"><button type="button" class="btn btn-danger btn-block">MUA NGAY</button></a>
             {{else}}
             <button type="button" class="btn btn-danger btn-block disabled">ĐÃ SỞ HỮU</button>
             {{/if}}

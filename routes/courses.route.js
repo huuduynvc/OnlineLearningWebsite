@@ -67,6 +67,7 @@ router.get('/', async(req, res) => {
         next_page: page + 1,
         listCategory: arrayCategory,
         check: checkkk,
+        layout: 'sub.handlebars'
     });
 });
 
@@ -90,7 +91,7 @@ router.post('/', async(req, res) => {
     if (key != "") {
         if (indexCate != -1) // have category
         {
-            total = await courseModel.getCountCourseByCate(indexCate);
+            total = await courseModel.getCountCourseByCateHaveSearch(indexCate,key);
             nPages = Math.ceil(total / 6);
             if (check != undefined) // have check
             {
@@ -113,6 +114,8 @@ router.post('/', async(req, res) => {
 
         } else // havn't category
         {
+            total = await courseModel.getCountCourseByNotCateHaveSearch(key);
+            nPages = Math.ceil(total / 6);
             if (check != undefined) // have check
             {
                 if (check == "priceincrease")
@@ -379,6 +382,7 @@ router.get('/:id', async(req, res) => {
         menu: res.locals.menu,
         sessionuser: req.session.isAuth,
         checkUserPurchased,
+        isCourse: false,
         layout: 'sub.handlebars'
     });
 

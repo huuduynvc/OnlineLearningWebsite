@@ -5,7 +5,7 @@ $(document).ready(function() {
     var page = "1";
     var cate = -1;
 
-    $('input').click(function() {
+    $("input[type='radio']").click(function() {
         cate = $("#sort option:selected").val();
         sort = $(this).val();
         $.ajax({
@@ -36,6 +36,28 @@ $(document).ready(function() {
             })
             .done(function(data) {
                 $('.col-lg-8 .row').html(data.html);
+                let nPage = data.nPages;
+                    let html = `
+            <li class="page-item prev disabled">
+              <a style="cursor: pointer;" class="page-link">Prev</a>
+            </li>
+            <li class="page-item page1 active">
+            <a style="cursor: pointer;" class="page-link">1</a>
+          </li>`;
+                    for (let i = 0; i < nPage - 1; i++) {
+                        html += `<li class="page-item page${i+2}">
+                <a style="cursor: pointer;" class="page-link">${i+2}</a>
+              </li>`
+                    }
+                    if (nPage != 1)
+                        html += ` <li class="page-item next">
+            <a style="cursor: pointer;" class="page-link">Next</a>
+          </li>`;
+                    else
+                        html += ` <li class="page-item next disabled">
+            <a style="cursor: pointer;" class="page-link">Next</a>
+          </li>`;
+                    $('.pagination').html(html);
                 jsWatchList();
             })
             .catch(err => {
@@ -79,6 +101,7 @@ $(document).ready(function() {
                     $('.next').addClass('disabled');
                 else
                     $('.next').removeClass('disabled');
+                    
                 jsWatchList();
             })
             .catch(err => {
