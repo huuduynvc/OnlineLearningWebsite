@@ -7,9 +7,9 @@
 .straight {
   left: -75px;
 }
-.dropdown-menu li:hover {
-  background-color: chocolate;
+.dropdown-menu li a, :hover{
+  color: #212529 !important;
 }
-.dropdown-menu {
+.dropdown-menu  {
   background-color: rgb(124, 111, 101) !important;
 }

@@ -35,7 +35,7 @@ function addCategories(obj) {
 </a>`;
         else
             htmlBuilder += '<li class="nav-item active">' +
-            `<a class="nav-link" href="${obj[i].url}">${obj[i].name}</a>`;
+            `<a class="nav-link dropdown-item" href="${obj[i].url}">${obj[i].name}</a>`;
 
         if (obj[i].sub != null) {
             htmlBuilder += '<ul class="dropdown-menu submenu" aria-labelledby="navbarDropdownMenuLink">';
