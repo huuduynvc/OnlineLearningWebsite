@@ -389,27 +389,34 @@ router.get('/:id', async(req, res) => {
 });
 
 router.post('/:id', authRole, async(req, res) => {
-    if (req.session.isAuth) {
-        var currentdate = new Date();
-        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-        const feedback = {
-            rating: req.body.rating,
-            comment: req.body.msg,
-            id_course: req.params.id,
-            id_user: req.session.authUser.id,
-            creation_date: new Date(datetime),
-            modification_date: new Date(datetime),
-            status: 1,
+    const userPurchased = await courseModel.checkPurchasedCourse(req.session.authUser.id, req.params.id);
+    // if(userPurchased==0)
+    // {
+    //     res.send("vui lòng mua khóa học để rating!");
+    // }
+    // else
+    // {
+        if (req.session.isAuth) {
+            var currentdate = new Date();
+            var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+            const feedback = {
+                rating: req.body.rating,
+                comment: req.body.msg,
+                id_course: req.params.id,
+                id_user: req.session.authUser.id,
+                creation_date: new Date(datetime),
+                modification_date: new Date(datetime),
+                status: 1,
+            }
+
+            await feedbackModel.add(feedback);
+
+            let url = req.session.retUrl || '/';
+            res.redirect(url);
+        } else {
+            res.render('/account/login');
         }
-
-        await feedbackModel.add(feedback);
-
-        let url = req.session.retUrl || '/';
-        res.redirect(url);
-    } else {
-        res.render('/account/login');
-    }
-
+    //}
 });
 
 router.get('/:id/lesson/:id_lesson', async(req, res) => {
