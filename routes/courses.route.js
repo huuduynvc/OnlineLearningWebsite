@@ -16,6 +16,7 @@ const e = require('express');
 
 
 router.get('/', async(req, res) => {
+
     let page = parseInt(req.query.page) || 1;
     let offset = (page - 1) * 6;
     let total = await courseModel.countCourse();
@@ -57,7 +58,10 @@ router.get('/', async(req, res) => {
             teacher: await teacherModel.getTeacherByCourseId(course.id)
         });
     }
-
+    if(req.query.search == undefined)
+        req.query.search = "";
+    if(req.query.cate == undefined)
+        req.query.cate = -1;
     res.render('vwCourse/course', {
         listCourse: arrayCourse,
         page_items,
@@ -67,7 +71,11 @@ router.get('/', async(req, res) => {
         next_page: page + 1,
         listCategory: arrayCategory,
         check: checkkk,
-        layout: 'sub.handlebars'
+        redirect: req.query.redirect,
+        idcate: req.query.cate,
+        keysearch: req.query.search,
+        layout: 'sub.handlebars',
+        
     });
 });
 
@@ -76,7 +84,7 @@ router.post('/', async(req, res) => {
     let check = req.body.check;
     let key = req.body.key;
     let page = parseInt(req.body.page);
-    let indexCate = req.body.cate;
+    let indexCate = +req.body.cate;
     // pagination
     let offset = (page - 1) * 6;
     let total = await courseModel.countCourse();
@@ -285,10 +293,12 @@ router.post('/', async(req, res) => {
           </div>
   </div>`;
     }
+
     res.send({
         html: html,
         disable: disablePage,
         nPages: nPages,
+        redirect: false,
     })
 });
 

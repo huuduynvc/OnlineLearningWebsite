@@ -14,8 +14,12 @@ module.exports = function(app) {
     app.use(async function(req, res, next) {
         const categories = await categoryModel.all();
         const catObj = getMenu(categories, 0);
+
         const html = addCategories(catObj);
-        res.locals.menu = html;
+        res.locals.menu =  `<form action="/course" method="get" id = "formcate">
+        <input type="hidden" name = "redirect" id = "redirect"  value = "1"/>
+        <input type="hidden" name = "cate" id = "cate"/>
+        </form>`+ html;
         next();
     })
 
@@ -26,16 +30,16 @@ module.exports = function(app) {
 }
 
 function addCategories(obj) {
-    htmlBuilder = '';
+    htmlBuilder ='';
     for (var i = 0; i < obj.length; i++) {
         if (obj[i].sub != null)
             htmlBuilder += '<li class="nav-item active dropdown">' +
-            `<a class="nav-link dropdown-toggle dropdown-item" href="${obj[i].url}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            `<a class="nav-link dropdown-toggle dropdown-item" href="javascript: $('#cate').val(${obj[i].id}); $('#formcate').submit();" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
   ${obj[i].name}
 </a>`;
         else
             htmlBuilder += '<li class="nav-item active">' +
-            `<a class="nav-link dropdown-item" href="${obj[i].url}">${obj[i].name}</a>`;
+            `<a class="nav-link dropdown-item" href="javascript: $('#cate').val(${obj[i].id}); $('#formcate').submit();" id = "${obj[i].id}">${obj[i].name}</a>`;
 
         if (obj[i].sub != null) {
             htmlBuilder += '<ul class="dropdown-menu submenu" aria-labelledby="navbarDropdownMenuLink">';
