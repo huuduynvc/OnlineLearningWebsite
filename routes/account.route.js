@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get('/login', async function(req, res) {
-    if (req.headers.referer) {
+    if (!(req.headers.referer+"").includes("register", 0)) {
         req.session.retUrl = req.headers.referer;
     }
     const err_message = req.session.err_message;
@@ -94,7 +94,7 @@ router.post('/register', async function(req, res) {
     req.session.authUser = await userModel.singleByUserName(user.username);
 
     let url = req.session.retUrl || '/';
-    res.redirect(url);
+    res.redirect('/account/login');
 
 })
 
