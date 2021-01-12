@@ -11,10 +11,8 @@ const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
 const multer = require('multer');
 const path = require('path');
-const { isBuffer } = require('util');
 
 router.use(bodyParser.urlencoded({ extended: true }));
-
 
 router.get('/login', async function(req, res) {
     if (req.headers.referer) {
@@ -52,12 +50,14 @@ router.post('/login', async function(req, res) {
 router.post('/logout', async function(req, res) {
     req.session.isAuth = false;
     req.session.authUser = null;
+
     res.redirect(req.headers.referer);
 })
 
 router.get('/register', async function(req, res) {
     const err_message = req.session.err_message;
     req.session.err_message = null;
+
     res.render('vwAccount/register', {
         err_message,
         layout: false
@@ -81,21 +81,16 @@ router.post('/register', async function(req, res) {
         phone: req.body.txtPhone
     }
 
-    try {
-        await userModel.add(user);
-    } catch (e) {
-        console.error(e);
-        req.session.err_message = 'Đăng kí thất bại !';
+    if (await userModel.add(user)) {
+        req.session.isAuth = true;
+        req.session.authUser = await userModel.singleByUserName(user.username);
 
+        let url = req.session.retUrl || '/';
+        res.redirect(url);
+    } else {
+        req.session.err_message = 'Đăng kí thất bại !';
         res.redirect(`/account/register`);
     }
-
-    req.session.isAuth = true;
-    req.session.authUser = await userModel.singleByUserName(user.username);
-
-    let url = req.session.retUrl || '/';
-    res.redirect(url);
-
 })
 
 router.get('/username/is-available', async function(req, res) {
