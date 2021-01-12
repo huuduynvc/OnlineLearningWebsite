@@ -15,7 +15,7 @@ const path = require('path');
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/login', async function(req, res) {
-    if (req.headers.referer) {
+    if (!(req.headers.referer + "").includes("register", 0)) {
         req.session.retUrl = req.headers.referer;
     }
     const err_message = req.session.err_message;

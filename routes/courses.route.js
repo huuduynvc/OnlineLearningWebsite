@@ -430,43 +430,48 @@ router.post('/:id', authRole, async(req, res) => {
 });
 
 router.get('/:id/lesson/:id_lesson', async(req, res) => {
-    await courseModel.update(req.params.id);
-    const course = await courseModel.single(req.params.id);
-    const chapter = await courseModel.getChapterByCourseId(req.params.id);
-    const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
-    var chapter_lesson = [];
-    for (let i = 0; i < chapter.length; i++) {
-        const les = await courseModel.getLessonByChapterId(chapter[i].id);
-        var lesson = [];
-        for (let j = 0; j < les.length; j++) {
-            lesson.push({
-                ...les[j]
+    if(req.session.isAuth)
+    {
+        await courseModel.update(req.params.id);
+        const course = await courseModel.single(req.params.id);
+        const chapter = await courseModel.getChapterByCourseId(req.params.id);
+        const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
+        var chapter_lesson = [];
+        for (let i = 0; i < chapter.length; i++) {
+            const les = await courseModel.getLessonByChapterId(chapter[i].id);
+            var lesson = [];
+            for (let j = 0; j < les.length; j++) {
+                lesson.push({
+                    ...les[j]
+                });
+            }
+    
+            //console.log(lesson);
+    
+            chapter_lesson.push({
+                ...chapter[i],
+                lesson
             });
         }
-
-        //console.log(lesson);
-
-        chapter_lesson.push({
-            ...chapter[i],
-            lesson
+    
+        // console.log(chapter_lesson);
+        // console.log(chapter_lesson[0].lesson);
+    
+        var course_detail = {
+            ...course,
+            chapter_lesson
+        }
+    
+        res.render('vwCourse/lesson', {
+            course_detail,
+            lesson_detail,
+            menu: res.locals.menu,
+            layout: 'sub.handlebars'
         });
     }
-
-    // console.log(chapter_lesson);
-    // console.log(chapter_lesson[0].lesson);
-
-    var course_detail = {
-        ...course,
-        chapter_lesson
+    else {
+    res.redirect('/account/login');
     }
-
-    res.render('vwCourse/lesson', {
-        course_detail,
-        lesson_detail,
-        menu: res.locals.menu,
-        layout: 'sub.handlebars'
-    });
-
 });
 
 router.get('/:id/buy', async(req, res) => {
