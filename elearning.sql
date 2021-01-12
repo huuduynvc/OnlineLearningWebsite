@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS `apply_teacher`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `apply_teacher` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `info` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `apply_date` datetime DEFAULT NULL,
+  `id_teacher` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +37,7 @@ CREATE TABLE `apply_teacher` (
 
 LOCK TABLES `apply_teacher` WRITE;
 /*!40000 ALTER TABLE `apply_teacher` DISABLE KEYS */;
+INSERT INTO `apply_teacher` VALUES (2,'<p>sdsdsdsd</p>','2021-01-12 17:34:59',1);
 /*!40000 ALTER TABLE `apply_teacher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,4 +337,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-12 13:38:33
+-- Dump completed on 2021-01-12 17:37:55

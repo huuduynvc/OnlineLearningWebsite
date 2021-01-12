@@ -21,6 +21,7 @@ module.exports = {
     del: id => db.del('teacher', { id: id }),
 
     getApplyTeacher: () => db.load(`SELECT * FROM apply_teacher as t LEFT JOIN user as u on t.id = u.id`),
+    addApply: entity => db.add('apply_teacher', entity),
     delApply: id => db.del('apply_teacher', { id: id }),
 
 };

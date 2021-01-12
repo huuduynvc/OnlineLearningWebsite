@@ -3,6 +3,7 @@ const courseModel = require('../models/courses.model');
 const teacherModel = require('../models/teacher.model');
 const userModel = require('../models/user.model');
 const numeral = require('numeral');
+const auth = require('../middlewares/auth.mdw');
 
 module.exports = function(app) {
     function createRating(i, rating, name) {
@@ -129,6 +130,31 @@ module.exports = function(app) {
         });
     })
 
+    app.get("/become", auth, async(req, res) => {
+        const err_message = req.session.err_message;
+        req.session.err_message = null;
+        res.render("become", {
+            err_message,
+            layout: "sub.handlebars"
+        });
+    })
+
+    app.post("/become", auth, async(req, res) => {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        var apply = {
+            id_teacher: req.session.authUser.id,
+            info: req.body.txtDes,
+            apply_date: new Date(datetime),
+        }
+
+        if (await teacherModel.addApply(apply)) {
+            req.session.err_message = "Gửi thông tin thành công. Chúng tôi sẽ xem xét yêu cầu của bạn sớm nhất.";
+        } else {
+            req.session.err_message = "Gửi thông tin thất bại.";
+        };
+        res.redirect("/become");
+    })
 
 
     app.use('/account', require('../routes/account.route'));

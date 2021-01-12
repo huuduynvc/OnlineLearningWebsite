@@ -1,0 +1,65 @@
+{{#section 'css'}}
+{{/section}}
+{{#section 'js'}}
+<script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#txtDes',
+    height: 400,
+    plugins: 'paste link autolink lists table',
+    menubar: false,
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+    setup: editor => {
+      editor.on('init', () => {
+          editor.setContent(document.getElementById("value_content").value);
+      });
+    }
+  });
+</script>
+<script>
+    function validated(){
+			var name = document.getElementById("txtDes").value;
+			if(name === null || name === ''){
+				alert("Xin vui lòng nhập thông tin của bạn.");
+				return false;
+			}
+      
+			return true;
+		};
+  
+</script>
+{{/section}}
+  <main>
+    <div class="page-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col">
+            <div class="card-sign mb-3">
+                {{#if err_message}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{err_message}}
+                </div>
+                {{/if}}
+                <h1 class="text-center fg-primary">Đăng kí trở thành giáo viên</h1>
+                <form class="mt-4" method="POST" id="frmRegister" onsubmit="return validated();">
+                      <div class="form-group">
+                        <div><label for="txtDes">Thông tin giới thiệu giáo viên</label></div>
+                        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
+                      </div>
+
+                  <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Gửi thông tin</button>
+                  </div>
+                </form>
+              </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
