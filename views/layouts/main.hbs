@@ -33,10 +33,6 @@
   <script src="/js/index.js"></script>
   <script src="/js/main.js"></script>
 
-  {{{_sections.css}}}
-
-
-
 </head>
 
 <body>
@@ -73,6 +69,18 @@
           <ul class="dropdown-menu text-right straight" aria-labelledby="navbarDropdownMenuLink">
             {{{menu}}}
           </ul>
+        </li>
+        <li class="nav-item active">
+          {{#if authUser.isAdmin}}
+          <a class="nav-link" href="/admin">
+            Quản trị viên
+          </a>
+          {{/if}}
+          {{#if authUser.isTeacher}}
+          <a class="nav-link" href="/teacher">
+            Giáo viên
+          </a>
+          {{/if}}
         </li>
         {{#if isAuth}}
         <li class="nav-item dropdown">
@@ -190,7 +198,6 @@
   <script src="/vendor/wow/wow.min.js"></script>
 
   <script src="/js/theme.js"></script>
-
 
 
   {{{_sections.js}}}

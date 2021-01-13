@@ -41,6 +41,11 @@ router.post('/login', async function(req, res) {
 
     req.session.isAuth = true;
     req.session.authUser = user;
+    if (user.role === 2) {
+        req.session.authUser.isTeacher = true;
+    } else if (user.role === 3) {
+        req.session.authUser.isAdmin = true;
+    }
 
     let url = req.session.retUrl || '/';
     res.redirect(url);
