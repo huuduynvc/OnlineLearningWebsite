@@ -28,7 +28,7 @@ $('.search').keypress(function(event) {
     if (event.keyCode == '13') {
         event.preventDefault();
     }
- });
+});
 $('.btnsearch').click(function(event) {
     cate = $("#sort option:selected").val();
     key = $('.search').val();
@@ -41,27 +41,27 @@ $('.btnsearch').click(function(event) {
         .done(function(data) {
             $('.col-lg-8 .row').html(data.html);
             let nPage = data.nPages;
-                let html = `
+            let html = `
         <li class="page-item prev disabled">
           <a style="cursor: pointer;" class="page-link">Prev</a>
         </li>
         <li class="page-item page1 active">
         <a style="cursor: pointer;" class="page-link">1</a>
       </li>`;
-                for (let i = 0; i < nPage - 1; i++) {
-                    html += `<li class="page-item page${i+2}">
+            for (let i = 0; i < nPage - 1; i++) {
+                html += `<li class="page-item page${i+2}">
             <a style="cursor: pointer;" class="page-link">${i+2}</a>
           </li>`
-                }
-                if (nPage != 1)
-                    html += ` <li class="page-item next">
+            }
+            if (nPage != 1)
+                html += ` <li class="page-item next">
         <a style="cursor: pointer;" class="page-link">Next</a>
       </li>`;
-                else
-                    html += ` <li class="page-item next disabled">
+            else
+                html += ` <li class="page-item next disabled">
         <a style="cursor: pointer;" class="page-link">Next</a>
       </li>`;
-                $('.pagination').html(html);
+            $('.pagination').html(html);
             jsWatchList();
         })
         .catch(err => {
@@ -105,7 +105,7 @@ $("body").delegate('.pagination li a', 'click', function() {
                 $('.next').addClass('disabled');
             else
                 $('.next').removeClass('disabled');
-                
+
             jsWatchList();
         })
         .catch(err => {
@@ -168,7 +168,7 @@ $('#sort').on('change', function() {
                 console.log(err);
             });
     } else {
-        window.location.href="/course";
+        window.location.href = "/course";
     }
 });
 // change route detail course
@@ -185,9 +185,9 @@ $('#sort').on('change', function() {
 //         });
 // });
 $(document).ready(function() {
-   
-        // $("#sort").val(3);
-        // $('#sort').change();
+
+    // $("#sort").val(3);
+    // $('#sort').change();
 
     jsWatchList();
 
@@ -202,7 +202,25 @@ function jsWatchList() {
             $(this).children('.badge.badge-danger').css({ "opacity": "0" });
         }
     );
+
+    $(".item").hover(
+        function() {
+            let id = $(this).attr("id");
+            let a = $(this).children('.course-card').children('.badge.badge-danger').children('a');
+            $.getJSON(`/account/watchlist/is-available?id_course=${id}`, function(data) {
+                if (data === false) {
+                    a.attr('href', `/account/delwatchlist/${id}`);
+                    a.children('i').removeClass('fa-heart-o').addClass('fa-times');
+                }
+            });
+        }
+    );
+
+
+
+
 }
+
 
 function search(event) {
     cate = $("#sort option:selected").val();
@@ -216,27 +234,27 @@ function search(event) {
         .done(function(data) {
             $('.col-lg-8 .row').html(data.html);
             let nPage = data.nPages;
-                let html = `
+            let html = `
         <li class="page-item prev disabled">
           <a style="cursor: pointer;" class="page-link">Prev</a>
         </li>
         <li class="page-item page1 active">
         <a style="cursor: pointer;" class="page-link">1</a>
       </li>`;
-                for (let i = 0; i < nPage - 1; i++) {
-                    html += `<li class="page-item page${i+2}">
+            for (let i = 0; i < nPage - 1; i++) {
+                html += `<li class="page-item page${i+2}">
             <a style="cursor: pointer;" class="page-link">${i+2}</a>
           </li>`
-                }
-                if (nPage != 1)
-                    html += ` <li class="page-item next">
+            }
+            if (nPage != 1)
+                html += ` <li class="page-item next">
         <a style="cursor: pointer;" class="page-link">Next</a>
       </li>`;
-                else
-                    html += ` <li class="page-item next disabled">
+            else
+                html += ` <li class="page-item next disabled">
         <a style="cursor: pointer;" class="page-link">Next</a>
       </li>`;
-                $('.pagination').html(html);
+            $('.pagination').html(html);
             jsWatchList();
         })
         .catch(err => {

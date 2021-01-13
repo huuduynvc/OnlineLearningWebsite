@@ -33,6 +33,14 @@ module.exports = {
         return rows[0];
     },
 
+    async singleByIdUserAndIdCourse(id, id_course) {
+        const rows = await db.load(`select * from watch_list where id_user=${id} and id_course =${id_course}`);
+        if (rows.length === 0)
+            return null;
+
+        return rows[0];
+    },
+
     getWatchList: id => db.load(`SELECT c.*,cat.name as catname,avg(f.rating)as rating, count(f.rating) as num_of_rating
     FROM watch_list as wt left join course as c on wt.id_course = c.id left join category as cat on c.id_category = cat.id  LEFT JOIN feedback as f on c.id = f.id_course
     WHERE wt.id_user = ${id}

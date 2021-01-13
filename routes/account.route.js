@@ -309,7 +309,8 @@ function createRating(i, rating, name) {
 
 router.get('/delwatchlist/:id_course', auth, async function(req, res) {
     await userModel.delWatchList(req.session.authUser.id, +req.params.id_course);
-    res.redirect(`/account/watchlist`);
+    let url = req.session.retUrl || '/';
+    res.redirect(url);
 })
 
 router.get('/addwatchlist/:id_course', auth, async function(req, res) {
@@ -320,6 +321,15 @@ router.get('/addwatchlist/:id_course', auth, async function(req, res) {
 
     let url = req.session.retUrl || '/';
     res.redirect(url);
+})
+
+router.get('/watchlist/is-available', auth, async function(req, res) {
+    const result = await userModel.singleByIdUserAndIdCourse(req.session.authUser.id, req.query.id_course);
+    if (result === null) {
+        return res.json(true);
+    }
+
+    res.json(false);
 })
 
 module.exports = router;
