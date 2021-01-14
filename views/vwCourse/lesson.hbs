@@ -6,9 +6,9 @@
 
 {{/section}}
 
-  <main>
-    <div class="container">
-      <nav aria-label="breadcrumb">
+<main>
+  <div class="container">
+    <nav aria-label="breadcrumb">
       <ol class="breadcrumb" style="background-color: #ffffff!important; margin-bottom:0px!important">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
         <li class="breadcrumb-item"><a href="/course">Khóa học</a></li>
@@ -16,40 +16,48 @@
         <li class="breadcrumb-item active" aria-current="page">{{lesson_detail.name}}</li>
       </ol>
     </nav>
-    </div>
-    <div class="page-section bg-light" style="padding-top:0px!important">
-      <div class="container">
+  </div>
+  <div class="page-section bg-light" style="padding-top:0px!important">
+    <div class="container">
 
-        <div class="row justify-content-center">
-          <div class="col-lg-8 py-3">
-            <div class="blog-single-wrap">
-              <div class="post-thumbnail">
-                <video width="730" controls>
-                  <source src="/video/{{course_detail.id}}/{{lesson_detail.video}}">
-                </video>
-              </div>
-              <h3 class="post-title">{{lesson_detail.name}}</h3>
-              <div class="content-lesson">
-                {{{lesson_detail.content}}}
-              </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8 py-3">
+          <div class="blog-single-wrap">
+            <div class="post-thumbnail">
+              {{!-- <video width="100%" controls>
+                <source src="/video/course{{course_detail.id}}/{{lesson_detail.video}}.mp4" type="video/mp4">
+                Your browser does not support HTML video.
+              </video> --}}
+              <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="500px"
+                data-setup='{ "inactivityTimeout": 0 }'>
+                <source src="/video/{{course_detail.id}}/{{lesson_detail}}.mp4" type='video/mp4'>
+              </video>
+            </div>
+            <h3 class="post-title">{{lesson_detail.name}}</h3>
+            <div class="content-lesson">
+              {{{lesson_detail.content}}}
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-4 py-3">
-            <div class="widget">
-              <h3>Đề cương khóa học</h3>
+        <div class="col-lg-4 py-3">
+          <div class="widget">
+            <h3>Đề cương khóa học</h3>
             <div class="accordion" id="accordionExample">
               {{#each course_detail.chapter_lesson}}
               <div class="card">
                 <div class="card-header" id="heading{{this.id}}">
                   <h2 class="mb-0">
-                    <button class="btn btn-link text-left" style="width: 100%; padding-left:0px;" type="button" data-toggle="collapse" data-target="#collapse{{this.id}}" aria-expanded="true" aria-controls="collapse{{this.id}}">
+                    <button class="btn btn-link text-left" style="width: 100%; padding-left:0px;" type="button"
+                      data-toggle="collapse" data-target="#collapse{{this.id}}" aria-expanded="true"
+                      aria-controls="collapse{{this.id}}">
                       {{this.name}}
                     </button>
                   </h2>
                 </div>
 
-                <div id="collapse{{this.id}}" class="collapse show" aria-labelledby="heading{{this.id}}" data-parent="#accordionExample">
+                <div id="collapse{{this.id}}" class="collapse show" aria-labelledby="heading{{this.id}}"
+                  data-parent="#accordionExample">
 
                   {{#each this.lesson}}
                   <div class="card-body border-bottom">
@@ -59,11 +67,11 @@
                 </div>
               </div>
               {{/each}}
-            </div>                 
-            </div> <!-- .comment-form-wrap -->
             </div>
-          </div>
+          </div> <!-- .comment-form-wrap -->
         </div>
       </div>
     </div>
-  </main>
+  </div>
+  </div>
+</main>
