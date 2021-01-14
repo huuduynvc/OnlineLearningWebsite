@@ -36,7 +36,8 @@
                       <th scope="col">id</th>
                       <th scope="col">name</th>
                       <th scope="col">price</th>
-                      <th scope="col">offer</th>
+                      <th scope="col">teacher</th>
+                      <th scope="col">category</th>
                       <th scope="col">view</th>
                       <th scope="col">iscomplete</th>
                       <th scope="col">action</th>
@@ -48,7 +49,12 @@
                       <th scope="row">{{id}}</th>
                       <td>{{name}}</td>
                       <td>{{price}}</td>
-                      <td>{{offer}}</td>
+                      <td>
+                          {{#each teacher}}
+                          {{this.fullname}}, 
+                          {{/each}}
+                        </td>
+                      <td>{{category.name}}</td>
                       <td>{{view}}</td>
                       {{#if iscomplete}}
                       <td>Đã hoàn thành</td>

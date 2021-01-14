@@ -172,7 +172,15 @@ router.post('/category', authRole, async(req, res) => {
 router.get('/course', authRole, async(req, res) => {
 
     if (req.session.isAuth && req.session.authUser.role === 3) {
-        const courses = await courseModel.all();
+        const course = await courseModel.all();
+        var courses = [];
+        for (let i = 0; i < course.length; i++) {
+            courses.push({
+                ...course[i],
+                teacher: await teacherModel.getTeacherByCourseId(course[i].id),
+                category: await categoryModel.getCategoryByCourseId(course[i].id)
+            })
+        }
 
         const err_message = req.session.err_message;
         req.session.err_message = null;
@@ -190,22 +198,21 @@ router.get('/course', authRole, async(req, res) => {
 
 router.post('/course/:id/del', authRole, async function(req, res) {
     if (req.session.isAuth && req.session.authUser.role === 3) {
-        const chapter = await courseModel.getChapterByCourseId(req.params.id);
+        // const chapter = await courseModel.getChapterByCourseId(req.params.id);
 
-        for (let i = 0; i < chapter.length; i++) {
-            const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
-            for (let i = 0; i < lesson.length; i++) {
-                await courseModel.delLesson(lesson[i].id);
-            }
-            await courseModel.delChapter(chapter[i].id);
-        }
+        // for (let i = 0; i < chapter.length; i++) {
+        //     const lesson = await courseModel.getLessonByChapterId(chapter[i].id);
+        //     for (let i = 0; i < lesson.length; i++) {
+        //         await courseModel.delLesson(lesson[i].id);
+        //     }
+        //     await courseModel.delChapter(chapter[i].id);
+        // }
 
         if (await courseModel.del(req.params.id)) {
-            req.session.err_message = 'Xóa khóa học thành công.'
+            req.session.err_message = 'Đình chỉ khóa học thành công.'
         } else {
-            req.session.err_message = 'Xóa khóa học thất bại.'
+            req.session.err_message = 'Đình chỉ khóa học thất bại.'
         }
-        const courses = await courseModel.all();
 
         res.redirect(`/admin/course`);
     } else {
@@ -217,7 +224,7 @@ router.post('/course/:id/del', authRole, async function(req, res) {
 //user admin
 router.get('/user', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 3) {
-        const user = await userModel.all();
+        const user = await userModel.allStudent();
 
         const err_message = req.session.err_message;
         req.session.err_message = null;
@@ -285,6 +292,9 @@ router.post('/user/:id/edit', authRole, async(req, res) => {
         }
 
         if (await userModel.patch(userObj, req.params.id)) {
+            if (userObj.role == 2) {
+                await teacherModel.patch({ status: 1 }, req.params.id)
+            }
             req.session.err_message = "Cập nhật học viên thành công."
         } else {
             req.session.err_message = "Cập nhật học viên thất bại."
@@ -301,11 +311,10 @@ router.post('/user/:id/del', authRole, async function(req, res) {
     if (req.session.isAuth && req.session.authUser.role === 3) {
         await userModel.delUserEnrollCourse(req.params.id);
         await userModel.delUserFeedback(req.params.id);
-        await userModel.delUserTeacher(req.params.id);
 
-        await userModel.del(req.params.id);
+        await userModel.patch({ status: 0 }, req.params.id);
 
-        req.session.err_message = 'Xóa học viên thành công.',
+        req.session.err_message = 'Vô hiệu hóa học viên thành công.',
 
             res.redirect(`/admin/user`);
     } else {
@@ -395,9 +404,9 @@ router.post('/teacher/:id/del', authRole, async function(req, res) {
                 id: teacher.id,
                 status: 0,
             }, teacher.id)) {
-            req.session.err_message = "Xóa giáo viên thành công.";
+            req.session.err_message = "Vô hiệu hóa giáo viên thành công.";
         } else {
-            req.session.err_message = "Xóa giáo viên thất bại.";
+            req.session.err_message = "Vô hiệu quá giáo viên thất bại.";
         }
 
         res.redirect(`/admin/teacher`);

@@ -3,6 +3,7 @@ const db = require('../utils/db');
 module.exports = {
     add: entity => db.add('user', entity),
     all: () => db.load(`select * from user`),
+    allStudent: () => db.load(`select * from user where role = 1 and status = 1`),
     async single(id) {
         const rows = await db.load(`select * from user where id=${id}`);
         if (rows.length === 0)
@@ -11,9 +12,9 @@ module.exports = {
         return rows[0];
     },
     del: id => db.del('user', { id: id }),
-    delUserFeedback: id => db.del('feedback', { id_user: id }),
-    delUserEnrollCourse: id => db.del('enroll_course', { id_user: id }),
-    delUserTeacher: id => db.del('teacher', { id: id }),
+    delUserFeedback: id => db.patch('feedback', { status: 0 }, { id_user: id }),
+    delUserEnrollCourse: id => db.patch('enroll_course', { status: 0 }, { id_user: id }),
+    delUserTeacher: id => db.patch('teacher', { status: 0 }, { id_user: id }),
     patch: (entity, id) => {
         const condition = { id: id };
         return db.patch('user', entity, condition);
@@ -39,6 +40,12 @@ module.exports = {
             return null;
 
         return rows[0];
+    },
+
+    patchByEmail: entity => {
+        const condition = { email: entity.email };
+        delete entity.email;
+        return db.patch('user', entity, condition);
     },
 
     getWatchList: id => db.load(`SELECT c.*,cat.name as catname,avg(f.rating)as rating, count(f.rating) as num_of_rating

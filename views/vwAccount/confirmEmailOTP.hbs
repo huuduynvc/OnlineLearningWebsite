@@ -1,0 +1,40 @@
+{{#section 'css'}}
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{/section}}
+  <main>
+    <div class="page-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card-sign mb-3">
+                {{#if err_message}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{err_message}}
+                </div>
+                {{/if}}
+                  <h3 class="text-center fg-primary">Kích hoạt tài khoản</h3>
+                <form class="mt-4" action="/account/sendOTP" method="POST" autocomplete="off">
+                  <div class="form-group">
+                    <label for="txtUsername">Chúng tôi đã gửi mã xác nhận đến email của bạn. Vui lòng truy cập email và điền mã xác nhận bên dưới</label>
+                    <input type="text" class="form-control" id="txtOTP" name="otp" placeholder="Nhập mã OTP của bạn" autofocus>
+                  </div>
+				          <div class="form-group text-right">
+                    <a href="/account/resend">Gửi lại mã OTP</a>
+                  </div>
+                  <div class="form-group text-right">
+                    <button type="submit" class="btn btn-primary" style="width: 20%;">Xác nhận</button>
+					          <button type="button" onclick="window.location.href='/'" class="btn btn-secondary" style="width: 20%;">Hủy</button>
+                  </div>
+                </form>
+              </div>
+        </div>
+      </div>
+    </div>
+  </main>

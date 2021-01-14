@@ -24,7 +24,10 @@ module.exports = function(app) {
 
     //render view
     app.get("/", async(req, res) => {
-        const topCat = await categoryModel.top6CatMostEnrollWeek();
+        var topCat = await categoryModel.top6CatMostEnrollWeek();
+        if (topCat.length < 1) {
+            topCat = await categoryModel.top6CatMostEnroll();
+        }
         const topCourseNew = await courseModel.top10Newest();
         var topNew1 = [];
         var topNew2 = [];
@@ -97,7 +100,7 @@ module.exports = function(app) {
             });
         }
 
-        const topCourseHot = await courseModel.top5Hot();
+        const topCourseHot = await courseModel.top5HotWeek();
         var topHot = [];
         for (let i = 0; i < topCourseHot.length; i++) {
             topHot.push({
@@ -114,6 +117,24 @@ module.exports = function(app) {
                 offer: topCourseHot[i].offer,
                 teacher: await teacherModel.getTeacherByCourseId(topCourseHot[i].id)
             });
+        }
+        if (topCourseHot.length < 5) {
+            for (let i = topCourseHot.length; i < 5; i++) {
+                topHot.push({
+                    id: topCourseNew[i].id,
+                    name: topCourseNew[i].name,
+                    caturl: topCourseNew[i].caturl,
+                    catname: topCourseNew[i].catname,
+                    rating: numeral(topCourseNew[i].rating).format('0,0'),
+                    rating_star: createRating(i, topCourseNew[i].rating, 'topHot'),
+                    num_of_rating: topCourseNew[i].num_of_rating,
+                    image: topCourseNew[i].image,
+                    current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
+                    price: numeral(topCourseNew[i].price).format('0,0'),
+                    offer: topCourseNew[i].offer,
+                    teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+                });
+            }
         }
 
         res.render("home", {

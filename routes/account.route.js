@@ -11,6 +11,7 @@ const teacherModel = require('../models/teacher.model');
 const feedbackModel = require('../models/feedback.model');
 const multer = require('multer');
 const path = require('path');
+const nodeMailer = require('../models/sendMail.model');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -57,45 +58,6 @@ router.post('/logout', async function(req, res) {
     req.session.authUser = null;
 
     res.redirect(req.headers.referer);
-})
-
-router.get('/register', async function(req, res) {
-    const err_message = req.session.err_message;
-    req.session.err_message = null;
-
-    res.render('vwAccount/register', {
-        err_message,
-        layout: false
-    });
-})
-
-router.post('/register', async function(req, res) {
-
-    const hash = bcrypt.hashSync(req.body.txtPassword, 10);
-    var currentdate = new Date();
-    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-    const user = {
-        username: req.body.txtUsername,
-        password: hash,
-        fullname: req.body.txtName,
-        email: req.body.txtEmail,
-        creation_date: new Date(datetime),
-        modification_date: new Date(datetime),
-        role: 1,
-        status: 1,
-        phone: req.body.txtPhone
-    }
-
-    if (await userModel.add(user)) {
-        req.session.isAuth = true;
-        req.session.authUser = await userModel.singleByUserName(user.username);
-
-        let url = req.session.retUrl || '/';
-        res.redirect(url);
-    } else {
-        req.session.err_message = 'Đăng kí thất bại !';
-        res.redirect(`/account/register`);
-    }
 })
 
 router.get('/username/is-available', async function(req, res) {
@@ -335,6 +297,91 @@ router.get('/watchlist/is-available', auth, async function(req, res) {
     }
 
     res.json(false);
+})
+
+router.get('/register', async function(req, res) {
+    const err_message = req.session.err_message;
+    req.session.err_message = null;
+
+    res.render('vwAccount/register', {
+        err_message,
+        layout: false
+    });
+})
+
+router.post('/register', async function(req, res) {
+
+    const hash = bcrypt.hashSync(req.body.txtPassword, 10);
+    var currentdate = new Date();
+    var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+    const user = {
+        username: req.body.txtUsername,
+        password: hash,
+        fullname: req.body.txtName,
+        email: req.body.txtEmail,
+        creation_date: new Date(datetime),
+        modification_date: new Date(datetime),
+        role: 1,
+        status: 0,
+        phone: req.body.txtPhone
+    }
+
+    if (await userModel.add(user)) {
+        req.session.isAuth = true;
+        req.session.authUser = await userModel.singleByUserName(user.username);
+
+        const data = nodeMailer.sendOTP(user.email);
+
+        //render view
+        req.session.isVerificated = true;
+        req.session.VerifyUser = data;
+
+        res.render('vwAccount/confirmEmailOTP', {
+            email: user.email,
+            layout: 'sub.handlebars'
+        });
+    } else {
+        req.session.err_message = 'Đăng kí thất bại !';
+        res.redirect(`/account/register`);
+    }
+})
+
+router.post('/sendOTP', async(req, res) => {
+    console.log(req.body);
+    console.log(req.session.VerifyUser);
+    //check otp code
+    if (!(req.body.otp === req.session.VerifyUser.otp))
+        return res.render('vwAccount/confirmEmailOTP', {
+            email: req.session.VerifyUser.email,
+            err_message: 'Your OTP code is incorrect!'
+        });
+
+    //is verificated account
+    if (req.session.isVerificated === true) {
+        const entity = {
+            email: req.session.VerifyUser.email,
+            status: 1,
+        };
+        req.session.isVerificated = false;
+        req.session.VerifyUser = null;
+        const result = await userModel.patchByEmail(entity);
+        return res.render('vwAccount/confirmEmailOTP', {
+            err_message: 'Kích hoạt thành công'
+        })
+    }
+
+    //verificated account for change password
+    if (req.session.isVerificatedforPWD === true)
+        return res.render('vwAccount/vwLogin/newPassword');
+})
+
+router.get('/resend', (req, res) => {
+    const data = nodeMailer.sendOTP(req.session.VerifyUser.email);
+    //render view
+    req.session.VerifyUser.otp = data.otp;
+    res.render('vwAccount/vwRegister/confirmEmailOTP', {
+        email: data.email
+    });
 })
 
 module.exports = router;

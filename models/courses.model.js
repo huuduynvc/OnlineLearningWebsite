@@ -2,15 +2,15 @@ const db = require('../utils/db');
 
 module.exports = {
     add: entity => db.add('course', entity),
-    all: () => db.load('select * from course'),
+    all: () => db.load('select * from course where status = 1'),
     async single(id) {
-        const rows = await db.load(`select * from course where id = ${id}`);
+        const rows = await db.load(`select * from course where id = ${id} and status = 1`);
         if (rows.length === 0)
             return null;
         return rows[0];
     },
     enrollCourse: entity => db.add('enroll_course', entity),
-    del: id => db.del('course', { id: id }),
+    del: id => db.patch('course', { status: 0 }, { id: id }),
     update: id => db.load(`UPDATE course SET view = view + 1 WHERE id = '${id}'`),
     patch: (entity, id) => {
         const condition = { id: id };
@@ -45,14 +45,14 @@ module.exports = {
     getCountCourseByCatId: async(id) => {
         let count = await db.load(`select count(c.id) as count
         FROM course c LEFT JOIN category cat on c.id_category=cat.id
-        where  c.id_category = ${id}`);
+        where  c.id_category = ${id} and status = 1`);
         return count[0].count;
     },
 
     top10Newest: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
      avg(f.rating)as rating, count(f.rating) as num_of_rating
-    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
-     f on c.id = f.id_course
+    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback f on c.id = f.id_course
+    WHERE c.status = 1
     group by c.id
     ORDER BY c.creation_date DESC limit 10`),
 
@@ -60,6 +60,7 @@ module.exports = {
      avg(f.rating)as rating, count(f.rating) as num_of_rating
     FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
      f on c.id = f.id_course
+     WHERE c.status = 1
     group by c.id
     ORDER BY c.view DESC limit 10`),
 
@@ -67,17 +68,26 @@ module.exports = {
     avg(f.rating) as rating, count(f.rating) as num_of_rating
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
-    WHERE c.view >= 50
+    WHERE c.view >= 50 and c.status = 1
    group by c.id
    HAVING avg(f.rating) >= 4
    ORDER BY c.view DESC limit 5`),
+
+    top5HotWeek: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    avg(f.rating) as rating, count(f.rating) as num_of_rating
+   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+    f on c.id = f.id_course
+WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB(NOW(), INTERVAL 7 DAY)  )>0) and c.status = 1
+   group by c.id
+   HAVING avg(f.rating) >= 4
+   ORDER BY num_of_rating DESC limit 5`),
     //// search have  category and check (sort)
     // asc price
     searchCateCheckPriceASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -86,7 +96,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -95,7 +105,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -104,7 +114,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -113,16 +123,16 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
     //// search have  category and not check (sort)
-        searchCateNotCheck: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
+    searchCateNotCheck: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
     FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
-    where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+    where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
     group by c.id
    limit 6 offset ${offset}`),
     //// search havn't category and have check (sort)
@@ -131,7 +141,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -140,7 +150,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -149,7 +159,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -158,7 +168,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -167,7 +177,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
@@ -176,7 +186,7 @@ module.exports = {
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
-    where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+    where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
    group by c.id
     limit 6 offset ${offset}`),
     //////////////////////////////////////////////////////////////////////
@@ -186,7 +196,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -195,7 +205,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -204,7 +214,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -213,7 +223,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -222,7 +232,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
@@ -231,7 +241,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (cat.id_parent = ${idCate} or c.id_category = ${idCate})
+   where (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
    limit 6 offset ${offset}`),
     //// not search havn't category and have check (sort)
@@ -240,6 +250,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
+   where c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -248,6 +259,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
+   where c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -256,6 +268,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
+   where c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -264,6 +277,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
+   where c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -272,6 +286,7 @@ module.exports = {
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
+   where c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
@@ -281,6 +296,7 @@ module.exports = {
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
+    where c.status = 1
    group by c.id
     limit 6 offset ${offset}`),
 
@@ -289,16 +305,16 @@ module.exports = {
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
-          where  (cat.id_parent = ${id} or c.id_category = ${id})
+          where  (cat.id_parent = ${id} or c.id_category = ${id}) and c.status = 1
        group by c.id) t`);
         return count[0].total;
     },
-    getCountCourseByCateHaveSearch: async(id,keySearch) => {
+    getCountCourseByCateHaveSearch: async(id, keySearch) => {
         let count = await db.load(`   SELECT count(*) as total from
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
-          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and (cat.id_parent = ${id} or c.id_category = ${id})
+          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and (cat.id_parent = ${id} or c.id_category = ${id}) and c.status = 1
        group by c.id) t`);
         return count[0].total;
     },
@@ -307,7 +323,7 @@ module.exports = {
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
-          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')
+          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
        group by c.id) t`);
         return count[0].total;
     },
@@ -329,7 +345,7 @@ module.exports = {
     },
     top5CourseOtherMostBuy: (id_course, id_category) => db.load(`SELECT *,count(ec.id_course) as members 
     FROM enroll_course as ec LEFT JOIN course as c ON ec.id_course = c.id
-    WHERE ec.id_course != ${id_course} AND c.id_category = ${id_category}
+    WHERE ec.id_course != ${id_course} AND c.id_category = ${id_category} and c.status = 1
     GROUP BY ec.id_course LIMIT 5`),
     countMemberByCourseID: id => db.load(`SELECT count(id_course) as member 
     FROM enroll_course
@@ -337,7 +353,7 @@ module.exports = {
 
     getCourseByTeacherId: id => db.load(`SELECT * 
     FROM course_teacher as ct left join course as c on ct.id_course = c.id
-    where ct.id_teacher = ${id}`),
+    where ct.id_teacher = ${id} and c.status = 1`),
     addCourseTeacher: entity => db.add('course_teacher', entity),
 
     // check whether current user has purchased the course
