@@ -73,6 +73,14 @@ module.exports = {
    HAVING avg(f.rating) >= 4
    ORDER BY c.view DESC limit 5`),
 
+    top5IdHot: () => db.load(`SELECT c.id as id
+  FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
+   f on c.id = f.id_course
+   WHERE c.view >= 50 and c.status = 1
+  group by c.id
+  HAVING avg(f.rating) >= 4
+  ORDER BY c.view DESC limit 5`),
+
     top5HotWeek: () => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
     avg(f.rating) as rating, count(f.rating) as num_of_rating
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback

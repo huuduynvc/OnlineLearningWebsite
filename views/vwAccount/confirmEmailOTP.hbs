@@ -19,7 +19,15 @@
                   {{err_message}}
                 </div>
                 {{/if}}
-                  <h3 class="text-center fg-primary">Kích hoạt tài khoản</h3>
+                {{#if confirmOK}}
+					        <form class="mt-4">
+                  <div class="form-group text-center">
+					          <button type="button" onclick="window.location.href='/account/login'" class="btn btn-primary" style="width: 30%;">Đăng nhập</button>
+                    <button type="button" onclick="window.location.href='/'" class="btn btn-secondary" style="width: 30%;">Trở về trang chủ</button>
+                  </div>
+                </form>
+                {{else}}
+                <h3 class="text-center fg-primary">Kích hoạt tài khoản</h3>
                 <form class="mt-4" action="/account/sendOTP" method="POST" autocomplete="off">
                   <div class="form-group">
                     <label for="txtUsername">Chúng tôi đã gửi mã xác nhận đến email của bạn. Vui lòng truy cập email và điền mã xác nhận bên dưới</label>
@@ -33,6 +41,7 @@
 					          <button type="button" onclick="window.location.href='/'" class="btn btn-secondary" style="width: 20%;">Hủy</button>
                   </div>
                 </form>
+                {{/if}}
               </div>
         </div>
       </div>

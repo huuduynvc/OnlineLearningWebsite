@@ -246,6 +246,7 @@ router.get('/buylist', auth, async function(req, res) {
             current_price: numeral(courses[i].price - courses[i].price * courses[i].offer / 100).format('0,0'),
             price: numeral(courses[i].price).format('0,0'),
             offer: courses[i].offer,
+            iscomplete: courses[i].iscomplete,
             teacher: await teacherModel.getTeacherByCourseId(courses[i].id)
         });
     }
@@ -327,8 +328,6 @@ router.post('/register', async function(req, res) {
     }
 
     if (await userModel.add(user)) {
-        req.session.isAuth = true;
-        req.session.authUser = await userModel.singleByUserName(user.username);
 
         const data = nodeMailer.sendOTP(user.email);
 
@@ -336,25 +335,37 @@ router.post('/register', async function(req, res) {
         req.session.isVerificated = true;
         req.session.VerifyUser = data;
 
-        res.render('vwAccount/confirmEmailOTP', {
-            email: user.email,
-            layout: 'sub.handlebars'
-        });
+        return res.redirect(`/account/sendOTP`);
     } else {
         req.session.err_message = 'Đăng kí thất bại !';
         res.redirect(`/account/register`);
     }
 })
 
+router.get('/sendOTP', async function(req, res) {
+    const err_message = req.session.err_message;
+    req.session.err_message = null;
+
+    const confirmOK = req.session.confirmOK;
+    req.session.confirmOK = null;
+
+    res.render('vwAccount/confirmEmailOTP', {
+        email: req.session.VerifyUser.email,
+        err_message,
+        confirmOK,
+        layout: 'sub.handlebars'
+    });
+})
+
 router.post('/sendOTP', async(req, res) => {
     console.log(req.body);
     console.log(req.session.VerifyUser);
     //check otp code
-    if (!(req.body.otp === req.session.VerifyUser.otp))
-        return res.render('vwAccount/confirmEmailOTP', {
-            email: req.session.VerifyUser.email,
-            err_message: 'Your OTP code is incorrect!'
-        });
+    if (!(req.body.otp === req.session.VerifyUser.otp)) {
+        req.session.err_message = 'Mã OTP của bạn không trùng khớp. Vui lòng nhập lại.';
+
+        return res.redirect(`/account/sendOTP`);
+    }
 
     //is verificated account
     if (req.session.isVerificated === true) {
@@ -362,26 +373,22 @@ router.post('/sendOTP', async(req, res) => {
             email: req.session.VerifyUser.email,
             status: 1,
         };
-        req.session.isVerificated = false;
-        req.session.VerifyUser = null;
-        const result = await userModel.patchByEmail(entity);
-        return res.render('vwAccount/confirmEmailOTP', {
-            err_message: 'Kích hoạt thành công'
-        })
-    }
 
-    //verificated account for change password
-    if (req.session.isVerificatedforPWD === true)
-        return res.render('vwAccount/vwLogin/newPassword');
+        const result = await userModel.patchByEmail(entity);
+        req.session.err_message = 'Tài khoản đã được kích hoạt thành công. Bạn có thể đăng nhập để tiếp tục sử dụng';
+
+        req.session.confirmOK = true;
+        return res.redirect(`/account/sendOTP`);
+    }
 })
 
 router.get('/resend', (req, res) => {
     const data = nodeMailer.sendOTP(req.session.VerifyUser.email);
     //render view
     req.session.VerifyUser.otp = data.otp;
-    res.render('vwAccount/vwRegister/confirmEmailOTP', {
-        email: data.email
-    });
+
+    req.session.err_message = "Mã OTP mới đã được gửi đến tài khoản email của bạn."
+    return res.redirect(`/account/sendOTP`);
 })
 
 module.exports = router;

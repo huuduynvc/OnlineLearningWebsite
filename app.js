@@ -30,7 +30,7 @@ require('./middlewares/routes.mdw')(app);
 require('./middlewares/error.mdw')(app);
 
 //run server in port
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });

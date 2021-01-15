@@ -1,5 +1,9 @@
 {{#section 'css'}}
-
+<style>
+.star-rating.disabled{
+  margin-top: 4px;
+}
+</style>
 {{/section}}
 
 {{#section 'js'}}
@@ -23,48 +27,51 @@
         <div class="col-lg-8 py-3">
           <div class="blog-single-wrap">
             <div class="post-thumbnail">
-              <img src="/img/course/{{course_detail.id}}.jpg" alt="">
+              <img src="/img/course/{{course_detail.image}}" alt="{{course_detail.name}}" style="width:100%;height:100%;">
             </div>
             <h1 class="post-title">{{course_detail.name}}</h1>
+            <p>{{course_detail.short_description}}</p>
             <div class="post-meta">
               <div class="post-author">
-                <a href="#">
+                <p href="#">
                   {{#each this.teacher}}
                   {{this.fullname}}
                   {{/each}}
-                </a>
+                </p>
               </div>
               <span class="gap">|</span>
               <div class="post-date">
-                <a href="#">{{course_detail.modification_date}}</a>
+                <p>{{course_detail.modification_date}}</p>
               </div>
               <span class="gap">|</span>
               <div>
-                <a href="#">{{num_of_member.member}} Học viên </a>
+                <p>{{num_of_member.member}} Học viên </p>
               </div>
-              <span class="gap">|</span>
+              {{#if rating.rating}}
+              <span class="gap">| <span style="color: red; font-size: 14px;">{{rating.rating}}/5</span> </span>
+              <input type="hidden" id="myrating" value="{{rating.rating}}">
               <div class="post-comment-count">
-                <a href="#">{{rating.num_of_rating}} Bình luận</a>
+                <p id="myscorerating"> 
+                    <script>
+                      var myRating = raterJs({
+                        element: document.querySelector("#myscorerating"),
+                        starSize: 15,
+                        readOnly: true,
+                        rateCallback: function rateCallback(rating, done) {
+                          this.setRating(rating);
+                          done();
+                        }
+                      });
+                      console.log($('#myrating').val());
+                      myRating.setRating(parseFloat($('#myrating').val()));
+                    </script>
+                </p>
               </div>
+              <span style="color: #a4a7b7; font-size: 14px;">({{rating.num_of_rating}} đánh giá)</span>
+              {{/if}}
             </div>
             <div class="post-content">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, magnam aliquam sit tempora atque
-                numquam, porro autem eius in odio quos nisi sequi doloribus, quo ipsam labore corrupti mollitia! Quos.
-              </p>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit voluptatum dolor, nemo optio
-                voluptatibus, distinctio obcaecati repudiandae recusandae sint sunt neque dignissimos reiciendis
-                voluptates voluptate quibusdam temporibus, amet molestiae hic?</p>
-              <p>Praesent vel mi bibendum, finibus leo ac, condimentum arcu. Pellentesque sem ex, tristique sit amet
-                suscipit in, mattis imperdiet enim. Integer tempus justo nec velit fringilla, eget eleifend neque
-                blandit. Sed tempor magna sed congue auctor. Mauris eu turpis eget tortor ultricies elementum. Phasellus
-                vel placerat orci, a venenatis justo. Phasellus faucibus venenatis nisl vitae vestibulum. Praesent id
-                nibh arcu. Vivamus sagittis accumsan felis, quis vulputate</p>
-              {{!-- <div class="post-tags">
-                <p class="mb-2">Tags:</p>
-                <a href="#" class="tag-link">LifeStyle</a>
-                <a href="#" class="tag-link">Food</a>
-                <a href="#" class="tag-link">Coronavirus</a>
-              </div> --}}
+              {{{course_detail.description}}}
             </div>
           </div> <!-- .blog-single-wrap -->
 
@@ -111,7 +118,7 @@
                 </div>
                 <div class="col-sm-8">
                   <h5 class="my-2">{{this.fullname}}</h5>
-                  <p>Thông tin chung: {{this.info}}</p>
+                  <p>Thông tin: {{{this.info}}}</p>
                   <p>Số điện thoại: {{this.phone}}</p>
                   <p>Email: {{this.email}}</p>
                 </div>
@@ -130,7 +137,7 @@
                   <script>
                     var myRating = raterJs({
                       element: document.querySelector("#rater"),
-                      starSize: 50,
+                      starSize: 40,
                       rateCallback: function rateCallback(rating, done) {
                         this.setRating(rating);
                         done();

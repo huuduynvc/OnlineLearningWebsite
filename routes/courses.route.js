@@ -42,7 +42,32 @@ router.get('/', async(req, res) => {
     }
     let listCourse = await courseModel.pageByCourse(offset, "");
     let arrayCourse = [];
+    const top5Idhot = await courseModel.top5IdHot();
     for (let [i, course] of listCourse.entries()) {
+        //Get today's date using the JavaScript Date object.
+        var ourDate = new Date();
+
+        //Change it so that it is 7 days in the past.
+        var pastDate = ourDate.getDate() - 7;
+        ourDate.setDate(pastDate);
+
+        // //Log the date to our web console.
+        // console.log(ourDate);
+        // console.log(new Date(course.creation_date));
+        // console.log(new Date(course.creation_date).getTime() > ourDate.getTime());
+        var isnew = false;
+        if (new Date(course.creation_date).getTime() > ourDate.getTime()) {
+            isnew = true;
+        }
+
+        var ishot = false;
+        for (let j = 0; j < top5Idhot.length; j++) {
+            if (course.id == top5Idhot[j].id) {
+                ishot = true;
+                break;
+            }
+        }
+
         arrayCourse.push({
             id: course.id,
             name: course.name,
@@ -55,12 +80,14 @@ router.get('/', async(req, res) => {
             current_price: numeral(course.price - course.price * course.offer / 100).format('0,0'),
             price: numeral(course.price).format('0,0'),
             offer: course.offer,
-            teacher: await teacherModel.getTeacherByCourseId(course.id)
+            teacher: await teacherModel.getTeacherByCourseId(course.id),
+            isnew: isnew,
+            ishot: ishot
         });
     }
-    if(req.query.search == undefined)
+    if (req.query.search == undefined)
         req.query.search = "";
-    if(req.query.cate == undefined)
+    if (req.query.cate == undefined)
         req.query.cate = -1;
     res.render('vwCourse/course', {
         listCourse: arrayCourse,
@@ -75,7 +102,7 @@ router.get('/', async(req, res) => {
         idcate: req.query.cate,
         keysearch: req.query.search,
         layout: 'sub.handlebars',
-        
+
     });
 });
 
@@ -99,7 +126,7 @@ router.post('/', async(req, res) => {
     if (key != "") {
         if (indexCate != -1) // have category
         {
-            total = await courseModel.getCountCourseByCateHaveSearch(indexCate,key);
+            total = await courseModel.getCountCourseByCateHaveSearch(indexCate, key);
             nPages = Math.ceil(total / 6);
             if (check != undefined) // have check
             {
@@ -240,7 +267,31 @@ router.post('/', async(req, res) => {
     }
 
     let arrayCourse = [];
+    const top5Idhot = await courseModel.top5IdHot();
     for (let [i, course] of listCourse.entries()) {
+        //Get today's date using the JavaScript Date object.
+        var ourDate = new Date();
+
+        //Change it so that it is 7 days in the past.
+        var pastDate = ourDate.getDate() - 7;
+        ourDate.setDate(pastDate);
+
+        // //Log the date to our web console.
+        // console.log(ourDate);
+        // console.log(new Date(course.creation_date));
+        // console.log(new Date(course.creation_date).getTime() > ourDate.getTime());
+        var isnew = false;
+        if (new Date(course.creation_date).getTime() > ourDate.getTime()) {
+            isnew = true;
+        }
+
+        var ishot = false;
+        for (let j = 0; j < top5Idhot.length; j++) {
+            if (course.id == top5Idhot[j].id) {
+                ishot = true;
+                break;
+            }
+        }
         arrayCourse.push({
             id: course.id,
             name: course.name,
@@ -252,11 +303,14 @@ router.post('/', async(req, res) => {
             current_price: numeral(course.price - course.price * course.offer / 100).format('0,0'),
             price: numeral(course.price).format('0,0'),
             offer: course.offer,
-            teacher: await teacherModel.getTeacherByCourseId(course.id)
+            teacher: await teacherModel.getTeacherByCourseId(course.id),
+            isnew: isnew,
+            ishot: ishot
         });
     }
     var rating = "";
     var html = "";
+
     for (let [i, item] of arrayCourse.entries()) {
 
         let t = "";
@@ -269,13 +323,26 @@ router.post('/', async(req, res) => {
         }
         rating = createRating(i, item.rating, "rating")
         html += ` <div class="item" id = "${item.id}" style="cursor: pointer;">
-    <div class="course-card">
-    <div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/${item.id}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
+    <div class="course-card">`
+        if (item.ishot) {
+            html += `<div class="bleft d-flex justify-content-center align-items-center"><span class="" style="color: white;">Hot</span></div>`;
+            if (item.offer > 0) {
+                html += `<div class="bright d-flex justify-content-center align-items-center"><span class="" style="color: white;">-${item.offer}%</span></div>`;
+            }
+        } else {
+            if (item.offer > 0) {
+                html += `<div class="bleftnew d-flex justify-content-center align-items-center"><span class="" style="color: white;">-${item.offer}%</span></div>`;
+            }
+        }
+        html += `<div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/${item.id}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
     <a href="/course/${item.id}"><div class="header">
               <img src="/img/course/${item.id}.jpg" alt="">
             </div></a>
-            <div class="content text-left">
-              <p class="course-title"><a href="${item.caturl}/${item.id}">${item.name}</a></p>
+            <div class="content text-left">`;
+        if (item.isnew) {
+            html += `<div class="bhot d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>`;
+        }
+        html += `<p class="course-title"><a href="${item.caturl}/${item.id}">${item.name}</a></p>
               <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${item.catname}</small>
               </br>
               <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">` +
@@ -405,32 +472,31 @@ router.post('/:id', authRole, async(req, res) => {
     // }
     // else
     // {
-        if (req.session.isAuth) {
-            var currentdate = new Date();
-            var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-            const feedback = {
-                rating: req.body.rating,
-                comment: req.body.msg,
-                id_course: req.params.id,
-                id_user: req.session.authUser.id,
-                creation_date: new Date(datetime),
-                modification_date: new Date(datetime),
-                status: 1,
-            }
-
-            await feedbackModel.add(feedback);
-
-            let url = req.session.retUrl || '/';
-            res.redirect(url);
-        } else {
-            res.render('/account/login');
+    if (req.session.isAuth) {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+        const feedback = {
+            rating: req.body.rating,
+            comment: req.body.msg,
+            id_course: req.params.id,
+            id_user: req.session.authUser.id,
+            creation_date: new Date(datetime),
+            modification_date: new Date(datetime),
+            status: 1,
         }
+
+        await feedbackModel.add(feedback);
+
+        let url = req.session.retUrl || '/';
+        res.redirect(url);
+    } else {
+        res.render('/account/login');
+    }
     //}
 });
 
 router.get('/:id/lesson/:id_lesson', async(req, res) => {
-    if(req.session.isAuth)
-    {
+    if (req.session.isAuth) {
         await courseModel.update(req.params.id);
         const course = await courseModel.single(req.params.id);
         const chapter = await courseModel.getChapterByCourseId(req.params.id);
@@ -444,32 +510,31 @@ router.get('/:id/lesson/:id_lesson', async(req, res) => {
                     ...les[j]
                 });
             }
-    
+
             //console.log(lesson);
-    
+
             chapter_lesson.push({
                 ...chapter[i],
                 lesson
             });
         }
-    
+
         // console.log(chapter_lesson);
         // console.log(chapter_lesson[0].lesson);
-    
+
         var course_detail = {
             ...course,
             chapter_lesson
         }
-    
+
         res.render('vwCourse/lesson', {
             course_detail,
             lesson_detail,
             menu: res.locals.menu,
             layout: 'sub.handlebars'
         });
-    }
-    else {
-    res.redirect('/account/login');
+    } else {
+        res.redirect('/account/login');
     }
 });
 
@@ -511,6 +576,57 @@ router.post('/:id/buy', authRole, async(req, res) => {
         res.render('/account/login');
     }
 
+});
+
+router.get('/getcourse/detail', async function(req, res) {
+    const course = await courseModel.single(req.query.id);
+    const chapter = await courseModel.getChapterByCourseId(req.query.id);
+    var chapter_lesson = [];
+    for (let i = 0; i < chapter.length; i++) {
+        const les = await courseModel.getLessonByChapterId(chapter[i].id);
+        var lesson = [];
+        for (let j = 0; j < les.length; j++) {
+            lesson.push({
+                ...les[j]
+            });
+        }
+
+        chapter_lesson.push({
+            ...chapter[i],
+            lesson
+        });
+    }
+
+    var course_detail = {
+        ...course,
+        chapter_lesson
+    }
+
+    course_detail.modification_date = moment(course_detail.modification_date).format('hh:mm:ss DD/MM/YYYY');
+    course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
+    course_detail.price = numeral(course_detail.price).format('0,0');
+
+    const teacher = await teacherModel.getTeacherByCourseId(course_detail.id);
+
+    const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
+
+    for (let i = 0; i < feedback.length; i++) {
+        feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
+        feedback[i].rating_star = createRating(i, feedback[i].rating, 'feedback');
+    }
+    const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
+
+    const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
+
+    courses = {
+        course_detail,
+        teacher,
+        feedback,
+        rating,
+        num_of_member,
+    };
+
+    return res.json(courses);
 });
 
 module.exports = router;

@@ -7,7 +7,7 @@ module.exports = {
     FROM course_teacher as ct LEFT JOIN teacher as t on ct.id_teacher = t.id LEFT JOIN user as u on ct.id_teacher = u.id 
     WHERE id_course = ${course_id}`),
     async single(id) {
-        const rows = await db.load(`SELECT * FROM teacher as t LEFT JOIN user as u on t.id = u.id where t.id=${id} anđ t.status = 1`);
+        const rows = await db.load(`SELECT * FROM teacher as t LEFT JOIN user as u on t.id = u.id where t.id=${id} and t.status = 1`);
         if (rows.length === 0)
             return null;
 

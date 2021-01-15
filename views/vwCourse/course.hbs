@@ -11,6 +11,46 @@
     width: 10%;
     opacity: 0;
   }
+
+    .bleft {
+    position: absolute !important;
+    left: 2%!important;
+    top: 2%!important;
+    width: 20%;
+    opacity: 1;
+    z-index: 2;
+    font-size: 14px;
+    background-color: rgb(212, 24, 11);
+    border-radius: 5px;
+  }
+  .bleftnew {
+    position: absolute !important;
+    left: 2%!important;
+    top: 2%!important;
+    width: 20%;
+    opacity: 1;
+    z-index: 2;
+    font-size: 14px;
+    background-color: rgb(212, 154, 29);
+    border-radius: 5px;
+  }
+  .bright {
+    position: absolute !important;
+    left: 25%!important;
+    top: 2%!important;
+    width: 20%;
+    opacity: 1;
+    z-index: 2;
+    font-size: 14px;
+    background-color:  rgb(212, 154, 29);
+    border-radius: 5px;
+  }
+  .bhot {
+    font-size: 14px;
+    width: 20%;
+    background-color: rgb(3, 173, 159);
+    border-radius: 5px;
+  }
 </style>
 {{/section}}
 
@@ -102,6 +142,17 @@
             {{#each listCourse}}
             <div class="item" id="{{id}}" style="cursor: pointer;">
               <div class="course-card">
+                {{#if ishot}}
+                <div class="bleft d-flex justify-content-center align-items-center"><span class="" style="color: white;">Hot</span></div>
+                {{#if offer}}
+                <div class="bright d-flex justify-content-center align-items-center"><span class="" style="color: white;">-{{offer}}%</span></div>
+                {{/if}}
+                {{else}}
+                {{#if offer}}
+                <div class="bleftnew d-flex justify-content-center align-items-center"><span class="" style="color: white;">-{{offer}}%</span></div>
+                {{/if}}
+                {{/if}}
+
                 <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
                     href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
                       aria-hidden="true"></i></a></div>
@@ -111,6 +162,9 @@
                   </div>
                 </a>
                 <div class="content text-left">
+                  {{#if isnew}}
+                  <div class="bhot d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>
+                  {{/if}}
                   <p class="course-title"><a href="/course/{{id}}">{{this.name}}</a>
                   </p>
                   <small

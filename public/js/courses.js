@@ -216,6 +216,17 @@ function jsWatchList() {
         }
     );
 
+    // $(".bleft").css({
+    //     "position": "absolute!important",
+    //     "left": "2%!important",
+    //     "top": "2%!important",
+    //     "width": "20%",
+    //     "opacity": "1",
+    //     "z-index": "2",
+    //     "background-color": "rgb(189, 55, 55)",
+    //     "border-radius": "5px"
+    // })
+
 
 
 

@@ -23,6 +23,14 @@
     function validated(){
 			var name = document.getElementById("txtDes").value;
 			if(name === null || name === ''){
+				return false;
+			}
+      
+			return true;
+		};
+    function validated_info(){
+			var name = document.getElementById("txtDes").value;
+			if(name === null || name === ''){
 				alert("Xin vui lòng nhập thông tin của bạn.");
 				return false;
 			}
@@ -50,7 +58,7 @@
                 <form class="mt-4" method="POST" id="frmRegister" onsubmit="return validated();">
                       <div class="form-group">
                         <div><label for="txtDes">Thông tin giới thiệu giáo viên</label></div>
-                        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10" on></textarea>
                       </div>
 
                   <div class="form-group text-center">

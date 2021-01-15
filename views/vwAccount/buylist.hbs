@@ -9,11 +9,23 @@
     a:focus{
         color: blue;
     }
+    .block-course {
+    position: relative;
+    z-index: 1;
+    }
+
+  .preview-course-detail {
+      position: absolute;
+      z-index: 3;
+      transition: height 500ms;
+  }
 </style>
+<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+
 {{/section}}
 
 {{#section 'js'}}
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
 {{/section}}
 
   <main>
@@ -56,10 +68,13 @@
             <div class="card-header py-4 d-flex align-items-center">
                 <h5>Danh sách khóa học đã mua</h5>
             </div>
-            <div id="easyPaginate" class="row d-flex justify-content-start pb-4" style="margin:0">                   
+            <div id="block-course" class="row d-flex justify-content-start pb-4" style="margin:0">                   
                     {{#each watchlist}}
                 <div class="course-card mt-3" style="margin:0; margin-left: 2.5%; width:30%">
-                <div class="badge badge-danger">Hot</div>
+                  <input type="hidden" id="inputId" value="{{id}}">
+                {{#unless iscomplete}}
+                <div class="badge badge-danger">Unfinished</div>
+                {{/unless}}
                 <div class="header">
                     <img src="/img/course/{{image}}" alt="{{name}}">
                 </div>
@@ -82,7 +97,7 @@
                     </div>
                 </div>                     
                 </div>
-                {{/each}}                            
+                {{/each}}                          
             </div>
 
           </div>
