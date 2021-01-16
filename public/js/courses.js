@@ -26,7 +26,9 @@ $("input[type='radio']").click(function() {
 // search enter
 $('.search').keypress(function(event) {
     if (event.keyCode == '13') {
+
         event.preventDefault();
+        $('.btnsearch').click();
     }
 });
 $('.btnsearch').click(function(event) {
