@@ -12,31 +12,20 @@
     toolbar: [
       'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
     ],
-    setup: editor => {
-      editor.on('init', () => {
-          editor.setContent(document.getElementById("value_content").value);
-      });
-    }
   });
 </script>
 <script>
     function validated(){
-			var name = document.getElementById("txtDes").value;
-			if(name === null || name === ''){
-				return false;
-			}
-      
-			return true;
-		};
-    function validated_info(){
-			var name = document.getElementById("txtDes").value;
-			if(name === null || name === ''){
-				alert("Xin vui lòng nhập thông tin của bạn.");
-				return false;
-			}
-      
-			return true;
-		};
+      let name = document.getElementById("txtDes").value;
+      if(name === null || name === ''){
+        alert("Xin vui lòng nhập thông tin của bạn.");
+        return false;
+      }else{
+        return true;
+      }
+    }
+
+
   
 </script>
 {{/section}}
@@ -58,7 +47,7 @@
                 <form class="mt-4" method="POST" id="frmRegister" onsubmit="return validated();">
                       <div class="form-group">
                         <div><label for="txtDes">Thông tin giới thiệu giáo viên</label></div>
-                        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10" on></textarea>
+                        <textarea class="form-control" name="txtDes" id="txtDes" cols="30" rows="10"></textarea>
                       </div>
 
                   <div class="form-group text-center">

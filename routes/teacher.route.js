@@ -398,13 +398,14 @@ router.get('/course/:id/editother', authRole, async(req, res) => {
 
         var course_detail = {
             ...course,
-            chapter_lesson
+            chapter_lesson,
+            teacher
         }
 
         const err_message = req.session.err_message;
         req.session.err_message = null;
 
-        res.render("vwTeacher/course/editother", {
+        res.render("vwTeacher/course/editother_v2", {
             course_detail,
             err_message,
             layout: 'teacher.handlebars'

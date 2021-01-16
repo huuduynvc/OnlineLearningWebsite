@@ -43,18 +43,13 @@ router.get('/', async(req, res) => {
     let listCourse = await courseModel.pageByCourse(offset, "");
     let arrayCourse = [];
     const top5Idhot = await courseModel.top5IdHot();
+    //Get today's date using the JavaScript Date object.
+    var ourDate = new Date();
+
+    //Change it so that it is 7 days in the past.
+    var pastDate = ourDate.getDate() - 7;
+    ourDate.setDate(pastDate);
     for (let [i, course] of listCourse.entries()) {
-        //Get today's date using the JavaScript Date object.
-        var ourDate = new Date();
-
-        //Change it so that it is 7 days in the past.
-        var pastDate = ourDate.getDate() - 7;
-        ourDate.setDate(pastDate);
-
-        // //Log the date to our web console.
-        // console.log(ourDate);
-        // console.log(new Date(course.creation_date));
-        // console.log(new Date(course.creation_date).getTime() > ourDate.getTime());
         var isnew = false;
         if (new Date(course.creation_date).getTime() > ourDate.getTime()) {
             isnew = true;

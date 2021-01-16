@@ -44,7 +44,7 @@ module.exports = function(app) {
                 current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+                teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id),
             });
         }
         for (let i = 5; i < 10; i++) {
@@ -60,7 +60,7 @@ module.exports = function(app) {
                 current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                 price: numeral(topCourseNew[i].price).format('0,0'),
                 offer: topCourseNew[i].offer,
-                teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+                teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id),
             });
         }
 
@@ -80,7 +80,7 @@ module.exports = function(app) {
                 current_price: numeral(topCourseView[i].price - topCourseView[i].price * topCourseView[i].offer / 100).format('0,0'),
                 price: numeral(topCourseView[i].price).format('0,0'),
                 offer: topCourseView[i].offer,
-                teacher: await teacherModel.getTeacherByCourseId(topCourseView[i].id)
+                teacher: await teacherModel.getTeacherByCourseId(topCourseView[i].id),
             });
         }
         for (let i = 5; i < 10; i++) {
@@ -96,7 +96,7 @@ module.exports = function(app) {
                 current_price: numeral(topCourseView[i].price - topCourseView[i].price * topCourseView[i].offer / 100).format('0,0'),
                 price: numeral(topCourseView[i].price).format('0,0'),
                 offer: topCourseView[i].offer,
-                teacher: await teacherModel.getTeacherByCourseId(topCourseView[i].id)
+                teacher: await teacherModel.getTeacherByCourseId(topCourseView[i].id),
             });
         }
 
@@ -115,7 +115,7 @@ module.exports = function(app) {
                 current_price: numeral(topCourseHot[i].price - topCourseHot[i].price * topCourseHot[i].offer / 100).format('0,0'),
                 price: numeral(topCourseHot[i].price).format('0,0'),
                 offer: topCourseHot[i].offer,
-                teacher: await teacherModel.getTeacherByCourseId(topCourseHot[i].id)
+                teacher: await teacherModel.getTeacherByCourseId(topCourseHot[i].id),
             });
         }
         if (topCourseHot.length < 5) {
@@ -132,7 +132,7 @@ module.exports = function(app) {
                     current_price: numeral(topCourseNew[i].price - topCourseNew[i].price * topCourseNew[i].offer / 100).format('0,0'),
                     price: numeral(topCourseNew[i].price).format('0,0'),
                     offer: topCourseNew[i].offer,
-                    teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id)
+                    teacher: await teacherModel.getTeacherByCourseId(topCourseNew[i].id),
                 });
             }
         }

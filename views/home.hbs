@@ -1,9 +1,68 @@
 {{#section 'css'}}
+<style>
+  .course-card {
+    position: relative !important;
+  }
 
+  .badge.badge-danger {
+    position: absolute !important;
+    left: 85%;
+    top: 5;
+    width: 10%;
+    opacity: 0;
+  }
+
+    .bleft {
+    position: absolute !important;
+    left: 2%!important;
+    top: 2%!important;
+    width: 20%;
+    opacity: 1;
+    z-index: 2;
+    font-size: 14px;
+    background-color: rgb(212, 24, 11);
+    border-radius: 5px;
+  }
+
+  .bright {
+    position: absolute !important;
+    left: 2%!important;
+    top: 2%!important;
+    width: 20%;
+    opacity: 1;
+    z-index: 2;
+    font-size: 14px;
+    background-color: rgb(17, 153, 5);
+    border-radius: 5px;
+  }
+
+</style>
 {{/section}}
 
 {{#section 'js'}}
+<script>
+      $(".course-card").hover(
+        function() {
+            $(this).children('.badge.badge-danger').css({ "opacity": "1" });
+        },
+        function() {
+            $(this).children('.badge.badge-danger').css({ "opacity": "0" });
+        }
+    );
 
+    $(".item").hover(
+        function() {
+            let id = $(this).attr("id");
+            let a = $(this).children('.course-card').children('.badge.badge-danger').children('a');
+            $.getJSON(`/account/watchlist/is-available?id_course=${id}`, function(data) {
+                if (data === false) {
+                    a.attr('href', `/account/delwatchlist/${id}`);
+                    a.children('i').removeClass('fa-heart-o').addClass('fa-times');
+                }
+            });
+        }
+    );
+</script>
 {{/section}}
 <main>
   <div class="page-section py-5">
@@ -45,8 +104,12 @@
                 {{#each topHot}}
                 <div class="col">
                   <div class="thumb-wrapper">
+                    <div class="item" id="{{id}}" style="cursor: pointer;">
                     <div class="course-card">
-                      <div class="badge badge-danger">Hot</div>
+                      <div class="bleft d-flex justify-content-center align-items-center"><span class="" style="color: white;">Hot</span></div>
+                      <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                       <div class="header">
                         <img src="/img/course/{{image}}" alt="{{name}}">
                       </div>
@@ -73,6 +136,7 @@
                             class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>
+                      </div>                     
                     </div>
                   </div>
                 </div>
@@ -97,8 +161,12 @@
                 {{#each topNew1}}
                 <div class="col">
                   <div class="thumb-wrapper">
+                    <div class="item" id="{{id}}" style="cursor: pointer;">
                     <div class="course-card">
-                      <div class="badge badge-success">New</div>
+                      <div class="bright d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>
+                      <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                       <div class="header">
                         <img src="/img/course/{{image}}" alt="{{name}}">
                       </div>
@@ -125,8 +193,9 @@
                             class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>
+                      </div>                     
                     </div>
-                  </div>
+                  </div>                                                                
                 </div>
                 {{/each}}
               </div>
@@ -137,9 +206,12 @@
                 {{#each topNew2}}
                 <div class="col">
                   <div class="thumb-wrapper">
-
+                    <div class="item" id="{{id}}" style="cursor: pointer;">
                     <div class="course-card">
-                      <div class="badge badge-success">New</div>
+                      <div class="bright d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>
+                      <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                       <div class="header">
                         <img src="/img/course/{{image}}" alt="{{name}}">
                       </div>
@@ -154,9 +226,11 @@
                           {{this.fullname}},
                           {{/each}}
                         </small>
-                        <div class="rating-row">
-                          <span class="number-rating"><b>{{rating}}</b></span>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
+                        <div class="rating">
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
                           {{{this.rating_star}}}
+                        
                           <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                         </div>
                         <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
@@ -164,8 +238,9 @@
                             class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>
+                      </div>                     
                     </div>
-                  </div>
+                  </div>                                                                
                 </div>
                 {{/each}}
               </div>
@@ -195,8 +270,12 @@
                 {{#each topView1}}
                 <div class="col">
                   <div class="thumb-wrapper">
+                    <div class="item" id="{{id}}" style="cursor: pointer;">
                     <div class="course-card">
-                      <div class="badge badge-danger">Hot</div>
+                      <div class="bleft d-flex justify-content-center align-items-center"><span class="" style="color: white;">Hot</span></div>
+                      <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                       <div class="header">
                         <img src="/img/course/{{image}}" alt="{{name}}">
                       </div>
@@ -223,8 +302,9 @@
                             class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>
+                      </div>                     
                     </div>
-                  </div>
+                  </div>                                                                
                 </div>
                 {{/each}}
               </div>
@@ -235,8 +315,12 @@
                 {{#each topView2}}
                 <div class="col">
                   <div class="thumb-wrapper">
+                    <div class="item" id="{{id}}" style="cursor: pointer;">
                     <div class="course-card">
-                      <div class="badge badge-danger">Hot</div>
+                      <div class="bleft d-flex justify-content-center align-items-center"><span class="" style="color: white;">Hot</span></div>
+                      <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
+                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
+                      aria-hidden="true"></i></a></div>
                       <div class="header">
                         <img src="/img/course/{{image}}" alt="{{name}}">
                       </div>
@@ -251,9 +335,11 @@
                           {{this.fullname}},
                           {{/each}}
                         </small>
-                        <div class="rating-row">
-                          <span class="number-rating"><b>{{rating}}</b></span>
+                        <input class="rating-input" type="hidden" value="{{this.rating}}">
+                        <div class="rating">
+                          <span class="number-rating float-left"><b>{{this.rating}}</b></span>
                           {{{this.rating_star}}}
+                        
                           <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                         </div>
                         <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
@@ -261,8 +347,9 @@
                             class="text-muted">{{this.price}} đ</del>
                         </div>
                       </div>
+                      </div>                     
                     </div>
-                  </div>
+                  </div>                                                                
                 </div>
                 {{/each}}
               </div>
