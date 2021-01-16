@@ -16,9 +16,11 @@ const nodeMailer = require('../models/sendMail.model');
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/login', async function(req, res) {
-    if (!(req.headers.referer + "").includes("register", 0)) {
-        req.session.retUrl = req.headers.referer;
+    if ((req.headers.referer + "").includes("register", 0)) {
+        req.session.retUrl = '/';
     }
+    req.session.retUrl = req.headers.referer;
+
     const err_message = req.session.err_message;
     req.session.err_message = null;
     res.render('vwAccount/login', {
