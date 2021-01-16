@@ -1,8 +1,8 @@
 {{#section 'css'}}
 <style>
-.star-rating.disabled{
-  margin-top: 4px;
-}
+  .star-rating.disabled {
+    margin-top: 4px;
+  }
 </style>
 {{/section}}
 
@@ -27,7 +27,8 @@
         <div class="col-lg-8 py-3">
           <div class="blog-single-wrap">
             <div class="post-thumbnail">
-              <img src="/img/course/{{course_detail.image}}" alt="{{course_detail.name}}" style="width:100%;height:100%;">
+              <img src="/img/course/{{course_detail.image}}" alt="{{course_detail.name}}"
+                style="width:100%;height:100%;">
             </div>
             <h1 class="post-title">{{course_detail.name}}</h1>
             <p>{{course_detail.short_description}}</p>
@@ -51,20 +52,20 @@
               <span class="gap">| <span style="color: red; font-size: 14px;">{{rating.rating}}/5</span> </span>
               <input type="hidden" id="myrating" value="{{rating.rating}}">
               <div class="post-comment-count">
-                <p id="myscorerating"> 
-                    <script>
-                      var myRating = raterJs({
-                        element: document.querySelector("#myscorerating"),
-                        starSize: 15,
-                        readOnly: true,
-                        rateCallback: function rateCallback(rating, done) {
-                          this.setRating(rating);
-                          done();
-                        }
-                      });
-                      console.log($('#myrating').val());
-                      myRating.setRating(parseFloat($('#myrating').val()));
-                    </script>
+                <p id="myscorerating">
+                  <script>
+                    var myRating = raterJs({
+                      element: document.querySelector("#myscorerating"),
+                      starSize: 15,
+                      readOnly: true,
+                      rateCallback: function rateCallback(rating, done) {
+                        this.setRating(rating);
+                        done();
+                      }
+                    });
+                    console.log($('#myrating').val());
+                    myRating.setRating(parseFloat($('#myrating').val()));
+                  </script>
                 </p>
               </div>
               <span style="color: #a4a7b7; font-size: 14px;">({{rating.num_of_rating}} đánh giá)</span>
@@ -94,10 +95,26 @@
                   data-parent="#accordionExample">
 
                   {{#each this.lesson}}
-                  <div class="card-body border-bottom">
+                  <div class="card-body border-bottom d-flex justify-content-between">
                     <a style="color: black;" {{#if ../../checkUserPurchased }}
                       href="/course/{{../../course_detail.id}}/lesson/{{this.id}}" {{else}} href=""
                       {{/if}}>{{this.name}}</a>
+                    {{#if isOne }}
+                    <div id="ex1" class="modal"
+                      style="overflow:visible; height:auto; max-width:800px; background-color: #4c4c4c;">
+                      <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%"
+                        height="100%" data-setup='{ "inactivityTimeout": 0 }'>
+                        <source src="/video/{{../../course_detail.id}}/{{this.video}}" type='video/mp4'>
+                      </video>
+                      <div class="nameoflesson" style="color: #fff;">
+                        <p>{{this.name}}</p>
+                        {{{this.content}}}
+                      </div>
+
+                    </div>
+                    <a href="#ex1" rel="modal:open"><i class="fa fa-play-circle-o align-self-center"
+                        style="font-size: 27px; cursor:pointer" aria-hidden="true"> </i></a>
+                    {{/if}}
                   </div>
                   {{/each}}
                 </div>

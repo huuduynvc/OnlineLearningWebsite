@@ -387,9 +387,16 @@ router.get('/:id', async(req, res) => {
     for (let i = 0; i < chapter.length; i++) {
         const les = await courseModel.getLessonByChapterId(chapter[i].id);
         var lesson = [];
+        var isOne = true;
         for (let j = 0; j < les.length; j++) {
+            if(i==0 && j ==0)
             lesson.push({
-                ...les[j]
+                ...les[j],
+                isOne
+            });
+            else
+            lesson.push({
+                ...les[j],
             });
         }
 
@@ -454,6 +461,7 @@ router.get('/:id', async(req, res) => {
         sessionuser: req.session.isAuth,
         checkUserPurchased,
         isCourse: false,
+        isOne,
         layout: 'sub.handlebars'
     });
 
