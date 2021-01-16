@@ -92,7 +92,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     //// search have  category and check (sort)
     // asc price
     searchCateCheckPriceASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -101,7 +101,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc price
     searchCateCheckPriceDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -110,7 +110,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // asc rate
     searchCateCheckRateASC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -119,7 +119,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc rate
     searchCateCheckRateDESC: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -128,7 +128,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // new course
     searchCateCheckNewCourse: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -137,7 +137,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     //// search have  category and not check (sort)
     searchCateNotCheck: (keySearch, idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+    avg(f.rating) as rating, count(f.rating) as num_of_rating    
     FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
     where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -146,7 +146,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     //// search havn't category and have check (sort)
     // asc price
     searchNotCateCheckPriceASC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -155,7 +155,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc price
     searchNotCateCheckPriceDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -164,7 +164,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // asc rate
     searchNotCateCheckRateASC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -173,7 +173,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc rate
     searchNotCateCheckRateDESC: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -182,7 +182,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // new course
     searchNotCateCheckNewCourse: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -191,7 +191,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     //// search havn't category and havn't check (sort)
     searchNotCateNotCheck: (keySearch, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+    avg(f.rating) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
     where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
@@ -201,7 +201,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     //// not search have  category and check (sort)
     // asc price
     notSearchCateCheckPriceASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -210,7 +210,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc price
     notSearchCateCheckPriceDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -219,7 +219,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // asc rate
     notSearchCateCheckRateASC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -228,7 +228,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc rate
     notSearchCateCheckRateDESC: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -237,7 +237,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // new course
     notSearchCateCheckNewCourse: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where  (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -246,7 +246,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     //// not search have  category and not check (sort)
     notSearchCateNotCheck: (idCate, offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
@@ -255,7 +255,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     //// not search havn't category and have check (sort)
     // asc price
     notSearchNotCateCheckPriceASC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where c.status = 1
@@ -264,7 +264,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc price
     notSearchNotCateCheckPriceDESC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where c.status = 1
@@ -273,7 +273,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // asc rate
     notSearchNotCateCheckRateASC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where c.status = 1
@@ -282,7 +282,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // desc rate
     notSearchNotCateCheckRateDESC: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where c.status = 1
@@ -291,7 +291,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    limit 6 offset ${offset}`),
     // new course
     notSearchNotCateCheckNewCourse: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-   round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+   avg(f.rating) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
    where c.status = 1
@@ -301,7 +301,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     //// not search havn't category and havn't check (sort)
     ////
     pageByCourse: (offset) => db.load(`SELECT c.*,cat.url as caturl, cat.name as catname,
-    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
+    avg(f.rating) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
     where c.status = 1
