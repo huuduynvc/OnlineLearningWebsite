@@ -127,7 +127,9 @@ $('.content').on('click', function() {
             jsWatchList();
         });
 });
-
+$('.btnreset').on('click',function(){
+    window.location.href = "/course"; 
+});
 $('#sort').on('change', function() {
     cate = $(this).val();
     if (cate != -1) {

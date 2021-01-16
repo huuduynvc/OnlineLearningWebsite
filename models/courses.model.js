@@ -95,7 +95,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+   where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -104,7 +104,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+   where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -113,7 +113,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+   where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -122,7 +122,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+   where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -131,7 +131,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+   where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
@@ -140,7 +140,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
     FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
-    where (match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
+    where (match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"')) and (cat.id_parent = ${idCate} or c.id_category = ${idCate}) and c.status = 1
     group by c.id
    limit 6 offset ${offset}`),
     //// search havn't category and have check (sort)
@@ -149,7 +149,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+   where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 asc
    limit 6 offset ${offset}`),
@@ -158,7 +158,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+   where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
   group by c.id
   order by c.price - c.price*c.offer/100 desc
    limit 6 offset ${offset}`),
@@ -167,7 +167,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+   where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
   group by c.id
   order by rating asc
    limit 6 offset ${offset}`),
@@ -176,7 +176,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+   where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
   group by c.id
   order by rating desc
    limit 6 offset ${offset}`),
@@ -185,7 +185,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
    round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
   FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
    f on c.id = f.id_course
-   where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+   where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
   group by c.id
   order by c.creation_date desc
    limit 6 offset ${offset}`),
@@ -194,7 +194,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
     round(avg(f.rating),1) as rating, count(f.rating) as num_of_rating    
    FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
     f on c.id = f.id_course
-    where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+    where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
    group by c.id
     limit 6 offset ${offset}`),
     //////////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
-          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and (cat.id_parent = ${id} or c.id_category = ${id}) and c.status = 1
+          where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and (cat.id_parent = ${id} or c.id_category = ${id}) and c.status = 1
        group by c.id) t`);
         return count[0].total;
     },
@@ -331,7 +331,7 @@ WHERE (TIMEDIFF(f.creation_date,NOW())<0) and (TIMEDIFF(f.creation_date,DATE_SUB
        ( select count(c.id)
        FROM course c LEFT JOIN category cat on c.id_category=cat.id LEFT JOIN feedback
         f on c.id = f.id_course
-          where match(c.name) against('${keySearch}') or match(cat.name) against('${keySearch}') and c.status = 1
+          where match(c.name) against('"${keySearch}"') or match(cat.name) against('"${keySearch}"') and c.status = 1
        group by c.id) t`);
         return count[0].total;
     },
