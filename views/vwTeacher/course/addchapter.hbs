@@ -46,50 +46,6 @@
 </script>
 {{/section}}
 <div class="widget">
-            {{#if err_message}}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {{err_message}}
-            </div>
-            {{/if}}
-<h3>Đề cương khóa học</h3>
-            <div class="accordion" id="accordionExample">
-              {{#each course_detail.chapter_lesson}}
-              <div class="card">
-                <div class="card-header" id="heading{{this.id}}">
-                  <h6 class="mb-0 d-flex justify-content-between">
-                    <a href="/teacher/course/{{id_course}}/editchapter/{{id}}">
-                    <button class="btn btn-link text-left" style="width: 100%; padding-left:0px;" type="button" data-toggle="collapse" data-target="#collapse{{this.id}}" aria-expanded="true" aria-controls="collapse{{this.id}}">
-                      {{this.name}}
-                    </button>
-                    </a>
-                    <div>
-                    <form id="delChapter{{id}}" method="POST" action="/teacher/course/{{id_course}}/delchapter/{{id}}"></form>
-                    <a href="/teacher/course/{{id_course}}/editchapter/{{id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <a href="javascript: $('#delChapter{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>            
-                    </div>     
-                  </h6>
-                </div>
-
-                <div id="collapse{{this.id}}" class="collapse show" aria-labelledby="heading{{this.id}}" data-parent="#accordionExample">
-
-                  {{#each this.lesson}}
-                  <div class="card-body border-bottom d-flex justify-content-between">
-                    <a class="d-flex text-dark" href="/teacher/course/{{../id_course}}/chapter/{{../id}}/editlesson/{{id}}">{{this.name}}</a>
-                    <div>
-                    <form id="delLesson{{id}}" method="POST" action="/teacher/course/{{../id_course}}/dellesson/{{id}}"></form>
-                    <a class="text-dark" href="/teacher/course/{{../id_course}}/chapter/{{../id}}/editlesson/{{id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <a class="text-dark" href="javascript: $('#delLesson{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>            
-                    </div> 
-                  </div>
-                  {{/each}}
-                </div>
-              </div>
-              {{/each}}
-            </div>                 
-            </div>
 <div class="d-sm-flex align-items-center justify-content-between my-4">
     <h1 class="h3 mb-0 text-gray-800">Thêm chương</h1>
 </div>
@@ -99,9 +55,10 @@
   <form method="POST" action="/teacher/course/{{course_detail.id}}/addchapter">
     <div class="form-group">
       <label for="txtName">Tên chương</label>
-      <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Nhập tên khóa học">
+      <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Nhập tên chương">
     </div>
     <button type="submit" class="btn btn-primary px-5">Thêm</button>
+    <input type="hidden" name="edit" value="1">
   </form>
   </div>
 </div>
@@ -135,10 +92,11 @@
       <input id="fuMain" name="fuMain" type="file" class="file" multiple>
     </div>
     <button type="submit" class="btn btn-primary px-5">Thêm</button>
+    <input type="hidden" name="edit" value="1">
   </form>
   </div>
 </div>
 
-  <a href="/teacher/course">
-    <button type="submit" class="btn btn-primary px-5 my-5">Hoàn tất đề cương khóa học</button>
+  <a href="/teacher/course/{{course_detail.id}}/editview">
+    <button type="submit" class="btn btn-primary px-5 my-5">Chi tiết khóa học</button>
   </a>

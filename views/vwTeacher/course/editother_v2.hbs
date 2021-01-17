@@ -3,16 +3,22 @@
 .star-rating.disabled{
   margin-top: 4px;
 }
+
+a:hover{
+  text-decoration: none!important;
+}
 </style>
 {{/section}}
 
 {{#section 'js'}}
 
 {{/section}}
-
 <main>
-  <div class="page-section bg-light" style="padding-top:0px!important">
+  <div class="page-section bg-light pb-2" style="padding-top:0px!important">
     <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h3 mb-0 text-gray-800">Chi tiết khóa học</h1>
+        </div>
 
       <div class="row justify-content-center">
         <div class="col-lg-8 py-3">
@@ -20,12 +26,15 @@
             <div class="post-thumbnail">
               <img src="/img/course/{{course_detail.image}}" alt="{{course_detail.name}}" style="width:100%;height:100%;">
             </div>
-            <h1 class="post-title">{{course_detail.name}}</h1>
+            <div>
+              <h1 class="post-title d-inline-block">{{course_detail.name}}</h1>
+            <a class="text-dark float-right pr-4 pt-3" href="/teacher/course/{{course_detail.id}}/edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
+            </div>
             <p>{{course_detail.short_description}}</p>
             <div class="post-meta">
               <div class="post-author">
                 <p href="#">
-                  {{#each this.teacher}}
+                  {{#each course_detail.teacher}}
                   {{this.fullname}}
                   {{/each}}
                 </p>
@@ -101,15 +110,21 @@
                 </div>
               </div>
               {{/each}}
-            </div>  
+            </div> 
+            <a href="/teacher/course/{{course_detail.id}}/addother">
+              <button type="submit" class="btn btn-outline-info mt-3 d-flex align-items-center justify-content-center" style="width:100%;"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới</button>
+            </a> 
           </div> <!-- .comment-form-wrap -->
 
 
+
+
           <div class="comment-form-wrap pt-5">
-            <h3>Giáo viên</h3>
+            <h3 class="d-inline-block">Giáo viên</h3>
+            <a class="text-dark float-right pr-4" href="/teacher/info/edit"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>
             <div class="teacher-info">
               {{#each course_detail.teacher}}
-              <div class="row py-3" style="border-bottom: 1px solid rgb(204, 203, 203); border-top: 2px solid rgb(204, 203, 203)">
+              <div class="row py-3">
                 <div class="col-sm-4">
                   <img class="rounded-circle" style="width:150px; height:150px;" alt="100x100"
                     src="/img/user/{{this.id}}.jpg" data-holder-rendered="true">
@@ -122,36 +137,7 @@
                 </div>
               </div>
               {{/each}}
-              <div class="row" style="border-top:2px solid rgb(204, 203, 203);"></div>
             </div>
-          </div> <!-- .comment-form-wrap -->
-          <div class="comment-form-wrap pt-5">
-
-          <div class="other">
-            <h3>Bình luận</h3>
-            {{#each feedback}}
-            <div class="comment my-3 py-3" style="background-color:rgb(235 236 239); border-radius: 10px;">
-              <div class="row">
-                <div class="col-sm-1">
-                  <img class="rounded-circle" style="width:50px; height:50px;" alt="100x100"
-                    src="/img/user/{{id_user}}.jpg" data-holder-rendered="true">
-                </div>
-                <div class="col-sm-4">
-                  <h5 style="margin:0">{{fullname}}</h5>
-                  {{{rating_star}}}
-                </div>
-                <div class="col-sm-7 text-right text-muted pr-4">
-                  {{modification_date}}
-                </div>
-              </div>
-              <div class="row mt-2">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-4">{{comment}}</div>
-
-              </div>
-            </div>
-            {{/each}}
-        </div> <!-- .comment-form-wrap -->
       </div>
 
       </div>
@@ -175,7 +161,15 @@
           </div>
         </div>
       </div>
+        <div class="col-lg-8">
+          <a href="/teacher/course">
+      <button type="submit" class="btn btn-primary" style="width:100%">Hoàn tất chỉnh sửa khóa học</button>
+    </a>
+        </div>
+        <div class="col-lg-4"></div>
     </div>
+
   </div>
+
   </div>
 </main>

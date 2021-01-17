@@ -389,15 +389,15 @@ router.get('/:id', async(req, res) => {
         var lesson = [];
         var isOne = true;
         for (let j = 0; j < les.length; j++) {
-            if(i==0 && j ==0)
-            lesson.push({
-                ...les[j],
-                isOne
-            });
+            if (i == 0 && j == 0)
+                lesson.push({
+                    ...les[j],
+                    isOne
+                });
             else
-            lesson.push({
-                ...les[j],
-            });
+                lesson.push({
+                    ...les[j],
+                });
         }
 
         //console.log(lesson);

@@ -9,9 +9,27 @@ const categoryModel = require('../models/categories.model');
 const userModel = require('../models/user.model');
 const authRole = require('../middlewares/auth.mdw');
 const coursesModel = require('../models/courses.model');
+const feedbackModel = require('../models/feedback.model');
+const moment = require('moment');
+const numeral = require('numeral');
 
 
 const router = express.Router();
+
+function createRating(i, rating, name) {
+    html = `<div id="rater${name}${i}"></div>
+    <script>
+      var rating${name}${i} = raterJs({
+        element:document.querySelector("#rater${name}${i}"),
+        readOnly: true,
+        max:5,
+        starSize: 15, 
+    });
+    if(${rating} != null)
+        rating${name}${i}.setRating(${rating});
+    </script>`
+    return html;
+}
 
 router.get('/', authRole, async(req, res) => {
 
@@ -116,7 +134,7 @@ router.post('/course/add', authRole, async(req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect(`/teacher/course/${newPositon.insertId}/addother`);
+                res.redirect(`/teacher/course/${newPositon.insertId}/editview`);
             }
         });
     } else {
@@ -190,7 +208,7 @@ router.post('/course/:id/addchapter', authRole, async(req, res) => {
 
         console.log(req.body.edit);
         if (req.body.edit) {
-            res.redirect(`/teacher/course/${req.params.id}/editother`);
+            res.redirect(`/teacher/course/${req.params.id}/editview`);
         } else {
             res.redirect(`/teacher/course/${req.params.id}/addother`);
         }
@@ -246,7 +264,7 @@ router.post('/course/:id/addlesson', authRole, async(req, res) => {
             } else {
                 req.session.err_message = "Thêm bài giảng thành công.";
                 if (req.body.edit) {
-                    res.redirect(`/teacher/course/${req.params.id}/editother`);
+                    res.redirect(`/teacher/course/${req.params.id}/editview`);
                 } else {
                     res.redirect(`/teacher/course/${req.params.id}/addother`);
                 }
@@ -359,7 +377,7 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect(`/teacher/course/${course.id}/editother`);
+                res.redirect(`/teacher/course/${course.id}/editview`);
             }
         });
     } else {
@@ -369,7 +387,7 @@ router.post('/course/:id/edit', authRole, async(req, res) => {
 
 });
 
-router.get('/course/:id/editother', authRole, async(req, res) => {
+router.get('/course/:id/editview', authRole, async(req, res) => {
     const teacher = await teacherModel.getTeacherByCourseId(req.params.id);
     var temp = false;
     for (let i = 0; i < teacher.length; i++) {
@@ -399,8 +417,23 @@ router.get('/course/:id/editother', authRole, async(req, res) => {
         var course_detail = {
             ...course,
             chapter_lesson,
-            teacher
+            teacher,
+
         }
+
+        course_detail.modification_date = moment(course_detail.modification_date).format('hh:mm:ss DD/MM/YYYY');
+        course_detail.current_price = numeral(course_detail.price - course_detail.price * course_detail.offer / 100).format('0,0');
+        course_detail.price = numeral(course_detail.price).format('0,0');
+
+        const feedback = await feedbackModel.getFeedbackByCourseId(course_detail.id);
+        //console.log(feedback);
+        for (let i = 0; i < feedback.length; i++) {
+            feedback[i].modification_date = moment(feedback[i].modification_date).format('HH:mm:ss DD/MM/YYYY');
+            feedback[i].rating_star = createRating(i, feedback[i].rating, 'feedback');
+        }
+        const rating = (await feedbackModel.getRatingByCourseId(course_detail.id))[0];
+        //console.log(rating.num_of_rating);
+        const num_of_member = (await courseModel.countMemberByCourseID(course_detail.id))[0];
 
         const err_message = req.session.err_message;
         req.session.err_message = null;
@@ -408,7 +441,10 @@ router.get('/course/:id/editother', authRole, async(req, res) => {
         res.render("vwTeacher/course/editother_v2", {
             course_detail,
             err_message,
-            layout: 'teacher.handlebars'
+            layout: 'teacher.handlebars',
+            feedback,
+            rating,
+            num_of_member,
         });
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
@@ -452,7 +488,7 @@ router.post('/course/:id/editchapter/:id_chapter', authRole, async(req, res) => 
         await coursesModel.patchChapter(chapter, req.params.id_chapter);
 
         req.session.err_message = "Chỉnh sửa chương thành công.";
-        res.redirect(`/teacher/course/${req.params.id}/editother`);
+        res.redirect(`/teacher/course/${req.params.id}/editview`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -524,7 +560,7 @@ router.post('/course/:id/chapter/:id_chapter/editlesson/:id_lesson', authRole, a
                 console.log(err);
             } else {
                 req.session.err_message = "Chỉnh sửa bài giảng thành công.";
-                res.redirect(`/teacher/course/${req.params.id}/editother`);
+                res.redirect(`/teacher/course/${req.params.id}/editview`);
             }
         });
     } else {
@@ -548,7 +584,7 @@ router.post('/course/:id/delchapter/:id_chapter', authRole, async function(req, 
         }
         await courseModel.delChapter(req.params.id_chapter);
         req.session.err_message = "Xóa chương thành công.";
-        res.redirect(`/teacher/course/${req.params.id}/editother`);
+        res.redirect(`/teacher/course/${req.params.id}/editview`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -565,7 +601,7 @@ router.post('/course/:id/dellesson/:id_lesson', authRole, async function(req, re
     if (req.session.isAuth && req.session.authUser.role === 2 && temp === true) {
         await courseModel.delLesson(req.params.id_lesson);
         req.session.err_message = "Xóa bài giảng thành công.";
-        res.redirect(`/teacher/course/${req.params.id}/editother`);
+        res.redirect(`/teacher/course/${req.params.id}/editview`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
