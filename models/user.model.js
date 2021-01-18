@@ -3,7 +3,7 @@ const db = require('../utils/db');
 module.exports = {
     add: entity => db.add('user', entity),
     all: () => db.load(`select * from user`),
-    allStudent: () => db.load(`select * from user where role = 1 and status = 1`),
+    allStudent: () => db.load(`select * from user where role = 1`),
     async single(id) {
         const rows = await db.load(`select * from user where id=${id}`);
         if (rows.length === 0)

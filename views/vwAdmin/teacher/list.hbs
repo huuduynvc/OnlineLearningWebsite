@@ -36,6 +36,7 @@
                       <th scope="col">email</th>
                       <th scope="col">username</th>
                       <th scope="col">info</th>
+                      <th scope="col">status</th>
                       <th scope="col">action</th>
                     </tr>
                   </thead>
@@ -48,10 +49,15 @@
                       <td>{{email}}</td>
                       <td>{{username}}</td>
                       <td>{{info}}</td>
+                      {{#if teacherstatus}}
+                      <td>Hoạt động</td>
+                      {{else}}
+                      <td>Bị đình chỉ</td>
+                      {{/if}}   
                       <td>
                         <form id="delteacher{{id}}" method="POST" action="/admin/teacher/{{id}}/del"></form>
                         <a href="/admin/teacher/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a href="javascript: $('#delteacher{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#delteacher{{id}}').submit();"><i class="fa fa-ban" aria-hidden="true"></i></a>
                       </td>
                       </tr>
                       {{/each}}

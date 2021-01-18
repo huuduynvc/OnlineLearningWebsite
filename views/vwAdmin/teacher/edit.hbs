@@ -51,7 +51,7 @@
                     text: 'Email đã tồn tại.',
                     })  
             }
-          })
+          });
           }else{
             rel = $('#txt').val(validated_phone());
               if($('#txt').val() == "true"){
@@ -71,13 +71,12 @@
                     text: 'Email không hợp lệ.',
                     })  
             }
-        }
       }else{
         Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Xin vui lòng điền họ và tên của bạn.',
-                    })  
+                    }) 
       }
     });
 
@@ -144,6 +143,17 @@
       <input type="hidden" id="value_content" value="{{teacher.info}}">
         <label for="txtInfo">Thông tin</label>
         <textarea class="form-control" name="txtInfo" id="txtInfo" cols="30" rows="10"></textarea>
+    </div>
+    <div class="form-group">
+      <div><label for="role">Trạng thái</label></div>
+      <div>
+      <select name="status" id="status" style="width: 100%; height:38px;">
+        <option value="{{mystatus.id}}" selected="selected">{{mystatus.name}}</option>
+        {{#each status}}
+        <option value={{id}}>{{name}}</option>
+        {{/each}}
+      </select>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary px-5">Thay đổi</button>
     <input type="hidden" class="form-control" id="txt" name="txt">

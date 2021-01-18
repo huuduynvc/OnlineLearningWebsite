@@ -36,7 +36,7 @@
                           <th>id</th>
                           <th>name</th>
                           <th>id_parent</th>
-                          <th>url</th>
+                          {{!-- <th>url</th> --}}
                           <th>action</th>
                       </tr>
                   </thead>
@@ -46,7 +46,7 @@
                       <th scope="row">{{id}}</th>
                       <td>{{name}}</td>
                       <td>{{id_parent}}</td>
-                      <td>{{url}}</td>
+                      {{!-- <td>{{url}}</td> --}}
                       <td>
                         <form id="del{{id}}" method="POST">
                         <input type="hidden" name = "id" value="{{id}}">

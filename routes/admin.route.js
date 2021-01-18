@@ -130,7 +130,7 @@ router.post('/category/:id_category/edit', authRole, async(req, res) => {
             req.session.err_message = 'Thay đổi danh mục thất bại.';
         }
 
-        res.redirect(`/admin/category/${req.params.id_category}/edit`);
+        res.redirect(`/admin/category`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -244,20 +244,16 @@ router.get('/user/:id/edit', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 3) {
         const user = await userModel.single(req.params.id);
         const temp = [
-            { id: 1, name: 'Học viên' },
-            { id: 2, name: 'Giáo viên' },
-            { id: 3, name: 'Quản trị viên' }
+            { id: 1, name: 'Hoạt động' },
+            { id: 0, name: 'Bị đình chỉ' },
         ];
-        const role = [];
-        var myrole = {};
+        const status = [];
+        var mystatus = {};
         for (let i = 0; i < temp.length; i++) {
-            if (temp[i].id !== user.role) {
-                role.push(temp[i]);
+            if (temp[i].id !== user.status) {
+                status.push(temp[i]);
             } else {
-                myrole = {
-                    id: temp[i].id,
-                    name: temp[i].name,
-                };
+                mystatus = temp[i];
             }
         }
 
@@ -266,8 +262,8 @@ router.get('/user/:id/edit', authRole, async(req, res) => {
 
         res.render("vwAdmin/user/edit", {
             user,
-            myrole,
-            role,
+            mystatus,
+            status,
             err_message,
             layout: 'admin.handlebars'
         });
@@ -286,7 +282,7 @@ router.post('/user/:id/edit', authRole, async(req, res) => {
             fullname: req.body.txtName,
             username: req.body.txtUsername,
             phone: req.body.txtPhone,
-            role: +req.body.role,
+            status: +req.body.status,
             email: req.body.txtEmail,
             modification_date: new Date(datetime),
         }
@@ -300,7 +296,7 @@ router.post('/user/:id/edit', authRole, async(req, res) => {
             req.session.err_message = "Cập nhật học viên thất bại."
         }
 
-        res.redirect(`/admin/user/${req.params.id}/edit`);
+        res.redirect(`/admin/user`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -346,11 +342,28 @@ router.get('/teacher/:id/edit', async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 3) {
         const teacher = await teacherModel.single(req.params.id);
 
+        const temp = [
+            { id: 1, name: 'Hoạt động' },
+            { id: 0, name: 'Bị đình chỉ' },
+        ];
+        const status = [];
+        var mystatus = {};
+        for (let i = 0; i < temp.length; i++) {
+            console.log(teacher);
+            if (temp[i].id !== teacher.teacherstatus) {
+                status.push(temp[i]);
+            } else {
+                mystatus = temp[i];
+            }
+        }
+
         const err_message = req.session.err_message;
         req.session.err_message = null;
 
         res.render("vwAdmin/teacher/edit", {
             teacher,
+            status,
+            mystatus,
             err_message,
             layout: 'admin.handlebars'
         });
@@ -377,7 +390,7 @@ router.post('/teacher/:id/edit', authRole, async(req, res) => {
         var teacher = {
             id: req.params.id,
             info: req.body.txtInfo,
-            status: 1,
+            status: +req.body.status,
         }
 
         if (await userModel.patch(user, user.id) && await teacherModel.patch(teacher, teacher.id)) {
@@ -386,7 +399,7 @@ router.post('/teacher/:id/edit', authRole, async(req, res) => {
             req.session.err_message = "Cập nhật giáo viên thất bại.";
         }
 
-        res.redirect(`/admin/teacher/${req.params.id}/edit`);
+        res.redirect(`/admin/teacher`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -397,10 +410,10 @@ router.post('/teacher/:id/del', authRole, async function(req, res) {
     if (req.session.isAuth && req.session.authUser.role === 3) {
         const teacher = {
             id: req.params.id,
-            role: 1,
+            role: 3,
         }
 
-        if (await userModel.patch(teacher, teacher.id) && await teacherModel.patch({
+        if (await teacherModel.patch({
                 id: teacher.id,
                 status: 0,
             }, teacher.id)) {

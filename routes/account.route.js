@@ -83,6 +83,10 @@ router.get('/email/is-available', async function(req, res) {
 
 router.get('/profile', auth, async function(req, res) {
     const user = await userModel.single(req.session.authUser.id);
+
+    err_message = req.session.err_message;
+    req.session.err_message = null;
+
     var role;
     if (user.role === 1) {
         role = 'Học viên';
@@ -94,6 +98,7 @@ router.get('/profile', auth, async function(req, res) {
     res.render('vwAccount/profile', {
         user,
         role,
+        err_message,
         layout: 'sub.handlebars'
     });
 })
@@ -127,7 +132,11 @@ router.post('/profile', auth, async function(req, res) {
             avatar: filename
         }
 
-        await userModel.patch(user, user.id);
+        if (await userModel.patch(user, user.id)) {
+            req.session.err_message = "Cập nhật thông tin cá nhân thành công.";
+        } else {
+            req.session.err_message = "Cập nhật thông tin cá nhân thất bại.";
+        }
 
         if (err) {
             console.log(err);

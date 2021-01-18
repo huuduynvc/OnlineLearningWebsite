@@ -140,11 +140,11 @@
       <input type="email" class="form-control" id="txtEmail" name="txtEmail" value="{{user.email}}">
     </div>
     <div class="form-group">
-      <div><label for="role">Quyền hạn</label></div>
+      <div><label for="role">Trạng thái</label></div>
       <div>
-      <select name="role" id="role" style="width: 100%; height:38px;">
-        <option value="{{myrole.id}}" selected="selected">{{myrole.name}}</option>
-        {{#each role}}
+      <select name="status" id="status" style="width: 100%; height:38px;">
+        <option value="{{mystatus.id}}" selected="selected">{{mystatus.name}}</option>
+        {{#each status}}
         <option value={{id}}>{{name}}</option>
         {{/each}}
       </select>

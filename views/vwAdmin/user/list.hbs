@@ -38,7 +38,7 @@
                       <th scope="col">phone</th>
                       <th scope="col">email</th>
                       <th scope="col">username</th>
-                      <th scope="col">role</th>
+                      <th scope="col">status</th>
                       <th scope="col">action</th>
                     </tr>
                   </thead>
@@ -50,11 +50,15 @@
                       <td>{{phone}}</td>
                       <td>{{email}}</td>
                       <td>{{username}}</td>
-                      <td>{{role}}</td>
+                      {{#if status}}
+                      <td>Hoạt động</td>
+                      {{else}}
+                      <td>Bị đình chỉ</td>
+                      {{/if}}                   
                       <td>
                         <form id="deluser{{id}}" method="POST" action="/admin/user/{{id}}/del"></form>
                         <a href="/admin/user/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                        <a href="javascript: $('#deluser{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#deluser{{id}}').submit();"><i class="fa fa-ban" aria-hidden="true"></i></a>
                       </td>
                       </tr>
                       {{/each}}
