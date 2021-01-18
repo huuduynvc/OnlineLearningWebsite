@@ -116,6 +116,7 @@ router.post('/course/add', authRole, async(req, res) => {
                 image: filename,
                 short_description: req.body.txtShortDescription,
                 iscomplete: 0,
+                view: 0,
             }, newPositon.insertId);
 
             await courseModel.addCourseTeacher({
@@ -630,6 +631,7 @@ router.get('/info', authRole, async(req, res) => {
 router.get('/info/edit', authRole, async(req, res) => {
     if (req.session.isAuth && req.session.authUser.role === 2) {
         const teacher = await teacherModel.single(req.session.authUser.id);
+        req.session.edit = req.query.edit;
 
         res.render("vwTeacher/info/edit", {
             teacher,
@@ -652,8 +654,14 @@ router.post('/info/edit', authRole, async(req, res) => {
 
         await teacherModel.patch(teacher, teacher.id);
 
-        req.session.err_message = "Cập nhật thông tin giáo viên thành công.";
-        res.redirect(`/teacher/info`);
+        let edit = req.session.edit;
+        req.session.edit = null;
+        if (edit !== undefined) {
+            res.redirect(`/teacher/course/${edit}/editview`);
+        } else {
+            req.session.err_message = "Cập nhật thông tin giáo viên thành công.";
+            res.redirect(`/teacher/info`);
+        }
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
