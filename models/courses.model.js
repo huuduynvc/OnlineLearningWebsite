@@ -2,7 +2,7 @@ const db = require('../utils/db');
 
 module.exports = {
     add: entity => db.add('course', entity),
-    all: () => db.load('select * from course where status = 1'),
+    all: () => db.load('select * from course'),
     async single(id) {
         const rows = await db.load(`select * from course where id = ${id} and status = 1`);
         if (rows.length === 0)

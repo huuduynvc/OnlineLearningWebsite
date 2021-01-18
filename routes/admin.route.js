@@ -220,6 +220,19 @@ router.post('/course/:id/del', authRole, async function(req, res) {
         res.redirect(`/account/login`);
     }
 });
+router.post('/course/:id/edit', authRole, async function(req, res) {
+    if (req.session.isAuth && req.session.authUser.role === 3) {
+        if (await courseModel.patch({status: 1}, req.params.id)) {
+            req.session.err_message = 'Mở khóa học thành công.'
+        } else {
+            req.session.err_message = 'Mở khóa học thất bại.'
+        }
+        res.redirect(`/admin/course`);
+    } else {
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
+    }
+});
 
 //user admin
 router.get('/user', authRole, async(req, res) => {

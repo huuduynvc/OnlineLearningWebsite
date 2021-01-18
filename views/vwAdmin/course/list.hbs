@@ -1,74 +1,84 @@
 {{#section 'css'}}
-    <!-- Custom styles for this page -->
-    <link href="/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<!-- Custom styles for this page -->
+<link href="/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 {{/section}}
 
 {{#section 'js'}}
-    <!-- Page level plugins -->
-    <script src="/admin/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Page level plugins -->
+<script src="/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="/admin/js/demo/datatables-demo.js"></script>
+<!-- Page level custom scripts -->
+<script src="/admin/js/demo/datatables-demo.js"></script>
 {{/section}}
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Danh sách khóa học</h1>
+  <h1 class="h3 mb-0 text-gray-800">Danh sách khóa học</h1>
 </div>
 
-  <!-- DataTales Example -->
-  <div class="card shadow mb-4">
-      {{!-- <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
-      </div> --}}
-      <div class="card-body">
-                      {{#if err_message}}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {{err_message}}
-            </div>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  {{!-- <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+  </div> --}}
+  <div class="card-body">
+    {{#if err_message}}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{err_message}}
+    </div>
+    {{/if}}
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">price</th>
+            <th scope="col">teacher</th>
+            <th scope="col">category</th>
+            <th scope="col">view</th>
+            <th scope="col">iscomplete</th>
+            <th scope="col">status</th>
+            <th scope="col">action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each courses}}
+          <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{name}}</td>
+            <td>{{price}}</td>
+            <td>
+              {{#each teacher}}
+              {{this.fullname}},
+              {{/each}}
+            </td>
+            <td>{{category.name}}</td>
+            <td>{{view}}</td>
+            {{#if iscomplete}}
+            <td>Đã hoàn thành</td>
+            {{else}}
+            <td>Chưa hoàn thành</td>
             {{/if}}
-          <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">price</th>
-                      <th scope="col">teacher</th>
-                      <th scope="col">category</th>
-                      <th scope="col">view</th>
-                      <th scope="col">iscomplete</th>
-                      <th scope="col">action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {{#each courses}}
-                      <tr>
-                      <th scope="row">{{id}}</th>
-                      <td>{{name}}</td>
-                      <td>{{price}}</td>
-                      <td>
-                          {{#each teacher}}
-                          {{this.fullname}}, 
-                          {{/each}}
-                        </td>
-                      <td>{{category.name}}</td>
-                      <td>{{view}}</td>
-                      {{#if iscomplete}}
-                      <td>Đã hoàn thành</td>
-                      {{else}}
-                      <td>Chưa hoàn thành</td>
-                      {{/if}}
-                      <td>
-                        <form id="del{{id}}" method="POST" action="/admin/course/{{id}}/del"></form>
-                        <a href="javascript: $('#del{{id}}').submit();"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                      </td>
-                      </tr>
-                      {{/each}}
-                  </tbody>
-              </table>
-          </div>
-      </div>
+            {{#if status}}
+            <td>Hoạt động</td>
+            <td>
+              <form id="del{{id}}" method="POST" action="/admin/course/{{id}}/del"></form>
+              <a href="javascript: $('#del{{id}}').submit();"><i class="fa fa-ban" aria-hidden="true"></i></a>
+            </td>
+            {{else}}
+            <td>Đã bị khóa</td>
+            <td>
+              <form id="edit{{id}}" method="POST" action="/admin/course/{{id}}/edit"></form>
+              <a href="javascript: $('#edit{{id}}').submit();"><i class="fa fa-check-square-o" aria-hidden="true"></i></a>
+            </td>
+            {{/if}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
