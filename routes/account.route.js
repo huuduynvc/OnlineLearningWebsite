@@ -223,6 +223,8 @@ router.get('/watchlist', auth, async function(req, res) {
         });
     }
 
+    req.session.retUrl = '/account/watchlist'
+
     res.render('vwAccount/watchlist', {
         user,
         role,
@@ -287,7 +289,7 @@ function createRating(i, rating, name) {
 
 router.get('/delwatchlist/:id_course', auth, async function(req, res) {
     await userModel.delWatchList(req.session.authUser.id, +req.params.id_course);
-    let url = req.session.retUrl || '/';
+    let url = req.headers.referer || '/';
     res.redirect(url);
 })
 
@@ -297,7 +299,7 @@ router.get('/addwatchlist/:id_course', auth, async function(req, res) {
         id_course: +req.params.id_course
     });
 
-    let url = req.session.retUrl || '/';
+    let url = req.headers.referer || '/';
     res.redirect(url);
 })
 

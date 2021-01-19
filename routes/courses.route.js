@@ -331,13 +331,13 @@ router.post('/', async(req, res) => {
         }
         html += `<div class="badge badge-danger d-flex justify-content-center align-items-center"><a href="/account/addwatchlist/${item.id}" style="color: white;"><i class="fa fa-heart-o fa-lg" aria-hidden="true"></i></a></div>
     <a href="/course/${item.id}"><div class="header">
-              <img src="/img/course/${item.img}" alt="">
+              <img src="/img/course/${item.img}" alt="" style="width:100%;height:100%;">
             </div></a>
             <div class="content text-left">`;
         if (item.isnew) {
             html += `<div class="bhot d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>`;
         }
-        html += `<p class="course-title"><a href="${item.caturl}/${item.id}">${item.name}</a></p>
+        html += `<p class="course-title"><a href="/course/${item.id}">${item.name}</a></p>
               <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${item.catname}</small>
               </br>
               <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">` +
