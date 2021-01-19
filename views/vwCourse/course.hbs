@@ -1,5 +1,8 @@
 {{#section 'css'}}
 <style>
+  a:hover{
+    text-decoration: none;
+  }
   .course-card {
     position: relative !important;
   }
@@ -161,9 +164,11 @@
                 {{/if}}
                 {{/if}}
 
-                <div class="badge badge-danger d-flex justify-content-center align-items-center"><a
-                    href="/account/addwatchlist/{{id}}" style="color: white;"><i class="fa fa-heart-o fa-lg"
-                      aria-hidden="true"></i></a></div>
+                <div class="badge badge-danger d-flex justify-content-center align-items-center">
+                  <a href="/account/addwatchlist/{{id}}" style="color: white;">
+                  <i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>
+                  </a>
+                </div>
                 <a href="/course/{{id}}">
                   <div class="header">
                     <img src="/img/course/{{img}}" alt="">
@@ -173,10 +178,9 @@
                   {{#if isnew}}
                   <div class="bhot d-flex justify-content-center align-items-center"><span class="" style="color: white;">New</span></div>
                   {{/if}}
-                  <p class="course-title"><a href="/course/{{id}}">{{this.name}}</a>
-                  </p>
-                  <small
-                    style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
+                  
+                  <p class="course-title"><a href="/course/{{id}}">{{this.name}}</a></p>
+                  <small style="margin-bottom:0!important;color: #3f3c3c; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{this.catname}}</small>
                   </br>
                   <small style="color: #676565; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                     {{#each this.teacher}}
@@ -189,8 +193,10 @@
                     <span class="person-rating" style="color:black;">({{this.num_of_rating}})</span>
                   </div>
                   <div class="price" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                    <span class="text-danger font-weight-bold">{{this.current_price}}</span> <del
-                      class="text-muted">{{this.price}}</del>
+                    <span class="text-danger font-weight-bold">{{this.current_price}}</span> 
+                    <del class="text-muted">
+                      {{this.price}}
+                    </del>
                   </div>
                 </div>
               </div>
