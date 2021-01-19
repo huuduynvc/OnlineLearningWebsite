@@ -51,15 +51,20 @@
                       <td>{{email}}</td>
                       <td>{{username}}</td>
                       {{#if status}}
-                      <td>Hoạt động</td>
-                      {{else}}
-                      <td>Bị đình chỉ</td>
-                      {{/if}}                   
-                      <td>
+                        <td>Hoạt động</td>
+                        <td>
                         <form id="deluser{{id}}" method="POST" action="/admin/user/{{id}}/del"></form>
                         <a href="/admin/user/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         <a href="javascript: $('#deluser{{id}}').submit();"><i class="fa fa-ban" aria-hidden="true"></i></a>
-                      </td>
+                        </td>
+                        {{else}}
+                        <td>Đã bị khóa</td>
+                        <td>
+                        <form id="activeuser{{id}}" method="POST" action="/admin/user/{{id}}/active"></form>
+                        <a href="/admin/user/{{id}}/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="javascript: $('#activeuser{{id}}').submit();"><i class="fa fa-check-square-o" aria-hidden="true"></i></a>
+                        </td>
+                        {{/if}}
                       </tr>
                       {{/each}}
                   </tbody>

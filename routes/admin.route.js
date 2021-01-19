@@ -222,7 +222,7 @@ router.post('/course/:id/del', authRole, async function(req, res) {
 });
 router.post('/course/:id/edit', authRole, async function(req, res) {
     if (req.session.isAuth && req.session.authUser.role === 3) {
-        if (await courseModel.patch({status: 1}, req.params.id)) {
+        if (await courseModel.patch({ status: 1 }, req.params.id)) {
             req.session.err_message = 'Mở khóa học thành công.'
         } else {
             req.session.err_message = 'Mở khóa học thất bại.'
@@ -326,6 +326,20 @@ router.post('/user/:id/del', authRole, async function(req, res) {
         req.session.err_message = 'Vô hiệu hóa học viên thành công.',
 
             res.redirect(`/admin/user`);
+    } else {
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
+    }
+});
+
+router.post('/user/:id/active', authRole, async function(req, res) {
+    if (req.session.isAuth && req.session.authUser.role === 3) {
+        if (await userModel.patch({ status: 1 }, req.params.id)) {
+            req.session.err_message = 'Mở khóa học viên thành công.'
+        } else {
+            req.session.err_message = 'Mở khóa học viên thất bại.'
+        }
+        res.redirect(`/admin/user`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
@@ -480,6 +494,20 @@ router.post('/teacher/add', authRole, async(req, res) => {
         req.session.err_message = "Thêm giáo viên thành công.";
 
         res.redirect('/admin/teacher/add');
+    } else {
+        req.session.err_message = 'Bạn không có quyền ở chức năng này';
+        res.redirect(`/account/login`);
+    }
+});
+
+router.post('/teacher/:id/active', authRole, async function(req, res) {
+    if (req.session.isAuth && req.session.authUser.role === 3) {
+        if (await teacherModel.patch({ status: 1 }, req.params.id)) {
+            req.session.err_message = 'Mở khóa giáo viên thành công.'
+        } else {
+            req.session.err_message = 'Mở khóa giáo viên thất bại.'
+        }
+        res.redirect(`/admin/teacher`);
     } else {
         req.session.err_message = 'Bạn không có quyền ở chức năng này';
         res.redirect(`/account/login`);
