@@ -499,7 +499,7 @@ router.post('/:id', authRole, async(req, res) => {
 });
 
 router.get('/:id/lesson/:id_lesson', async(req, res) => {
-    if (req.session.isAuth) {
+    if (req.query.isOne == 'true') {
         await courseModel.update(req.params.id);
         const course = await courseModel.single(req.params.id);
         const chapter = await courseModel.getChapterByCourseId(req.params.id);
@@ -537,7 +537,47 @@ router.get('/:id/lesson/:id_lesson', async(req, res) => {
             layout: 'sub.handlebars'
         });
     } else {
-        res.redirect('/account/login');
+        if (req.session.isAuth && await teacherModel.singleEnrollCourse(req.session.authUser.id, req.params.id) !== null) {
+            await courseModel.update(req.params.id);
+            const course = await courseModel.single(req.params.id);
+            const chapter = await courseModel.getChapterByCourseId(req.params.id);
+            const lesson_detail = await courseModel.getLessonById(req.params.id_lesson);
+            var chapter_lesson = [];
+            for (let i = 0; i < chapter.length; i++) {
+                const les = await courseModel.getLessonByChapterId(chapter[i].id);
+                var lesson = [];
+                for (let j = 0; j < les.length; j++) {
+                    lesson.push({
+                        ...les[j]
+                    });
+                }
+
+                //console.log(lesson);
+
+                chapter_lesson.push({
+                    ...chapter[i],
+                    lesson
+                });
+            }
+
+            // console.log(chapter_lesson);
+            // console.log(chapter_lesson[0].lesson);
+
+            var course_detail = {
+                ...course,
+                chapter_lesson
+            }
+
+            res.render('vwCourse/lesson', {
+                course_detail,
+                lesson_detail,
+                menu: res.locals.menu,
+                layout: 'sub.handlebars'
+            });
+        } else {
+            req.session.err_message = 'Bạn không có quyền truy cập chức năng này';
+            res.redirect('/account/login');
+        }
     }
 });
 

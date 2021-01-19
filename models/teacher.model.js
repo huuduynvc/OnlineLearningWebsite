@@ -13,6 +13,13 @@ module.exports = {
 
         return rows[0];
     },
+    async singleEnrollCourse(id_user, id_course) {
+        const rows = await db.load(`SELECT * from enroll_course where id_user=${id_user} AND id_course = ${id_course}`);
+        if (rows.length === 0)
+            return null;
+
+        return rows[0];
+    },
     patch: (entity, id) => {
         const condition = { id: id };
         return db.patch('teacher', entity, condition);

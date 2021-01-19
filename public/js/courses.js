@@ -117,20 +117,20 @@ $("body").delegate('.pagination li a', 'click', function() {
 
 
 
-$('.content').on('click', function() {
-    var id = parseInt($('.item').attr('id'));
-    $.ajax({
-            method: 'get',
-            url: '/course/' + id,
-            data: { id: id },
-        })
-        .done(function() {
-            window.location.href = '/course/' + id;
-            jsWatchList();
-        });
-});
-$('.btnreset').on('click',function(){
-    window.location.href = "/course"; 
+// $('.content').on('click', function() {
+//     var id = parseInt($('.item').attr('id'));
+//     $.ajax({
+//             method: 'get',
+//             url: '/course/' + id,
+//             data: { id: id },
+//         })
+//         .done(function() {
+//             window.location.href = '/course/' + id;
+//             jsWatchList();
+//         });
+// });
+$('.btnreset').on('click', function() {
+    window.location.href = "/course";
 });
 $('#sort').on('change', function() {
     cate = $(this).val();
@@ -219,21 +219,6 @@ function jsWatchList() {
             });
         }
     );
-
-    // $(".bleft").css({
-    //     "position": "absolute!important",
-    //     "left": "2%!important",
-    //     "top": "2%!important",
-    //     "width": "20%",
-    //     "opacity": "1",
-    //     "z-index": "2",
-    //     "background-color": "rgb(189, 55, 55)",
-    //     "border-radius": "5px"
-    // })
-
-
-
-
 }
 
 
@@ -276,6 +261,6 @@ function search(event) {
             console.log(err);
         });
     // this.checked = this.check;
-    // this.check = !this.check;      
+    // this.check = !this.check;   
     event.preventDefault();
 }

@@ -7,7 +7,7 @@
 {{/section}}
 
 {{#section 'js'}}
-<script src="https://gist.github.com/misteroneill/c239898a9bab74abf59998403e247436.js"></script>
+<script src="https://gist.github.com/misteroneill/c239898a9bab74abf59998403e247436.js"></script> ""
 {{/section}}
 
 <main>
@@ -96,9 +96,9 @@
 
                   {{#each this.lesson}}
                   <div class="card-body border-bottom d-flex justify-content-between">
-                    <a style="color: black;"
-                      href="/course/{{../../course_detail.id}}/lesson/{{this.id}}">{{this.name}}</a>
                     {{#if isOne }}
+                                        <a style="color: black;"
+                      href="/course/{{../../course_detail.id}}/lesson/{{this.id}}?isOne=true">{{this.name}}</a>
                     <div id="ex1" class="modal"
                       style="overflow:visible; height:auto; max-width:800px; background-color: #4c4c4c;">
                       <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="100%"
@@ -113,6 +113,9 @@
                     </div>
                     <a href="#ex1" rel="modal:open"><i class="fa fa-play-circle-o align-self-center"
                         style="font-size: 27px; cursor:pointer" aria-hidden="true"> </i></a>
+                        {{else}}
+                                            <a style="color: black;"
+                      href="/course/{{../../course_detail.id}}/lesson/{{this.id}}">{{this.name}}</a>
                     {{/if}}
                   </div>
                   {{/each}}
